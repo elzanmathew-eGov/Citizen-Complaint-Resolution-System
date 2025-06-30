@@ -45,7 +45,6 @@ Dependency	Source Code Repo	Branch
 @egovernments/digit-ui-module-core	digit-frontend	develop
 @egovernments/digit-ui-react-components	digit-frontend	develop
 @egovernments/digit-ui-svg-components	digit-frontend	develop
-@egovernments/digit-ui-module-workbench	digit-frontend	develop
 @egovernments/digit-ui-module-utilities	digit-frontend	develop
 @egovernments/digit-ui-components	digit-ui-libraries	develop
 ```

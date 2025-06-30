@@ -18,18 +18,8 @@ const DigitUI = React.lazy(() =>
   }))
 );
 const enabledModules = [
-  "DSS",
-  "HRMS",
-  "Workbench",
-  "HCMWORKBENCH",
-  "Campaign",
-  //  "Engagement", "NDSS","QuickPayLinks", "Payment",
   "Utilities",
-  "Microplan",
-  "Payments",
   "PGR",
-  //added to check fsm
-  // "FSM"
 ];
 
 const initTokens = (stateCode) => {
@@ -69,50 +59,22 @@ const initDigitUI = async() => {
     // PaymentLinks,
   });
   // initUtilitiesComponents();
-  // initWorkbenchComponents();
-  // initWorkbenchHCMComponents();
-  // initCampaignComponents();
-  // initMicroplanComponents();
-  // initPaymentComponents();
-  // initHRMSComponents();
   // initPGRComponents();
-  // initDSSComponents();
   
 
 
 // Dynamically import and register modules after initLibraries
 const [
-  { initCampaignComponents },
-  { initWorkbenchComponents },
   { initUtilitiesComponents },
-  { initWorkbenchHCMComponents },
-  { initMicroplanComponents },
-  { initPaymentComponents },
-  { initHRMSComponents },
   { initPGRComponents },
-  { initDSSComponents },
 ] = await Promise.all([
-  import("@egovernments/digit-ui-module-campaign-manager"),
-  import("@egovernments/digit-ui-module-workbench"),
   import("@egovernments/digit-ui-module-utilities"),
-  import("@egovernments/digit-ui-module-hcmworkbench"),
-  import("@egovernments/digit-ui-module-microplan"),
-  import("@egovernments/digit-ui-module-health-payments"),
-  import("@egovernments/digit-ui-module-health-hrms"),
   import("@egovernments/digit-ui-module-health-pgr"),
-  import("@egovernments/digit-ui-module-health-dss"),
 ]);
 
 // Initialize them in safe order
 initUtilitiesComponents();
-initWorkbenchComponents();
-initWorkbenchHCMComponents();
-initCampaignComponents();
-initMicroplanComponents();
-initPaymentComponents();
-initHRMSComponents();
 initPGRComponents();
-initDSSComponents();
 
 
 
