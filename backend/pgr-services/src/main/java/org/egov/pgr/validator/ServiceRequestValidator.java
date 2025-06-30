@@ -1,18 +1,23 @@
 package org.egov.pgr.validator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
+import jakarta.validation.Valid;
 import org.egov.common.contract.request.RequestInfo;
 import org.egov.pgr.config.PGRConfiguration;
 import org.egov.pgr.repository.PGRRepository;
+import org.egov.pgr.repository.ServiceRequestRepository;
 import org.egov.pgr.util.HRMSUtil;
 import org.egov.pgr.web.models.*;
+import org.egov.pgr.web.models.boundary.Boundary;
+import org.egov.pgr.web.models.boundary.BoundaryResponse;
 import org.egov.tracer.model.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.egov.pgr.util.PGRConstants.*;
 
@@ -25,6 +30,11 @@ public class ServiceRequestValidator {
     private PGRRepository repository;
 
     private HRMSUtil hrmsUtil;
+
+    private ServiceRequestRepository serviceRequestRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     public ServiceRequestValidator(PGRConfiguration config, PGRRepository repository, HRMSUtil hrmsUtil) {
@@ -43,6 +53,7 @@ public class ServiceRequestValidator {
         Map<String,String> errorMap = new HashMap<>();
         validateUserData(request,errorMap);
         validateSource(request.getService().getSource());
+        validateBoundary(request);
         validateMDMS(request, mdmsData);
         if(config.getIsValidateDeptEnabled()) validateDepartment(request, mdmsData);
         if(!errorMap.isEmpty())
@@ -280,4 +291,36 @@ public class ServiceRequestValidator {
             throw new CustomException("TENANT_ID_LIST_EMPTY", "Tenant ids not provided for searching.");
         }
     }
+
+    public void validateBoundary(ServiceRequest request) {
+        if (request.getService().getAddress() == null || request.getService().getAddress().getLocality() == null || request.getService().getAddress().getLocality().getCode() == null) {
+            throw new CustomException("INVALID_BOUNDARY", "Boundary is required");
+        }
+
+        String localityCode = request.getService().getAddress().getLocality().getCode();
+
+        try {
+            Object rawResponse = serviceRequestRepository.fetchResult(
+                    new StringBuilder(config.getBoundaryHost()
+                            + config.getBoundarySearchEndpoint()
+                            + "?limit=10"
+                            + "&offset=0&tenantId=" + request.getService().getTenantId()
+                            + "&codes=" + localityCode),
+                    request.getRequestInfo()
+            );
+
+            BoundaryResponse boundarySearchResponse = objectMapper.convertValue(rawResponse, BoundaryResponse.class);
+            @Valid List<Boundary> boundaries = boundarySearchResponse.getBoundary();
+
+            boolean found = boundaries != null && boundaries.stream()
+                    .anyMatch(boundary -> localityCode.equals(boundary.getCode()));
+
+            if (!found) {
+                throw new CustomException("INVALID_BOUNDARY_CODE", "Invalid locality code: " + localityCode);
+            }
+        } catch (Exception e) {
+            throw new CustomException("BOUNDARY_SERVICE_SEARCH_ERROR", "Error while fetching boundaries from Boundary Service : " + e.getMessage());
+        }
+    }
+
 }

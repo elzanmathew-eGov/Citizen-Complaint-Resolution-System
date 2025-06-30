@@ -225,4 +225,10 @@ public class PGRConfiguration {
     @Value("${pgr.validate.dept.enabled}")
     private Boolean isValidateDeptEnabled;
 
+    @Value("${egov.boundary.host}")
+    private Boolean boundaryHost;
+
+    @Value("${egov.boundary.search.url}")
+    private String boundarySearchEndpoint;
+
 }
