@@ -1,0 +1,81 @@
+{
+  "tenantId": "pg",
+  "moduleName": "INBOX",
+  "InboxQueryConfiguration": [
+    {
+      "module": "Incident",
+      "index": "computed-sla-im-services",
+      "allowedSearchCriteria": [
+        {
+          "name": "tenantId",
+          "path": "Data.incident.tenantId.keyword",
+          "isMandatory": true,
+          "operator": "EQUAL"
+        },
+        {
+          "name": "status",
+          "path": "Data.incident.applicationStatus.keyword",
+          "isMandatory": false
+        },
+         {
+          "name": "incidentType",
+          "path": "Data.incident.incidentType.keyword",
+          "isMandatory": false
+        },
+           {
+          "name": "phcType",
+          "path": "Data.incident.phcType.keyword",
+          "isMandatory": false
+        },
+        {
+          "name": "assignee",
+          "path": "Data.currentProcessInstance.assignes.uuid.keyword",
+          "isMandatory": false
+        },
+        {
+          "name": "applicationNumber",
+          "path": "Data.incident.incidentId.keyword",
+          "isMandatory": false,
+          "operator": "WILDCARD"
+        },
+        {
+          "name": "fromDate",
+          "path": "Data.incident.auditDetails.createdTime",
+          "isMandatory": false,
+          "operator": "GTE"
+        },
+        {
+          "name": "toDate",
+          "path": "Data.incident.auditDetails.createdTime",
+          "isMandatory": false,
+          "operator": "LTE"
+        },
+        {
+          "name": "nearingSLA",
+          "path": "sla_comparison",
+          "isMandatory": false,
+          "operator": "LTE"
+        },
+        {
+          "name": "search",
+          "path": "Data.incident.incidentId, Data.incident.district, Data.incident.reporter.userName",
+          "isMandatory": false,
+          "operator": "MULTI_MATCH"
+        }
+      ],
+      "sortBy": {
+          "path": "Data.incident.auditDetails.createdTime",
+          "defaultOrder": "ASC"
+      },
+      "sourceFilterPathList": [
+        "Data.incident",
+        "Data.tenantId",
+        "Data.auditDetails",
+        "Data.currentProcessInstance",
+        "Data.slaRemaining",
+        "Data.stateSLA",
+        "Data.totalSlaRemaining"
+      ]
+    }
+  ]
+}
