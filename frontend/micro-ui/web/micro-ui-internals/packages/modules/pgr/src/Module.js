@@ -14,6 +14,13 @@ import CreateComplaint from "./pages/employee/CreateComplaint";
 import Response from "./components/Response";
 import BreadCrumbs from "./components/BreadCrumbs";
 
+
+import { CreateComplaint as CreateComplaintCitizen } from "./pages/citizen/Create";
+import { ComplaintsList } from "./pages/citizen/ComplaintsList";
+import ComplaintDetailsPage from "./pages/citizen/ComplaintDetails";
+import SelectRating from "./pages/citizen/Rating/SelectRating";
+import ResponseCitizen from "./pages/citizen/Response";
+
 export const PGRModule = ({ stateCode, userType, tenants }) => {
   const { path, url } = useRouteMatch();
   const tenantId = Digit.ULBService.getCurrentTenantId();
@@ -33,9 +40,14 @@ export const PGRModule = ({ stateCode, userType, tenants }) => {
     tenantId: tenantId,
   });
 
+  Digit.SessionStorage.set("PGR_TENANTS", tenants);
 
   if (isLoading || isPGRInitializing) {
     return <Loader />;
+  }
+
+  if (userType === "citizen") {
+    return <CitizenApp />;
   } else {
     return (
       <ProviderContext>
@@ -45,8 +57,31 @@ export const PGRModule = ({ stateCode, userType, tenants }) => {
   }
 };
 
+const PGRLinks = ({ matchPath }) => {
+  const { t } = useTranslation();
+  const [params, setParams, clearParams] = Digit.Hooks.useSessionStorage(PGR_CITIZEN_CREATE_COMPLAINT, {});
+
+  useEffect(() => {
+    clearParams();
+  }, []);
+
+  const links = [
+    {
+      link: `${matchPath}/create-complaint/complaint-type`,
+      i18nKey: t("CS_COMMON_FILE_A_COMPLAINT"),
+    },
+    {
+      link: `${matchPath}/complaints`,
+      i18nKey: t(LOCALE.MY_COMPLAINTS),
+    },
+  ];
+
+  return <CitizenHomeCard header={t("CS_COMMON_HOME_COMPLAINTS")} links={links} Icon={ComplaintIcon} />;
+};
+
 const componentsToRegister = {
   PGRModule,
+  PGRLinks,
   PGRCard,
   PGRBoundaryComponent: BoundaryComponent,
   PGRComplaintDetails: PGRDetails,
@@ -56,6 +91,11 @@ const componentsToRegister = {
   PGRCreateComplaint: CreateComplaint,
   PGRResponse: Response,
   PGRBreadCrumbs: BreadCrumbs,
+  PGRCreateComplaintCitizen : CreateComplaintCitizen,
+  PGRComplaintsList : ComplaintsList,
+  PGRComplaintDetailsPage : ComplaintDetailsPage,
+  PGRSelectRating : SelectRating,
+  PGRResponseCitzen : ResponseCitizen
 };
 
 export const initPGRComponents = () => {

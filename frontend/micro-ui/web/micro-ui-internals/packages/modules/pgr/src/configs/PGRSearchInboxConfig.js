@@ -14,7 +14,7 @@ const PGRSearchInboxConfig = () => {
     label: "CS_COMMON_INBOX",
     type: 'inbox',
     apiDetails: {
-        serviceName: Urls.pgr.inboxSearch,
+        serviceName: "/inbox-v2/v2/_search",
         requestParam: {},
         requestBody: {
             inbox: {
