@@ -11,7 +11,7 @@ import { initLibraries } from "@egovernments/digit-ui-libraries";
 // import { initHRMSComponents } from "@egovernments/digit-ui-module-hrms";
 import { UICustomizations } from "./Customisations/UICustomizations";
 import { initUtilitiesComponents } from "@egovernments/digit-ui-module-utilities";
-import { initPGRComponents } from "@egovernments/digit-ui-module-health-pgr";
+import { initPGRComponents,PGRReducers, } from "@egovernments/digit-ui-module-health-pgr";
 import { Loader } from "@egovernments/digit-ui-components";
 
 window.contextPath = window?.globalConfigs?.getConfig("CONTEXT_PATH");
@@ -34,12 +34,12 @@ initLibraries().then(() => {
 
 const moduleReducers = (initData) => ({
   initData,
+  pgr:PGRReducers(initData)
 });
 
 const initDigitUI = () => {
   window.Digit.ComponentRegistryService.setupRegistry({});
   window.Digit.Customizations = {
-    PGR: {},
     commonUiConfig: UICustomizations,
   };
 

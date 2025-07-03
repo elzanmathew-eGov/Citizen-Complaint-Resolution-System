@@ -90,7 +90,7 @@ export const CreateComplaint = () => {
         state: stateInfo.name,
         uploadedImages: _uploadImages,
       };
-
+      
       await dispatch(createComplaint(data));
       await client.refetchQueries(["complaintsList"]);
       history.push(`${match.path}/response`);

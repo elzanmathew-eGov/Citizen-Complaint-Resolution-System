@@ -28,10 +28,10 @@ const BannerPicker = ({ complaints }) => {
 };
 
 const Response = ({ t, config, onSelect }) => {
-  const complaints = useSelector((state) => state["pgr"].complaints);
+  const complaints = useSelector((state) => state["pgr"]);
   return (
     <FormStep config={config} onSelect={onSelect} t={t}>
-      {complaints.response ? <BannerPicker complaints={complaints} /> : null}
+      {complaints?.response ? <BannerPicker complaints={complaints} /> : null}
     </FormStep>
   );
 };
