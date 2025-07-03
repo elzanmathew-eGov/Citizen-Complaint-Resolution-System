@@ -66,9 +66,10 @@ public class WorkflowService {
     public String updateWorkflowStatus(ServiceRequest serviceRequest) {
         ProcessInstance processInstance = getProcessInstanceForPGR(serviceRequest);
         ProcessInstanceRequest workflowRequest = new ProcessInstanceRequest(serviceRequest.getRequestInfo(), Collections.singletonList(processInstance));
-        State state = callWorkFlow(workflowRequest);
-        serviceRequest.getService().setApplicationStatus(state.getApplicationStatus());
-        return state.getApplicationStatus();
+        ProcessInstanceResponse response = callWorkFlow(workflowRequest);
+        serviceRequest.getService().setApplicationStatus(response.getProcessInstances().get(0).getState().getApplicationStatus());
+        serviceRequest.getService().setProcessInstance(response.getProcessInstances().get(0));
+        return response.getProcessInstances().get(0).getState().getApplicationStatus();
     }
 
 
@@ -237,13 +238,13 @@ public class WorkflowService {
      * <p>
      * and return wf-response to sets the resultant status
      */
-    private State callWorkFlow(ProcessInstanceRequest workflowReq) {
+    private ProcessInstanceResponse callWorkFlow(ProcessInstanceRequest workflowReq) {
 
         ProcessInstanceResponse response = null;
         StringBuilder url = new StringBuilder(pgrConfiguration.getWfHost().concat(pgrConfiguration.getWfTransitionPath()));
         Object optional = repository.fetchResult(url, workflowReq);
         response = mapper.convertValue(optional, ProcessInstanceResponse.class);
-        return response.getProcessInstances().get(0).getState();
+        return response;
     }
 
 

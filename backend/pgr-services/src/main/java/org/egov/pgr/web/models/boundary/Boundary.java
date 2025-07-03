@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.egov.hrms.model.AuditDetails;
+import org.egov.pgr.web.models.AuditDetails;
 import org.springframework.validation.annotation.Validated;
 
 /**
