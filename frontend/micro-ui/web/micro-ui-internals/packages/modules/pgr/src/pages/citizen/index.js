@@ -15,7 +15,7 @@ const App = () => {
   const { t } = useTranslation();
   const { path, url, ...match } = useRouteMatch();
   const location = useLocation();
-
+  
   const CreateComplaint = Digit?.ComponentRegistryService?.getComponent("PGRCreateComplaintCitizen");
   const ComplaintsList = Digit?.ComponentRegistryService?.getComponent("PGRComplaintsList");
   const ComplaintDetailsPage = Digit?.ComponentRegistryService?.getComponent("PGRComplaintDetailsPage");
