@@ -53,8 +53,8 @@ public class ServiceRequestValidator {
         Map<String,String> errorMap = new HashMap<>();
         validateUserData(request,errorMap);
         validateSource(request.getService().getSource());
-        validateBoundary(request);
-        validateMDMS(request, mdmsData);
+//        validateBoundary(request);
+//        validateMDMS(request, mdmsData);
         if(config.getIsValidateDeptEnabled()) validateDepartment(request, mdmsData);
         if(!errorMap.isEmpty())
             throw new CustomException(errorMap);

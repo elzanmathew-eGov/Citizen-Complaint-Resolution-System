@@ -3,6 +3,7 @@ package org.egov.pgr.web.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import org.egov.pgr.annotation.CharacterConstraint;
+import org.egov.pgr.web.models.workflow.ProcessInstance;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.validation.annotation.Validated;
 import lombok.AllArgsConstructor;
@@ -88,6 +89,8 @@ public class Service   {
         @JsonProperty("auditDetails")
         private AuditDetails auditDetails = null;
 
+        @JsonProperty("processInstance")
+        private ProcessInstance processInstance;
 
 }
 
