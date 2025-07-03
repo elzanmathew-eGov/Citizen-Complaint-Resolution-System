@@ -8,7 +8,9 @@
     "node": ">=14"
   },
   "workspaces": [
+    "micro-ui-internals/packages/css",
     "micro-ui-internals/packages/modules/pgr"
+
   ],
   "homepage": "/workbench-ui",
   "dependencies": {
