@@ -56,17 +56,17 @@ const WorkflowComponent = ({ complaintDetails, id, getWorkFlow, zoomImage }) => 
   //   );
   
 
-    // const { isLoading: isMDMSLoading, data: cct } = Digit.Hooks.useCustomMDMS(
-    //   tenantId,
-    //   "RAINMAKER-PGR",
-    //   [{ name: "ComplainClosingTime" }],
-    //   {
-    //     cacheTime: Infinity,
-    //     select: (data) => data?.["RAINMAKER-PGR"]?.cct?.[0]?.ComplainMaxIdleTime,
-    //   }
-    // );
+    const { isLoading: isMDMSLoading, data: cct } = Digit.Hooks.useCustomMDMS(
+      tenantId,
+      "RAINMAKER-PGR",
+      [{ name: "ComplainClosingTime" }],
+      {
+        cacheTime: Infinity,
+        select: (data) => data?.["RAINMAKER-PGR"]?.cct,
+      }
+    );
 
-    // console.log(`*** LOG ***`,cct);
+    console.log(`*** LOG ***`,cct);
 
 
   // const { data: ComplainMaxIdleTime, isLoading: ComplainMaxIdleTimeLoading } = Digit.Hooks.pgr.useCustomMDMS.ComplainClosingTime(tenantId?.split(".")[0]);
