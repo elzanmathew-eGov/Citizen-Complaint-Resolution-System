@@ -15,7 +15,6 @@
         "action",
         "active",
         "stateSLA",
-        "businessSLA",
         "topic"
       ],
       "x-unique": [

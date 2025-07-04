@@ -16,15 +16,15 @@ def create_data(data_path, tenantId, is_portforward = True):
     schemaCode = Path(data_path).stem    
     base_url = urljoin(base_url, ENDPOINTS["dataCreate"])
 
-     try:
-+        with open(data_path) as f:
-+            data_array = json.load(f)
-+    except FileNotFoundError:
-+        print(f"Error: Data file {data_path} not found")
-+        return
-+    except json.JSONDecodeError:
-+        print(f"Error: Invalid JSON in data file {data_path}")
-+        return
+    try:
+        with open(data_path) as f:
+            data_array = json.load(f)
+    except FileNotFoundError:
+        print(f"Error: Data file {data_path} not found")
+        return
+    except json.JSONDecodeError:
+        print(f"Error: Invalid JSON in data file {data_path}")
+        return
 
     for data in data_array:
     
@@ -36,19 +36,20 @@ def create_data(data_path, tenantId, is_portforward = True):
                                     Mdms=mdms_data).model_dump(by_alias=True)
 
         try:
-+            endpoint_url = base_url+schemaCode
-+            response = utils.make_request(method="POST",
-+                            url=endpoint_url,
-+                            payload=body)
-+    
-+            utils.log_response(response)
-+    
-+            if response.status_code >= 400:
-+                print(f"Error creating data for {schemaCode}: {response.status_code}")
-+            else:
-+                print(f"Successfully created data for {schemaCode}")
-+        except Exception as e:
-+            print(f"Error making request for {schemaCode}: {str(e)}")
+            endpoint_url = base_url+schemaCode
+            response = utils.make_request(method="POST",
+                            url=endpoint_url,
+                            payload=body)
+    
+            utils.log_response(response)
+    
+            if response.status_code >= 400:
+                print(response.json())
+                print(f"Error creating data for {schemaCode}: {response.status_code}")
+            else:
+                print(f"Successfully created data for {schemaCode}")
+        except Exception as e:
+            print(f"Error making request for {schemaCode}: {str(e)}")
 
 def create_all_data(data_folder, tenantId, is_portforward = True):
 

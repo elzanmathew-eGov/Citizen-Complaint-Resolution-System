@@ -1,6 +1,6 @@
 [
     {
-      "tenantId": "as",
+      "tenantId": "pg",
       "code": "ACCESSCONTROL-ACTIONS-TEST.actions-test",
       "description": "ACCESSCONTROL-ACTIONS-TEST.actions-test",
       "isActive": true,
@@ -69,7 +69,7 @@
       }
     },
     {
-      "tenantId": "as",
+      "tenantId": "pg",
       "code": "ACCESSCONTROL-ROLEACTIONS.roleactions",
       "description": "ACCESSCONTROL-ROLEACTIONS.roleactions",
       "isActive": true,
@@ -95,10 +95,10 @@
           },
           "tenantId": {
             "enum": [
-              "as"
+              "pg"
             ],
             "type": "string",
-            "default": "as"
+            "default": "pg"
           },
           "actioncode": {
             "type": "string"
@@ -117,7 +117,7 @@
       }
     },
     {
-      "tenantId": "as",
+      "tenantId": "pg",
       "code": "ACCESSCONTROL-ROLES.roles",
       "description": "ACCESSCONTROL-ROLES.roles",
       "isActive": true,
