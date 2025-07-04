@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { MdmsService } from "@egovernments/digit-ui-libraries";
+
 
 import { LOCALIZATION_KEY } from "../../constants/Localization";
 
@@ -23,7 +25,51 @@ import TimeLine from "../../components/TimeLine";
 const WorkflowComponent = ({ complaintDetails, id, getWorkFlow, zoomImage }) => {
   const tenantId = Digit.SessionStorage.get("CITIZEN.COMMON.HOME.CITY")?.code || complaintDetails.service.tenantId;
   let workFlowDetails = Digit.Hooks.useWorkflowDetails({ tenantId: tenantId, id, moduleCode: "PGR" });
-  const { data: ComplainMaxIdleTime, isLoading: ComplainMaxIdleTimeLoading } = Digit.Hooks.pgr.useMDMS.ComplainClosingTime(tenantId?.split(".")[0]);
+ 
+  // const  ComplainClosingTime = (tenantId) =>
+  //   useQuery(
+  //     [tenantId, "PGR_COMPLAIN_IDLE_TIME"],
+  //     () =>
+  //       MdmsService.getDataByCriteria(
+  //         tenantId,
+  //         {
+  //           details: {
+  //             tenantId: tenantId,
+  //             moduleDetails: [
+  //               {
+  //                 moduleName: "RAINMAKER-PGR",
+  //                 masterDetails: [
+  //                   {
+  //                     name: "ComplainClosingTime",
+  //                   },
+  //                 ],
+  //               },
+  //             ],
+  //           },
+  //         },
+  //         "RAINMAKER-PGR"
+  //       ),
+  //     {
+  //       select: (data) =>
+  //        data[`RAINMAKER-PGR`].ComplainClosingTime?.[0]?.ComplainMaxIdleTime,
+  //     }
+  //   );
+  
+
+    // const { isLoading: isMDMSLoading, data: cct } = Digit.Hooks.useCustomMDMS(
+    //   tenantId,
+    //   "RAINMAKER-PGR",
+    //   [{ name: "ComplainClosingTime" }],
+    //   {
+    //     cacheTime: Infinity,
+    //     select: (data) => data?.["RAINMAKER-PGR"]?.cct?.[0]?.ComplainMaxIdleTime,
+    //   }
+    // );
+
+    // console.log(`*** LOG ***`,cct);
+
+
+  // const { data: ComplainMaxIdleTime, isLoading: ComplainMaxIdleTimeLoading } = Digit.Hooks.pgr.useCustomMDMS.ComplainClosingTime(tenantId?.split(".")[0]);
 
   useEffect(() => {
     getWorkFlow(workFlowDetails.data);
@@ -43,7 +89,7 @@ const WorkflowComponent = ({ complaintDetails, id, getWorkFlow, zoomImage }) => 
         rating={complaintDetails.audit.rating}
         zoomImage={zoomImage}
         complaintDetails={complaintDetails}
-        ComplainMaxIdleTime={ComplainMaxIdleTime}
+        // ComplainMaxIdleTime={ComplainMaxIdleTime}
       />
     )
   );
