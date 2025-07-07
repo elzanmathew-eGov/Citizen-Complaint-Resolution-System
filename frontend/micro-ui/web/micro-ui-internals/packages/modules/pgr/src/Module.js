@@ -13,13 +13,17 @@ import PGRSearchInbox from "./pages/employee/PGRInbox";
 import CreateComplaint from "./pages/employee/CreateComplaint";
 import Response from "./components/Response";
 import BreadCrumbs from "./components/BreadCrumbs";
-
+import CitizenApp from "./pages/citizen";
+import getRootReducer from "./redux/reducers";
 
 import { CreateComplaint as CreateComplaintCitizen } from "./pages/citizen/Create";
 import { ComplaintsList } from "./pages/citizen/ComplaintsList";
 import ComplaintDetailsPage from "./pages/citizen/ComplaintDetails";
 import SelectRating from "./pages/citizen/Rating/SelectRating";
 import ResponseCitizen from "./pages/citizen/Response";
+
+export const PGRReducers = getRootReducer;
+
 
 export const PGRModule = ({ stateCode, userType, tenants }) => {
   const { path, url } = useRouteMatch();

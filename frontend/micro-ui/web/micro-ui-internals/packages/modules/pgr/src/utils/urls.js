@@ -7,7 +7,7 @@ const projectContextPath = window?.globalConfigs?.getConfig("PROJECT_CONTEXT_PAT
 
 const Urls = {
   pgr: {
-    inboxSearch: `/inbox/v2/_search`,
+    inboxSearch: `/inbox-v2/v2/_search`,
     search: `/health-pgr-services/v2/request/_search`,
     create: `/health-pgr-services/v2/request/_create`,
     update: `/health-pgr-services/v2/request/_update`,
