@@ -88,7 +88,7 @@ public class LocalizationUtil {
 				}
 			}
 		} catch (IOException e) {
-			log.error("❌ Failed to scan localization directories: {}", e.getMessage());
+			log.error("Failed to scan localization directories: {}", e.getMessage());
 		}
 
 		return messages;
