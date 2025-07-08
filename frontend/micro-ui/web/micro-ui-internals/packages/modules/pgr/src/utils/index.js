@@ -171,7 +171,7 @@ export const formPayloadToCreateComplaint = (formData, tenantId, user) => {
       "description": formData?.description,
       "applicationStatus": "CREATED",
       "source": "web",
-      "user": userInfo,
+      "citizen": userInfo,
       "isDeleted": false,
       "rowVersion": 1,
       "address": {
