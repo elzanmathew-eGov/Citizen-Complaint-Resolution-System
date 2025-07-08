@@ -1,14 +1,21 @@
 package org.egov.handler.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.egov.common.contract.response.ResponseInfo;
 import org.egov.handler.config.ServiceConfiguration;
 import org.egov.handler.web.models.*;
 import org.egov.tracer.model.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,11 +27,14 @@ public class LocalizationUtil {
 
 	private final ServiceConfiguration serviceConfig;
 
+	private final ResourceLoader resourceLoader;
+
 	@Autowired
-	public LocalizationUtil(RestTemplate restTemplate, ServiceConfiguration serviceConfig) {
+	public LocalizationUtil(RestTemplate restTemplate, ServiceConfiguration serviceConfig, ResourceLoader resourceLoader) {
 		this.restTemplate = restTemplate;
 		this.serviceConfig = serviceConfig;
-	}
+        this.resourceLoader = resourceLoader;
+    }
 
 	public void createLocalizationData(DefaultLocalizationDataRequest defaultLocalizationDataRequest) {
 
@@ -38,13 +48,13 @@ public class LocalizationUtil {
 		}
 	}
 
-	public void upsertLocalization(TenantRequest tenantRequest) {
+	public void upsertLocalizationFromFile(DefaultLocalizationDataRequest defaultLocalizationDataRequest){
 
-		List<Message> messageList = generateDynamicMessage(tenantRequest);
-		tenantRequest.getRequestInfo().getUserInfo().setId(128L);
+		List<Message> messageList = addMessagesFromFile(defaultLocalizationDataRequest);
+		defaultLocalizationDataRequest.getRequestInfo().getUserInfo().setId(128L);
 		CreateMessagesRequest createMessagesRequest = CreateMessagesRequest.builder()
-				.requestInfo(tenantRequest.getRequestInfo())
-				.tenantId(tenantRequest.getTenant().getCode())
+				.requestInfo(defaultLocalizationDataRequest.getRequestInfo())
+				.tenantId(defaultLocalizationDataRequest.getTargetTenantId())
 				.messages(messageList)
 				.build();
 
@@ -53,29 +63,35 @@ public class LocalizationUtil {
 		try {
 			restTemplate.postForObject(uri.toString(), createMessagesRequest, ResponseInfo.class);
 		} catch (Exception e) {
-			log.error("Error creating Tenant localization data for {} : {}", tenantRequest.getTenant().getCode(), e.getMessage());
-			throw new CustomException("TENANT", "Failed to create localization data for " +  tenantRequest.getTenant().getCode() + " : " + e.getMessage());
+			log.error("Error creating Tenant localization data for {} : {}", defaultLocalizationDataRequest.getTargetTenantId(), e.getMessage());
+			throw new CustomException("TENANT", "Failed to create localization data for " +  defaultLocalizationDataRequest.getTargetTenantId() + " : " + e.getMessage());
 		}
 	}
 
-	public List<Message> generateDynamicMessage(TenantRequest tenantRequest) {
+	public List addMessagesFromFile(DefaultLocalizationDataRequest defaultLocalizationDataRequest){
+		List<Message> messages = new ArrayList<>();
 
-		Tenant tenant = tenantRequest.getTenant();
+		String[] filePaths = {
+				"classpath:localisations/English/rainmaker-common.json",
+				"classpath:localisations/English/rainmaker-pgr.json"
+//				"classpath:localisations/Hindi/rainmaker-common.json",
+//				"classpath:localisations/Hindi/rainmaker-pgr.json"
+		};
 
-		String tenantCode = tenant != null && tenant.getCode() != null
-				? tenant.getCode().toUpperCase().replace(".", "_")
-				: null;
+		for (String filePath : filePaths) {
+			try {
+				Resource resource = resourceLoader.getResource(filePath);
+				InputStream inputStream = resource.getInputStream();
 
-		String ulbKey = tenantCode != null
-				? "TENANT_TENANTS_" + tenantCode
-				: null;
+				ObjectMapper objectMapper = new ObjectMapper();
+				List<Message> fileMessages = Arrays.asList(objectMapper.readValue(inputStream, Message[].class));
 
-		Message message = Message.builder()
-				.code(ulbKey)
-				.module(serviceConfig.getTenantLocalizationModule())
-				.message(tenant.getName())
-				.locale("en_IN")
-				.build();
-		return Collections.singletonList(message);
+				messages.addAll(fileMessages);
+			} catch (IOException e) {
+				log.error("Failed to read localization file {}: {}", filePath, e.getMessage());
+			}
+        }
+
+		return messages;
 	}
 }

@@ -62,7 +62,7 @@ public class TenantConsumer {
         User userInfo = User.builder().uuid("40dceade-992d-4a8f-8243-19dda76a4171").build();
         tenantRequest.getRequestInfo().setUserInfo(userInfo);
 
-        localizationUtil.upsertLocalization(tenantRequest);
+//        localizationUtil.upsertLocalization(tenantRequest);
 
         // create user only for root tenant
         if (Objects.isNull(tenantRequest.getTenant().getParentId())) {

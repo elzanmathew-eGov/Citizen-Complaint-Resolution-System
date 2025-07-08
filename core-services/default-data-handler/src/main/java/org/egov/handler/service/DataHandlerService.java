@@ -47,8 +47,10 @@ public class DataHandlerService {
 
     private final CustomKafkaTemplate producer;
 
+    private final MdmsBulkLoader mdmsBulkLoader;
+
     @Autowired
-    public DataHandlerService(MdmsV2Util mdmsV2Util, HrmsUtil hrmsUtil, LocalizationUtil localizationUtil, TenantManagementUtil tenantManagementUtil, ServiceConfiguration serviceConfig, ObjectMapper objectMapper, ResourceLoader resourceLoader, WorkflowUtil workflowUtil, CustomKafkaTemplate producer) {
+    public DataHandlerService(MdmsV2Util mdmsV2Util, HrmsUtil hrmsUtil, LocalizationUtil localizationUtil, TenantManagementUtil tenantManagementUtil, ServiceConfiguration serviceConfig, ObjectMapper objectMapper, ResourceLoader resourceLoader, WorkflowUtil workflowUtil, CustomKafkaTemplate producer, MdmsBulkLoader mdmsBulkLoader) {
         this.mdmsV2Util = mdmsV2Util;
         this.hrmsUtil = hrmsUtil;
         this.localizationUtil = localizationUtil;
@@ -58,6 +60,7 @@ public class DataHandlerService {
         this.resourceLoader = resourceLoader;
         this.workflowUtil = workflowUtil;
         this.producer = producer;
+        this.mdmsBulkLoader = mdmsBulkLoader;
     }
 
     public void createDefaultData(DefaultDataRequest defaultDataRequest) {
@@ -73,8 +76,25 @@ public class DataHandlerService {
 
         if (defaultDataRequest.getLocales() != null && defaultDataRequest.getModules() != null) {
             for (String locale : defaultDataRequest.getLocales()) {
-                DefaultLocalizationDataRequest defaultLocalizationDataRequest = DefaultLocalizationDataRequest.builder().requestInfo(defaultDataRequest.getRequestInfo()).targetTenantId(defaultDataRequest.getTargetTenantId()).locale(locale).modules(defaultDataRequest.getModules()).defaultTenantId(serviceConfig.getDefaultTenantId()).build();
-                localizationUtil.createLocalizationData(defaultLocalizationDataRequest);
+                DefaultLocalizationDataRequest defaultLocalizationDataRequest = DefaultLocalizationDataRequest.builder().requestInfo(defaultDataRequest.getRequestInfo()).targetTenantId(defaultDataRequest.getTargetTenantId()).locale(locale).modules(defaultDataRequest.getModules()).build();
+                localizationUtil.upsertLocalizationFromFile(defaultLocalizationDataRequest);
+            }
+        }
+    }
+
+    public void createDefaultDataFromFile(DefaultDataRequest defaultDataRequest) {
+        if (defaultDataRequest.getSchemaCodes() != null) {
+            List<String> schemaCodes = new ArrayList<>(defaultDataRequest.getSchemaCodes());
+            if (schemaCodes.contains(TENANT_BOUNDARY_SCHEMA)) {
+                createTenantBoundarydata(defaultDataRequest.getRequestInfo(), defaultDataRequest.getTargetTenantId());
+                schemaCodes.remove(TENANT_BOUNDARY_SCHEMA);
+            }
+            mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
+        }
+        if (defaultDataRequest.getLocales() != null && defaultDataRequest.getModules() != null) {
+            for (String locale : defaultDataRequest.getLocales()) {
+                DefaultLocalizationDataRequest defaultLocalizationDataRequest = DefaultLocalizationDataRequest.builder().requestInfo(defaultDataRequest.getRequestInfo()).targetTenantId(defaultDataRequest.getTargetTenantId()).locale(locale).modules(defaultDataRequest.getModules()).build();
+                localizationUtil.upsertLocalizationFromFile(defaultLocalizationDataRequest);
             }
         }
     }
