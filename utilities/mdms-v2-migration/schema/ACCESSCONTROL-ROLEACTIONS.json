@@ -94,11 +94,7 @@
             "type": "string"
           },
           "tenantId": {
-            "enum": [
-              "pg"
-            ],
-            "type": "string",
-            "default": "pg"
+            "type": "string"
           },
           "actioncode": {
             "type": "string"

@@ -2992,29 +2992,5 @@
     "serviceCode": "inbox",
     "code": "null",
     "path": ""
-  },
-  {
-    "id": 2528,
-    "name": "MDMS",
-    "url": "/mdms-v2/v2/_update/RAINMAKER-PGR.ServiceDefs",
-    "displayName": "Update tenant tenants",
-    "orderNumber": 1,
-    "parentModule": "",
-    "enabled": false,
-    "serviceCode": "MDMS",
-    "code": "null",
-    "path": ""
-  },
-  {
-    "id": 2528,
-    "name": "MDMS",
-    "url": "/mdms-v2/v2/_create/RAINMAKER-PGR.ServiceDefs",
-    "displayName": "Update tenant tenants",
-    "orderNumber": 1,
-    "parentModule": "",
-    "enabled": false,
-    "serviceCode": "MDMS",
-    "code": "null",
-    "path": ""
   }
 ]
