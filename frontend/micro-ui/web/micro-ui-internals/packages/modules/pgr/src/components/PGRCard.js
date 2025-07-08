@@ -29,9 +29,9 @@ const PGRCard = () => {
     };
   };
 
-  if (!Digit.Utils.didEmployeeHasAtleastOneRole(Object.values(ROLES).flatMap((e) => e))) {
-    return null;
-  }
+  // if (!Digit.Utils.didEmployeeHasAtleastOneRole(Object.values(ROLES).flatMap((e) => e))) {
+  //   return null;
+  // }
 
   let links = [
     generateLink("ACTION_TEST_CREATE_COMPLAINT", "create-complaint"),
