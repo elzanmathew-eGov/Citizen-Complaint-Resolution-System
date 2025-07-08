@@ -9,6 +9,7 @@ import org.egov.tracer.model.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -70,27 +71,25 @@ public class LocalizationUtil {
 
 	public List addMessagesFromFile(DefaultLocalizationDataRequest defaultLocalizationDataRequest){
 		List<Message> messages = new ArrayList<>();
+		ObjectMapper objectMapper = new ObjectMapper();
 
-		String[] filePaths = {
-				"classpath:localisations/English/rainmaker-common.json",
-				"classpath:localisations/English/rainmaker-pgr.json"
-//				"classpath:localisations/Hindi/rainmaker-common.json",
-//				"classpath:localisations/Hindi/rainmaker-pgr.json"
-		};
+		try {
+			PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
-		for (String filePath : filePaths) {
-			try {
-				Resource resource = resourceLoader.getResource(filePath);
-				InputStream inputStream = resource.getInputStream();
+			Resource[] resources = resolver.getResources("classpath:localisations/*/*.json");
 
-				ObjectMapper objectMapper = new ObjectMapper();
-				List<Message> fileMessages = Arrays.asList(objectMapper.readValue(inputStream, Message[].class));
-
-				messages.addAll(fileMessages);
-			} catch (IOException e) {
-				log.error("Failed to read localization file {}: {}", filePath, e.getMessage());
+			for (Resource resource : resources) {
+				try (InputStream inputStream = resource.getInputStream()) {
+					List<Message> fileMessages = Arrays.asList(objectMapper.readValue(inputStream, Message[].class));
+					messages.addAll(fileMessages);
+					log.info("Loaded {} messages from {}", fileMessages.size(), resource.getFilename());
+				} catch (IOException e) {
+					log.error("Failed to read localization file {}: {}", resource.getFilename(), e.getMessage());
+				}
 			}
-        }
+		} catch (IOException e) {
+			log.error("❌ Failed to scan localization directories: {}", e.getMessage());
+		}
 
 		return messages;
 	}
