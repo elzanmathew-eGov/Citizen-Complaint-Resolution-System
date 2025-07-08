@@ -145,11 +145,11 @@ def get_auth_token():
     return response["access_token"], response["UserRequest"]
 
 def get_reqInfo():
-    response = get_auth_token()
+    # response = get_auth_token()
 
     return {
-        "authToken": response[0],
-        "userInfo": response[1]
+        "authToken": "fa581850-e6b4-454c-9796-8a2aee77f9ee",
+        "userInfo": {"id":97,"uuid":"2100c03f-9de8-4732-9894-00c18dc6a1a4","userName":"PGRSU1","name":"Jason","mobileNumber":"9999999997","type":"EMPLOYEE","roles":[{"name":"Grievance Routing Officer","code":"GRO","tenantId":"pg.citya"},{"name":"PGR Last Mile Employee","code":"PGR_LME","tenantId":"pg.citya"},{"name":"Customer Support Representative","code":"CSR","tenantId":"pg.citya"}],"active":True,"tenantId":"pg.citya"}
     }
 
 def formatCode(prefix, code):

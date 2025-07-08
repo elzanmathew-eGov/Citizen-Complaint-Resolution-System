@@ -65,17 +65,17 @@
     "description": "LOC_ADMIN"
   },
   {
-    "code": "COMPLAINANT",
+    "code": "CSR",
     "name": "Complainant",
     "description": "One who will create complaints"
   },
   {
-    "code": "COMPLAINT_ASSESSOR",
+    "code": "GRO",
     "name": "Complaint Assessor",
     "description": "One who will assess & assign complaints"
   },
   {
-    "code": "COMPLAINT_RESOLVER",
+    "code": "PGR_LME",
     "name": "Complaint Resolver",
     "description": "One who will resolve complaints"
   },
