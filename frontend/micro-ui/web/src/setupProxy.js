@@ -24,7 +24,8 @@ module.exports = function (app) {
     "/property-services",
     "/fsm-calculator/v1/billingSlab/_search",
     "/muster-roll",
-    "/service-request"
+    "/service-request",
+    "/mdms-v2",
   ].forEach((location) =>
     app.use(location, createProxy)
   );

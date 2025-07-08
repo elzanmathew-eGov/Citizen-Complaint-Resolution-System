@@ -11,6 +11,7 @@ import { Redirect, Route, Switch, useHistory, useRouteMatch, useLocation } from 
 import { useQueryClient } from "react-query";
 
 export const CreateComplaint = () => {
+  
   const ComponentProvider = Digit.Contexts.ComponentProvider;
   const { t } = useTranslation();
   const { pathname } = useLocation();
@@ -89,7 +90,7 @@ export const CreateComplaint = () => {
         state: stateInfo.name,
         uploadedImages: _uploadImages,
       };
-
+      
       await dispatch(createComplaint(data));
       await client.refetchQueries(["complaintsList"]);
       history.push(`${match.path}/response`);

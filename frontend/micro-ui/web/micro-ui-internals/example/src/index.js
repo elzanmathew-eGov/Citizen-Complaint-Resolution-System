@@ -1,12 +1,13 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
-
+import { PGRReducers } from "@egovernments/digit-ui-module-health-pgr";
 import { initLibraries } from "@egovernments/digit-ui-libraries";
 // import { paymentConfigs, PaymentLinks, PaymentModule } from "@egovernments/digit-ui-module-common";
 import "@egovernments/digit-ui-health-css/example/index.css";
 import { Loader } from "@egovernments/digit-ui-components";
 
 import { UICustomizations } from "./UICustomizations";
+import { pgrCustomizations, pgrComponents } from "./pgr";
 
 
 var Digit = window.Digit || {};
@@ -51,9 +52,11 @@ const initTokens = (stateCode) => {
 const initDigitUI = async() => {
   window.contextPath = window?.globalConfigs?.getConfig("CONTEXT_PATH") || "digit-ui";
   window.Digit.Customizations = {
-    commonUiConfig: UICustomizations
+    commonUiConfig: UICustomizations,
+    PGR: pgrCustomizations,
   };
   window?.Digit.ComponentRegistryService.setupRegistry({
+    ...pgrComponents,
     // PaymentModule,
     // ...paymentConfigs,
     // PaymentLinks,
@@ -79,9 +82,9 @@ initPGRComponents();
 
 
 
-  const moduleReducers = (initData) => initData;
-
-
+const moduleReducers = (initData) => ({
+  pgr: PGRReducers(initData),
+});
   const stateCode = window?.globalConfigs?.getConfig("STATE_LEVEL_TENANT_ID") || "pb";
   initTokens(stateCode);
   

@@ -26,8 +26,9 @@ const initializePGRModule = async ({ tenantId }) => {
       method: "POST",
       userService: false,
       params: {
-        tenantId: tenantId,
-        hierarchyType: hierarchyType,
+        tenantId: "pg.citya",
+        hierarchyType: "REVENUE-LOCALITY",
+        boundaryType: "Locality",
         includeChildren: true,
       }
     });
