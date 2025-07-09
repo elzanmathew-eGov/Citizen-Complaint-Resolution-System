@@ -1,10 +1,6 @@
 name: DIGIT-Install workflow
 # Workflow branch creating cluster against the input.yaml file  
 on:
-  push:
-    branches:
-      - master
-      - 1-click
   workflow_dispatch:
     inputs:
       destroyCommand:
