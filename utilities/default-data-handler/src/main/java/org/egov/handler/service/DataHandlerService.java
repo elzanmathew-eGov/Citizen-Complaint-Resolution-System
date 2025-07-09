@@ -16,10 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static org.egov.handler.config.ServiceConstants.TENANT_BOUNDARY_SCHEMA;
@@ -49,8 +52,10 @@ public class DataHandlerService {
 
     private final MdmsBulkLoader mdmsBulkLoader;
 
+    private final RestTemplate restTemplate;
+
     @Autowired
-    public DataHandlerService(MdmsV2Util mdmsV2Util, HrmsUtil hrmsUtil, LocalizationUtil localizationUtil, TenantManagementUtil tenantManagementUtil, ServiceConfiguration serviceConfig, ObjectMapper objectMapper, ResourceLoader resourceLoader, WorkflowUtil workflowUtil, CustomKafkaTemplate producer, MdmsBulkLoader mdmsBulkLoader) {
+    public DataHandlerService(MdmsV2Util mdmsV2Util, HrmsUtil hrmsUtil, LocalizationUtil localizationUtil, TenantManagementUtil tenantManagementUtil, ServiceConfiguration serviceConfig, ObjectMapper objectMapper, ResourceLoader resourceLoader, WorkflowUtil workflowUtil, CustomKafkaTemplate producer, MdmsBulkLoader mdmsBulkLoader, RestTemplate restTemplate) {
         this.mdmsV2Util = mdmsV2Util;
         this.hrmsUtil = hrmsUtil;
         this.localizationUtil = localizationUtil;
@@ -61,6 +66,7 @@ public class DataHandlerService {
         this.workflowUtil = workflowUtil;
         this.producer = producer;
         this.mdmsBulkLoader = mdmsBulkLoader;
+        this.restTemplate = restTemplate;
     }
 
     public void createDefaultData(DefaultDataRequest defaultDataRequest) {
@@ -82,13 +88,12 @@ public class DataHandlerService {
         }
     }
 
-    public void createDefaultDataFromFile(DefaultDataRequest defaultDataRequest) {
+    public void createDefaultDataFromFile(DefaultDataRequest defaultDataRequest) throws IOException {
         if (defaultDataRequest.getSchemaCodes() != null) {
             List<String> schemaCodes = new ArrayList<>(defaultDataRequest.getSchemaCodes());
-            if (schemaCodes.contains(TENANT_BOUNDARY_SCHEMA)) {
-                createTenantBoundarydata(defaultDataRequest.getRequestInfo(), defaultDataRequest.getTargetTenantId());
-                schemaCodes.remove(TENANT_BOUNDARY_SCHEMA);
-            }
+
+            createBoundaryDefinitionFromFile(defaultDataRequest.getRequestInfo(), defaultDataRequest.getTargetTenantId());
+
             mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
         }
         if (defaultDataRequest.getLocales() != null && defaultDataRequest.getModules() != null) {
@@ -98,6 +103,34 @@ public class DataHandlerService {
             }
         }
     }
+
+    public void createBoundaryDefinitionFromFile(RequestInfo requestInfo, String targetTenantId) throws IOException {
+        try{
+            String hierarchyDefinitionCreateUri = serviceConfig.getHierarchyDefinitionCreateUri();
+
+            Resource resource = resourceLoader.getResource("classpath:boundary/hierarchy-definition/hierarchy.json");
+            InputStream inputStream = resource.getInputStream();
+
+            // Read file content as raw JSON string
+            String rawJson = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+
+            rawJson = rawJson.replace("{tenantid}", targetTenantId);
+
+            JsonNode boundaryPayload = objectMapper.readTree(rawJson);
+
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("RequestInfo", requestInfo);
+            payload.put("BoundaryHierarchy", boundaryPayload.get("BoundaryHierarchy"));
+
+            restTemplate.postForObject(hierarchyDefinitionCreateUri, payload, Object.class);
+            log.info("Created boundary hierarchy for tenant: {}", targetTenantId);
+        }
+        catch (Exception e) {
+            log.error("Failed to create boundary hierarchy for tenant: {}", targetTenantId);
+            throw new CustomException("BOUNDARY_DATA_CREATE_FAILED", "Failed to create boundary data for " + targetTenantId + " : " + e.getMessage());
+        }
+    }
+
 
     private void createTenantBoundarydata(RequestInfo requestInfo, String targetTenantId) {
         List<String> schemaCodes = new ArrayList<>(Collections.singletonList(TENANT_BOUNDARY_SCHEMA));

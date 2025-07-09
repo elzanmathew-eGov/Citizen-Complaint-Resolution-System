@@ -119,4 +119,7 @@ public class ServiceConfiguration {
 
     @Value("${topic.notification.mail}")
     private String emailTopic;
+
+    @Value("${egov.boundary.host}${egov.boundary.hierarchy.definition.create}")
+    private String hierarchyDefinitionCreateUri;
 }

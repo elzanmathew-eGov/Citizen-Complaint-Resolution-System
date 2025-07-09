@@ -43,7 +43,7 @@ public class StartupDataInitializer implements ApplicationRunner {
 
         String json = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
 
-        json = json.replace("TENANTID", tenantCode);
+        json = json.replace("{tenantid}", tenantCode);
 
         JsonNode rootNode = objectMapper.readTree(json);
         JsonNode requestInfoNode = rootNode.get("RequestInfo");

@@ -48,7 +48,14 @@ public class MdmsBulkLoader {
                 }
 
                 for (JsonNode singleObjectNode : arrayNode) {
-                    Object singleDataObject = objectMapper.convertValue(singleObjectNode, Object.class);
+                    // Convert node to raw string
+                    String singleObjectJson = objectMapper.writeValueAsString(singleObjectNode);
+
+                    // Replace all {tenantid} placeholders with actual tenant ID
+                    singleObjectJson = singleObjectJson.replace("{tenantid}", tenantId);
+
+                    // Convert back to object
+                    Object singleDataObject = objectMapper.readValue(singleObjectJson, Object.class);
 
                     // Construct MDMS wrapper
                     Map<String, Object> mdms = new HashMap<>();
