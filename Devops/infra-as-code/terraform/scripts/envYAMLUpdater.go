@@ -36,6 +36,9 @@ func main() {
 		KubeConfig struct {
 			Value string `json:"value"`
 		} `json:"kubectl_config"`
+		FilestoreBucket struct {
+			Value string `json:"value"`
+		} `json:"s3_filestore_bucket"`
 	}
 	var tfOutput TfOutput
 	err = json.Unmarshal(input, &tfOutput)
@@ -44,26 +47,21 @@ func main() {
 		os.Exit(1)
 	}
 	// Read the YAML file
-	yamlFile, err := ioutil.ReadFile("../../../config-as-code/environments/egov-demo.yaml")
+	yamlFile, err := ioutil.ReadFile("../../../deploy-as-code/charts/environments/env.yaml")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error reading YAML file: %v\n", err)
 		os.Exit(1)
 	}
 	// Replace the placeholders with the actual volume IDs
-	output := strings.ReplaceAll(string(yamlFile), "<elasticsearch-data_volume_id_1>", tfOutput.EsDataVolumeIDs.Value[0])
-	output = strings.ReplaceAll(output, "<elasticsearch-data_volume_id_2>", tfOutput.EsDataVolumeIDs.Value[1])
-	output = strings.ReplaceAll(output, "<elasticsearch-data_volume_id_3>", tfOutput.EsDataVolumeIDs.Value[2])
-	output = strings.ReplaceAll(output, "<elasticsearch-master_volume_id_1>", tfOutput.EsMasterVolumeIDs.Value[0])
-	output = strings.ReplaceAll(output, "<elasticsearch-master_volume_id_2>", tfOutput.EsMasterVolumeIDs.Value[1])
-	output = strings.ReplaceAll(output, "<elasticsearch-master_volume_id_3>", tfOutput.EsMasterVolumeIDs.Value[2])
 	output = strings.ReplaceAll(output, "<db_host_name>", tfOutput.DBHost.Value)
 	output = strings.ReplaceAll(output, "<db_name>", tfOutput.DBName.Value)
 	output = strings.ReplaceAll(output, "<zone>", tfOutput.Zones.Value[0])
+	output = strings.ReplaceAll(output, "<filestore_s3_bucket>", tfOutput.FilestoreBucket.Value[0])
 
 	// Write the updated YAML to stdout
 	fmt.Println(output)
 
-	err = ioutil.WriteFile("../../../config-as-code/environments/egov-demo.yaml", []byte(output), 0644)
+	err = ioutil.WriteFile("../../../deploy-as-code/charts/environments/env.yaml", []byte(output), 0644)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error writing YAML file: %v\n", err)
 		os.Exit(1)
