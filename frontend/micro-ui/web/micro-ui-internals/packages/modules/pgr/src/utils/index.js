@@ -193,7 +193,7 @@ export const formPayloadToCreateComplaint = (formData, tenantId, user) => {
       }
     },
     "workflow": {
-      "action": "CREATE",
+      "action": "APPLY",
       "assignes": [],
       "hrmsAssignes": [],
       "comments": ""
