@@ -1,0 +1,58 @@
+environments:
+  env:
+    values:
+      - ../environments/env-secrets.yaml
+      - ../environments/env.yaml
+---
+templates:
+  default: &default
+    chart: ./{{`{{ .Release.Name }}`}}
+    version: 0.1.0
+    namespace: egov
+    # This prevents helmfile exiting when it encounters a missing file
+    # Valid values are "Error", "Warn", "Info", "Debug". The default is "Error"
+    # Use "Debug" to make missing files errors invisible at the default log level(--log-level=INFO)
+    missingFileHandler: Warn
+    values:
+      - {{ .Values | toYaml | nindent 8 }}
+
+releases:
+  - name: fsm # Replace with your desired namespace
+    installed: true # Replace with the version of your chart, if needed
+    <<: *default
+
+  - name: fsm-calculator # Replace with your desired namespace
+    installed: true # Replace with the version of your chart, if needed
+    <<: *default
+
+  - name: sanitation-ui # Replace with your desired namespace
+    installed: true
+    <<: *default
+
+  - name: vehicle # Replace with your desired namespace
+    installed: true
+    <<: *default
+
+  - name: vendor # Replace with your desired namespace
+    installed: true
+    <<: *default
+
+  - name: pqm-scheduler # Replace with your desired namespace
+    installed: true
+    <<: *default
+  
+  - name: pqm-anomaly-finder # Replace with your desired namespace
+    installed: true
+    <<: *default
+
+  - name: pqm-service # Replace with your desired namespace
+    installed: true
+    <<: *default
+  
+  - name: trackingservice # Replace with your desired namespace
+    installed: true
+    <<: *default
+
+  - name: route-map # Replace with your desired namespace
+    installed: true
+    <<: *default
