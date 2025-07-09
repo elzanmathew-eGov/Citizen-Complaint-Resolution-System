@@ -37,13 +37,22 @@ public class StartupDataInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws IOException {
-
         String tenantCode = serviceConfig.getDefaultTenantId();
+
         Resource resource = resourceLoader.getResource("classpath:requestInfo.json");
+        Resource tenantJson = resourceLoader.getResource("classpath:tenant.json");
 
         String json = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
 
+        String jsonTenant = StreamUtils.copyToString(tenantJson.getInputStream(), StandardCharsets.UTF_8);
+
         json = json.replace("{tenantid}", tenantCode);
+        jsonTenant = jsonTenant.replace("{tenantid}", tenantCode);
+
+        JsonNode tenant_node = objectMapper.readTree(jsonTenant);
+        JsonNode tenantInfoNode = tenant_node.get("Tenant");
+        Tenant tenant = objectMapper.readValue(tenantInfoNode.toString(), Tenant.class);
+
 
         JsonNode rootNode = objectMapper.readTree(json);
         JsonNode requestInfoNode = rootNode.get("RequestInfo");
@@ -51,12 +60,6 @@ public class StartupDataInitializer implements ApplicationRunner {
             throw new RuntimeException("Missing 'RequestInfo' node in JSON");
         }
         RequestInfo requestInfo = objectMapper.readValue(requestInfoNode.toString(), RequestInfo.class);
-
-        Tenant tenant = Tenant.builder()
-                .code(tenantCode)
-                .name(tenantCode)
-                .isActive(true)
-                .build();
 
         TenantRequest tenantRequest = TenantRequest.builder()
                 .requestInfo(requestInfo)
