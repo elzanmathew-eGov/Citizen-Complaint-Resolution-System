@@ -1,15 +1,11 @@
 name: DIGIT-Install workflow
 # Workflow branch creating cluster against the input.yaml file  
 on:
-  push:
-    branches:
-      - master
-      - 1-click
   workflow_dispatch:
     inputs:
       destroyCommand:
         description: 'Type "destroy" to run the terraform_infra_destruction job.'
-        required: true
+        required: false
         default: ''   
 jobs:
   check-changed-files:
