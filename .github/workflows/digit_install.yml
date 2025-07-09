@@ -40,7 +40,7 @@ jobs:
         run: echo "Githubactions Workflow has started"
       - name: Displaying the input parameters provided
         run: cat input.yaml
-        working-directory: Devops/Devops/infra-as-code/terraform/sample-aws
+        working-directory: Devops/infra-as-code/terraform/sample-aws
       - name: Convert YAML to ENV
         uses: dcarbone/yaml-to-env-action@main
         with:
