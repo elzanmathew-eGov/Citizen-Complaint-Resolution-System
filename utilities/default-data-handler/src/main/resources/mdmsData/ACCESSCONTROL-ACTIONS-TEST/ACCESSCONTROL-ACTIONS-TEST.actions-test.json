@@ -3016,5 +3016,63 @@
     "serviceCode": "MDMS",
     "code": "null",
     "path": ""
+  },
+  {
+    "id": 2564,
+    "name": "CS_COMMON_FILE_A_COMPLAINT",
+    "url": "digit-ui-card",
+    "displayName": "File a Complaint",
+    "orderNumber": 1,
+    "parentModule": "PGR",
+    "enabled": true,
+    "serviceCode": "",
+    "code": "",
+    "path": "",
+    "navigationURL": "/digit-ui/citizen/pgr/create-complaint/complaint-type",
+    "leftIcon": "PGRIcon",
+    "rightIcon": "",
+    "queryParams": "",
+    "sidebar": "digit-ui-links",
+    "sidebarURL": "/digit-ui/citizen/pgr-home"
+  },
+  {
+    "id": 2565,
+    "name": "CS_HOME_MY_COMPLAINTS",
+    "url": "digit-ui-card",
+    "displayName": "My Complaints",
+    "orderNumber": 2,
+    "parentModule": "PGR",
+    "enabled": true,
+    "serviceCode": "",
+    "code": "",
+    "path": "",
+    "navigationURL": "/digit-ui/citizen/pgr/complaints",
+    "leftIcon": "PGRIcon",
+    "rightIcon": "",
+    "queryParams": "",
+    "sidebar": "digit-ui-links",
+    "sidebarURL": "/digit-ui/citizen/pgr-home"
+  },
+  {
+    "id": 2566,
+    "name": "mSeva Event Search",
+    "url": "/egov-user-event/v1/events/_search",
+    "displayName": "mSeva Event Notification",
+    "orderNumber": 1,
+    "enabled": false,
+    "serviceCode": "msea-event-notification",
+    "code": "null",
+    "path": ""
+  },
+  {
+    "id": 2568,
+    "name": "mSeva Event Count",
+    "url": "/egov-user-event/v1/events/notifications/_count",
+    "displayName": "mSeva Event Notification",
+    "orderNumber": 1,
+    "enabled": false,
+    "serviceCode": "msea-event-notification",
+    "code": "null",
+    "path": ""
   }
 ]
