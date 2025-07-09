@@ -5,7 +5,7 @@ on:
     inputs:
       destroyCommand:
         description: 'Type "destroy" to run the terraform_infra_destruction job.'
-        required: true
+        required: false
         default: ''   
 jobs:
   check-changed-files:
