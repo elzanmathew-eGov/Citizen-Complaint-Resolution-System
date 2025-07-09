@@ -483,15 +483,15 @@ jobs:
       - name: Terraform Destroy - Infra destruction
         run: terraform destroy -no-color -auto-approve -var db_password=demo123456
         working-directory: Devops/infra-as-code/terraform/sample-aws
-      - name: Terraform Init - Infra destruction
+      - name: Terraform Init - Remote-State destruction
         run: terraform init
         working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
       - name: Terraform Validate - Remote-State destruction
         run: terraform validate -no-color
         working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
-      - name: Terraform Plan - Infra destruction
+      - name: Terraform Plan - Remote-State destruction
         run: terraform plan -destroy -no-color -input=false
         working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
-      - name: Terraform Destroy - Infra destruction
+      - name: Terraform Destroy - Remote-State destruction
         run: terraform destroy -no-color -auto-approve
         working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
