@@ -47,16 +47,19 @@ func main() {
 		os.Exit(1)
 	}
 	// Read the YAML file
-	yamlFile, err := ioutil.ReadFile("../../../deploy-as-code/charts/environments/env.yaml")
+	yamlBytes, err := ioutil.ReadFile("../../../deploy-as-code/charts/environments/env.yaml")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error reading YAML file: %v\n", err)
 		os.Exit(1)
 	}
+	output := string(yamlBytes)
+
 	// Replace the placeholders with the actual volume IDs
 	output = strings.ReplaceAll(output, "<db_host_name>", tfOutput.DBHost.Value)
 	output = strings.ReplaceAll(output, "<db_name>", tfOutput.DBName.Value)
 	output = strings.ReplaceAll(output, "<zone>", tfOutput.Zones.Value[0])
 	output = strings.ReplaceAll(output, "<filestore_s3_bucket>", tfOutput.FilestoreBucket.Value)
+
 	
 	// Write the updated YAML to stdout
 	fmt.Println(output)
