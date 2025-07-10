@@ -117,9 +117,7 @@ public class DataHandlerService {
                     requestPayload.set("user", userNode);
 
                     String finalPayload = objectMapper.writeValueAsString(requestPayload);
-                    log.info("Payload: {}", finalPayload);
 
-                    log.info("Creating user via URI: {}", uri);
                     User user = restTemplate.postForObject(uri.toString(), finalPayload, User.class);
                     userList.add(user);
                     log.info("User created successfully with username: {}", user.getUserName());

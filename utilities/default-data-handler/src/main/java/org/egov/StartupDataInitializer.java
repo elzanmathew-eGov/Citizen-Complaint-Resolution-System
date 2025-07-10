@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-//@Profile("init")
+@Profile("init")
 @RequiredArgsConstructor
 public class StartupDataInitializer implements ApplicationRunner {
 
@@ -77,16 +77,16 @@ public class StartupDataInitializer implements ApplicationRunner {
 //            defaultDataRequest.getRequestInfo().setUserInfo(user);
 //        }
         // create Employee
-//        dataHandlerService.createEmployeeFromFile(defaultDataRequest.getRequestInfo());
-//        // create Boundary Data
-//        dataHandlerService.createBoundaryDataFromFile(defaultDataRequest);
-//        // Load mdms data
-//        mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
-//        // upsert localization
-//        localizationUtil.upsertLocalizationFromFile(defaultDataRequest);
-//
-//        dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
-//        dataHandlerService.createTenantConfig(tenantRequest);
+        dataHandlerService.createEmployeeFromFile(defaultDataRequest.getRequestInfo());
+        // create Boundary Data
+        dataHandlerService.createBoundaryDataFromFile(defaultDataRequest);
+        // Load mdms data
+        mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
+        // upsert localization
+        localizationUtil.upsertLocalizationFromFile(defaultDataRequest);
+
+        dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
+        dataHandlerService.createTenantConfig(tenantRequest);
 
     }
 }
