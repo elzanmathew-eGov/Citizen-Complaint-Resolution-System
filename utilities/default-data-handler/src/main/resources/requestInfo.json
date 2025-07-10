@@ -1,37 +1,37 @@
 {
   "RequestInfo": {
     "apiId": "Rainmaker",
-    "authToken": "2a57ee8c-410c-4023-a9d3-5111b4f6e304",
+    "authToken": "a0861b86-e221-4aef-95e2-5d9ee78827b2",
     "userInfo": {
-      "id": 92,
+      "id": 93,
+      "uuid": "9180cc27-b550-4245-96b1-e1e111e3eb3a",
       "userName": "demo1",
-      "name": "demo1",
-      "mobileNumber": "6307817430",
+      "name": "Jason",
+      "mobileNumber": "9999999997",
       "type": "EMPLOYEE",
-      "tenantId": "{tenantid}",
       "roles": [
         {
-          "code": "PGR_LME",
           "name": "PGR Last Mile Employee",
+          "code": "PGR_LME",
           "tenantId": "{tenantid}"
         },
         {
-          "code": "CSR",
           "name": "Customer Support Representative",
+          "code": "CSR",
           "tenantId": "{tenantid}"
         },
         {
-          "code": "GRO",
           "name": "Grievance Routing Officer",
+          "code": "GRO",
           "tenantId": "{tenantid}"
         },
         {
-          "code": "SUPERUSER",
           "name": "SUPER USER",
+          "code": "SUPERUSER",
           "tenantId": "{tenantid}"
         }
       ],
-      "uuid": "920da6b8-424f-4d5f-990e-a10740d3d901"
+      "tenantId": "pg"
     },
     "msgId": "1695889012604|en_IN",
     "plainAccessRequest": {}
