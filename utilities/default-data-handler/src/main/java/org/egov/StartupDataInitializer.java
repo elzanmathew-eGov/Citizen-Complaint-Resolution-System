@@ -73,9 +73,9 @@ public class StartupDataInitializer implements ApplicationRunner {
         DefaultDataRequest defaultDataRequest = DefaultDataRequest.builder().requestInfo(tenantRequest.getRequestInfo()).targetTenantId(tenantRequest.getTenant().getCode()).schemaCodes(serviceConfig.getDefaultMdmsSchemaList()).onlySchemas(Boolean.FALSE).locales(serviceConfig.getDefaultLocalizationLocaleList()).modules(serviceConfig.getDefaultLocalizationModuleList()).build();
 
         User user = dataHandlerService.createUserFromFile(tenantRequest);
-        if (user != null) {
-            defaultDataRequest.getRequestInfo().setUserInfo(user);
-        }
+//        if (user != null) {
+//            defaultDataRequest.getRequestInfo().setUserInfo(user);
+//        }
         // create Employee
 //        dataHandlerService.createEmployeeFromFile(defaultDataRequest.getRequestInfo());
 //        // create Boundary Data

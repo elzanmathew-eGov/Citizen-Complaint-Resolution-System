@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString
-public class User extends org.egov.common.contract.request.User {
+public class User {
 	@JsonProperty("id")
 	private Long id = null;
 

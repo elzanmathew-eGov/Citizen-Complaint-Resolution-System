@@ -93,41 +93,56 @@ public class DataHandlerService {
         StringBuilder uri = new StringBuilder(serviceConfig.getUserHost())
                 .append(serviceConfig.getUserContextPath())
                 .append(serviceConfig.getUserCreateEndpoint());
-        Resource resource = resourceLoader.getResource("classpath:User.json");
-        String rawJson = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
-
-        // Replace {tenantid} placeholders
-        rawJson = rawJson.replace("{tenantid}", tenantCode);
-
-        // Parse as array
-        JsonNode userArray = objectMapper.readTree(rawJson);
-
-        // Prepare requestInfo
-        RequestInfo requestInfo = tenantRequest.getRequestInfo();
-        JsonNode requestInfoNode = objectMapper.valueToTree(requestInfo);
 
         ArrayList<User> userList = new ArrayList<>();
 
-        for (JsonNode userNode : userArray) {
-            ObjectNode requestPayload = objectMapper.createObjectNode();
-            requestPayload.set("requestInfo", requestInfoNode);
-            requestPayload.set("user", userNode);
+        try {
+            log.info("Reading User.json for tenant: {}", tenantCode);
+            Resource resource = resourceLoader.getResource("classpath:User.json");
+            String rawJson = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
 
-            String finalPayload = objectMapper.writeValueAsString(requestPayload);
-            // Create user
-            String userCreateUri = uri.toString();
-            User user = restTemplate.postForObject(userCreateUri, finalPayload, User.class);
-            userList.add(user);
-        }
+            rawJson = rawJson.replace("{tenantid}", tenantCode);
 
-        for (User user : userList) {
-            if (user.getRoles() != null && user.getRoles().stream()
-                    .anyMatch(role -> "SUPERUSER".equalsIgnoreCase(role.getCode()))) {
-                return user;
+            // Parse as array
+            JsonNode userArray = objectMapper.readTree(rawJson);
+
+            // Prepare requestInfo
+            RequestInfo requestInfo = tenantRequest.getRequestInfo();
+            JsonNode requestInfoNode = objectMapper.valueToTree(requestInfo);
+
+            for (JsonNode userNode : userArray) {
+                try {
+                    ObjectNode requestPayload = objectMapper.createObjectNode();
+                    requestPayload.set("requestInfo", requestInfoNode);
+                    requestPayload.set("user", userNode);
+
+                    String finalPayload = objectMapper.writeValueAsString(requestPayload);
+
+                    log.info("Creating user via URI: {}", uri);
+                    User user = restTemplate.postForObject(uri.toString(), finalPayload, User.class);
+                    userList.add(user);
+                    log.info("User created successfully with username: {}", user.getUserName());
+                } catch (Exception e) {
+                    log.error("Failed to create user from payload: {} | Error: {}", userNode, e.getMessage());
+                }
             }
+
+            for (User user : userList) {
+                if (user.getRoles() != null && user.getRoles().stream()
+                        .anyMatch(role -> "SUPERUSER".equalsIgnoreCase(role.getCode()))) {
+                    log.info("Returning SUPERUSER: {}", user.getUserName());
+                    return user;
+                }
+            }
+
+        } catch (Exception e) {
+            log.error("Error creating users from User.json for tenant {}: {}", tenantCode, e.getMessage(), e);
+            throw new CustomException("USER_CREATION_FAILED", "Failed to create users for tenant: " + tenantCode);
         }
+
         return null;
     }
+
 
     public void createEmployeeFromFile(RequestInfo requestInfo) throws IOException {
 
