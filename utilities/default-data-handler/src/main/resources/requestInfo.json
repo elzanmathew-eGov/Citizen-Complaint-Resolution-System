@@ -4,10 +4,8 @@
     "authToken": "2a57ee8c-410c-4023-a9d3-5111b4f6e304",
     "userInfo": {
       "id": 92,
-      "userName": "demo",
-      "salutation": null,
+      "userName": "demo1",
       "name": "demo",
-      "gender": null,
       "mobileNumber": "6307817430",
       "type": "EMPLOYEE",
       "tenantId": "{tenantid}",
