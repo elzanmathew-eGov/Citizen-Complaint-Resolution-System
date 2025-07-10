@@ -49,13 +49,11 @@ public class StartupDataInitializer implements ApplicationRunner {
         json = json.replace("{tenantid}", tenantCode);
         jsonTenant = jsonTenant.replace("{tenantid}", tenantCode);
 
-        JsonNode tenant_node = objectMapper.readTree(jsonTenant);
-        JsonNode tenantInfoNode = tenant_node.get("Tenant");
-        Tenant tenant = objectMapper.readValue(tenantInfoNode.toString(), Tenant.class);
-
+        Tenant tenant = objectMapper.readValue(jsonTenant, Tenant.class);
 
         JsonNode rootNode = objectMapper.readTree(json);
         JsonNode requestInfoNode = rootNode.get("RequestInfo");
+
         if (requestInfoNode == null) {
             throw new RuntimeException("Missing 'RequestInfo' node in JSON");
         }
