@@ -224,7 +224,6 @@ const CreateComplaintForm = ({
     });
   };
 
-
   return (
     <React.Fragment>
       <FormComposerV2

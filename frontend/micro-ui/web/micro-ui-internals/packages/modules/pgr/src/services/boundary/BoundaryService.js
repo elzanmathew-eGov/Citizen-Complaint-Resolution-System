@@ -29,7 +29,7 @@ const getBoundaryTypeOrder = (tenantBoundary) => {
         method: "POST",
         userService: false,
         params: {
-          tenantId: tenantId,
+          tenantId: "pg.citya",
           hierarchyType: hierarchyType,
           boundaryType: boundaryType,
           includeChildren: true,
