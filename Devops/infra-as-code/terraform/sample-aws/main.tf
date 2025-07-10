@@ -73,65 +73,30 @@ resource "aws_s3_bucket_public_access_block" "filestore_bucket_access" {
   restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_policy" "filestore_bucket_policy" {
-  depends_on = [aws_s3_bucket_public_access_block.filestore_bucket_access]
-  bucket = aws_s3_bucket.filestore_bucket.id
-  policy = data.aws_iam_policy_document.filestore_bucket_policy.json
-}
-
-data "aws_iam_policy_document" "filestore_bucket_policy" {
-  depends_on = [aws_s3_bucket_public_access_block.filestore_bucket_access]
-  statement {
-    sid           = "PublicReadGetObject"
-    principals {
-      type        = "*"
-      identifiers = ["*"]
-    }
-
-    actions = [
-      "s3:GetObject",
-    ]
-
-    resources = [
-      "${aws_s3_bucket.filestore_bucket.arn}/*",
-    ]
-  }
-}
-
-resource "aws_iam_policy" "filestore_policy" {
-  name        = "${var.cluster_name}-filestore-bucket-policy"  # Replace with your desired policy name
-  description = "Filestore Policy for S3 access"
-  policy = jsonencode({
-    "Version" = "2012-10-17"
-    "Statement" = [
-      {
-        "Effect" = "Allow"
-        "Action" = [
-          "s3:GetBucketLocation",
-          "s3:ListAllMyBuckets"
-        ]
-        "Resource" = "arn:aws:s3:::*"
-      },
-      {
-        "Effect" = "Allow"
-        "Action" = [
-          "s3:*"
-        ]
-        "Resource" = "${aws_s3_bucket.filestore_bucket.arn}" # Allow access to the bucket
-      },
-      {
-        "Effect" = "Allow"
-        "Action" = [
-          "s3:PutObject",
-          "s3:PutObjectAcl",
-          "s3:GetObject",
-          "s3:DeleteObject"
-        ]
-        "Resource" = "${aws_s3_bucket.filestore_bucket.arn}/*" # Allow access to objects in the bucket
-      }
-    ]
-  })
-}
+# resource "aws_s3_bucket_policy" "filestore_bucket_policy" {
+#   depends_on = [aws_s3_bucket_public_access_block.filestore_bucket_access]
+#   bucket = aws_s3_bucket.filestore_bucket.id
+#   policy = data.aws_iam_policy_document.filestore_bucket_policy.json
+# }
+#
+# data "aws_iam_policy_document" "filestore_bucket_policy" {
+#   depends_on = [aws_s3_bucket_public_access_block.filestore_bucket_access]
+#   statement {
+#     sid           = "PublicReadGetObject"
+#     principals {
+#       type        = "*"
+#       identifiers = ["*"]
+#     }
+#
+#     actions = [
+#       "s3:GetObject",
+#     ]
+#
+#     resources = [
+#       "${aws_s3_bucket.filestore_bucket.arn}/*",
+#     ]
+#   }
+# }
 
 resource "aws_iam_user_policy_attachment" "filestore_attachment" {
   user       = "${aws_iam_user.filestore_user.name}"  # Reference the IAM user
