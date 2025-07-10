@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.egov.handler.util.UserUtil;
+import org.springframework.context.annotation.Profile;
 import org.springframework.util.StreamUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
+@Profile("init")
 @RequiredArgsConstructor
 public class StartupDataInitializer implements ApplicationRunner {
 
