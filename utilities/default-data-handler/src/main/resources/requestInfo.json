@@ -1,29 +1,41 @@
 {
   "RequestInfo": {
     "apiId": "Rainmaker",
-    "authToken": "0d756e9d-bb0a-4712-a34f-d94e422e4fe8",
+    "authToken": "2a57ee8c-410c-4023-a9d3-5111b4f6e304",
     "userInfo": {
-      "id": 33293,
-      "uuid": "b49e84c3-33fe-4e5c-8df7-3c7d48a1f899",
-      "userName": "USERNAME",
-      "name": "hrmscreate",
-      "mobileNumber": null,
-      "emailId": "hrmscreate@gmail.com",
-      "locale": null,
+      "id": 92,
+      "userName": "demo",
+      "salutation": null,
+      "name": "demo",
+      "gender": null,
+      "mobileNumber": "6307817430",
       "type": "EMPLOYEE",
+      "tenantId": "{tenantis}",
       "roles": [
         {
-          "name": "Super User",
+          "code": "PGR_LME",
+          "name": "PGR Last Mile Employee",
+          "tenantId": "{tenantis}"
+        },
+        {
+          "code": "CSR",
+          "name": "Customer Support Representative",
+          "tenantId": "{tenantis}"
+        },
+        {
+          "code": "GRO",
+          "name": "Grievance Routing Officer",
+          "tenantId": "{tenantis}"
+        },
+        {
           "code": "SUPERUSER",
-          "tenantId": "TENANTID"
+          "name": "SUPER USER",
+          "tenantId": "{tenantis}"
         }
       ],
-      "active": true,
-      "tenantId": "TENANTID",
-      "permanentCity": null
+      "uuid": "920da6b8-424f-4d5f-990e-a10740d3d901"
     },
-    "msgId": "1727945914463|en_IN",
-    "plainAccessRequest": {
-    }
+    "msgId": "1695889012604|en_IN",
+    "plainAccessRequest": {}
   }
 }
