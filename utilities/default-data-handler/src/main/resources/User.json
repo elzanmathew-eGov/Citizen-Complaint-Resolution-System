@@ -1,0 +1,35 @@
+[
+  {
+    "userName": "demo11",
+    "name": "demo11",
+    "gender": null,
+    "mobileNumber": "6307817430",
+    "active": true,
+    "type": "EMPLOYEE",
+    "roles": [
+      {
+        "name": "SUPER USER",
+        "code": "SUPERUSER",
+        "tenantId": "{tenantid}"
+      },
+      {
+        "name": "PGR Last Mile Employee",
+        "code": "PGR_LME",
+        "tenantId": "{tenantid}"
+      },
+      {
+        "name": "Customer Support Representative",
+        "code": "CSR",
+        "tenantId": "{tenantid}"
+      },
+      {
+        "name": "Grievance Routing Officer",
+        "code": "GRO",
+        "tenantId": "{tenantid}"
+      }
+    ],
+    "password": "eGov@123",
+    "otpReference": "12345",
+    "tenantId": "{tenantid}"
+  }
+]

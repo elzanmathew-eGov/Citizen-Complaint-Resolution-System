@@ -3,7 +3,9 @@ package org.egov;
 import java.nio.charset.StandardCharsets;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.egov.handler.util.UserUtil;
+import org.egov.handler.util.LocalizationUtil;
+import org.egov.handler.util.MdmsBulkLoader;
+import org.egov.handler.web.models.User;
 import org.springframework.context.annotation.Profile;
 import org.springframework.util.StreamUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +25,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-@Profile("init")
+//@Profile("init")
 @RequiredArgsConstructor
 public class StartupDataInitializer implements ApplicationRunner {
 
@@ -35,7 +37,9 @@ public class StartupDataInitializer implements ApplicationRunner {
 
     private final ObjectMapper objectMapper;
 
-    private final UserUtil userUtil;
+    private final MdmsBulkLoader mdmsBulkLoader;
+
+    private final LocalizationUtil localizationUtil;
 
     @Override
     public void run(ApplicationArguments args) throws IOException {
@@ -68,9 +72,21 @@ public class StartupDataInitializer implements ApplicationRunner {
 
         DefaultDataRequest defaultDataRequest = DefaultDataRequest.builder().requestInfo(tenantRequest.getRequestInfo()).targetTenantId(tenantRequest.getTenant().getCode()).schemaCodes(serviceConfig.getDefaultMdmsSchemaList()).onlySchemas(Boolean.FALSE).locales(serviceConfig.getDefaultLocalizationLocaleList()).modules(serviceConfig.getDefaultLocalizationModuleList()).build();
 
-        dataHandlerService.createDefaultDataFromFile(defaultDataRequest);
-        dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
-        dataHandlerService.createTenantConfig(tenantRequest);
-        userUtil.createUser(tenantRequest);
+        User user = dataHandlerService.createUserFromFile(tenantRequest);
+        if (user != null) {
+            defaultDataRequest.getRequestInfo().setUserInfo(user);
+        }
+        // create Employee
+//        dataHandlerService.createEmployeeFromFile(defaultDataRequest.getRequestInfo());
+//        // create Boundary Data
+//        dataHandlerService.createBoundaryDataFromFile(defaultDataRequest);
+//        // Load mdms data
+//        mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
+//        // upsert localization
+//        localizationUtil.upsertLocalizationFromFile(defaultDataRequest);
+//
+//        dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
+//        dataHandlerService.createTenantConfig(tenantRequest);
+
     }
 }
