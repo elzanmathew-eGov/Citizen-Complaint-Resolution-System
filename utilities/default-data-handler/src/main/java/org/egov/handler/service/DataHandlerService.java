@@ -89,13 +89,12 @@ public class DataHandlerService {
     }
 
     public void createDefaultDataFromFile(DefaultDataRequest defaultDataRequest) throws IOException {
-        if (defaultDataRequest.getSchemaCodes() != null) {
-            List<String> schemaCodes = new ArrayList<>(defaultDataRequest.getSchemaCodes());
 
-            createBoundaryDefinitionFromFile(defaultDataRequest.getRequestInfo(), defaultDataRequest.getTargetTenantId());
+        createBoundaryDefinitionFromFile(defaultDataRequest.getRequestInfo(), defaultDataRequest.getTargetTenantId());
+//        createBoundaryEntityFromFile(defaultDataRequest.getRequestInfo(), defaultDataRequest.getTargetTenantId());
 
-            mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
-        }
+        mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
+
         if (defaultDataRequest.getLocales() != null && defaultDataRequest.getModules() != null) {
             for (String locale : defaultDataRequest.getLocales()) {
                 DefaultLocalizationDataRequest defaultLocalizationDataRequest = DefaultLocalizationDataRequest.builder().requestInfo(defaultDataRequest.getRequestInfo()).targetTenantId(defaultDataRequest.getTargetTenantId()).locale(locale).modules(defaultDataRequest.getModules()).build();
