@@ -57,7 +57,6 @@ func main() {
 	// Replace the placeholders with the actual volume IDs
 	output = strings.ReplaceAll(output, "<db_host_name>", tfOutput.DBHost.Value)
 	output = strings.ReplaceAll(output, "<db_name>", tfOutput.DBName.Value)
-	output = strings.ReplaceAll(output, "<zone>", tfOutput.Zones.Value[0])
 	output = strings.ReplaceAll(output, "<filestore_s3_bucket>", tfOutput.FilestoreBucket.Value)
 
 	
