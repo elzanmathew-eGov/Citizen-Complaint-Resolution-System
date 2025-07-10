@@ -10,27 +10,27 @@
       "gender": null,
       "mobileNumber": "6307817430",
       "type": "EMPLOYEE",
-      "tenantId": "{tenantis}",
+      "tenantId": "{tenantid}",
       "roles": [
         {
           "code": "PGR_LME",
           "name": "PGR Last Mile Employee",
-          "tenantId": "{tenantis}"
+          "tenantId": "{tenantid}"
         },
         {
           "code": "CSR",
           "name": "Customer Support Representative",
-          "tenantId": "{tenantis}"
+          "tenantId": "{tenantid}"
         },
         {
           "code": "GRO",
           "name": "Grievance Routing Officer",
-          "tenantId": "{tenantis}"
+          "tenantId": "{tenantid}"
         },
         {
           "code": "SUPERUSER",
           "name": "SUPER USER",
-          "tenantId": "{tenantis}"
+          "tenantId": "{tenantid}"
         }
       ],
       "uuid": "920da6b8-424f-4d5f-990e-a10740d3d901"
