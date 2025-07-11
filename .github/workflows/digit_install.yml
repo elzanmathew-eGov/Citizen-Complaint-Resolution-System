@@ -202,7 +202,7 @@ jobs:
       - name: Get S3 bucket name
         id: get-bucket
         run: |
-          BUCKET=$(terraform output -json s3_assets_bucket | jq -r .value)
+          BUCKET=$(terraform output -json s3_assets_bucket | jq -r .)
           echo "bucket=$BUCKET" >> $GITHUB_OUTPUT
         working-directory: Devops/infra-as-code/terraform/sample-aws
       - name: Upload configs/assets to S3 root
