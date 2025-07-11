@@ -15,6 +15,9 @@ import org.egov.tracer.model.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.client.RestTemplate;
@@ -117,8 +120,11 @@ public class DataHandlerService {
                     requestPayload.set("user", userNode);
 
                     String finalPayload = objectMapper.writeValueAsString(requestPayload);
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    HttpEntity<String> entity = new HttpEntity<>(finalPayload, headers);
 
-                    User user = restTemplate.postForObject(uri.toString(), finalPayload, User.class);
+                    User user = restTemplate.postForObject(uri.toString(), entity, User.class);
                     userList.add(user);
                     log.info("User created successfully with username: {}", user.getUserName());
                 } catch (Exception e) {
@@ -161,7 +167,12 @@ public class DataHandlerService {
             payload.set("Employees", employeeNode);
             payload.set("RequestInfo", objectMapper.valueToTree(requestInfo));
 
-            restTemplate.postForObject(uri, payload, Object.class);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<JsonNode> entity = new HttpEntity<>(payload, headers);
+
+            restTemplate.postForObject(uri, entity, Object.class);
 
             log.info("Employee created successfully for tenant: {}", tenantId);
         } catch (Exception e) {
