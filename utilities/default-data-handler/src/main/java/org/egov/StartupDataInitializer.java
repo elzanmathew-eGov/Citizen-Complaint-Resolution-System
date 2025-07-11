@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.egov.handler.util.LocalizationUtil;
 import org.egov.handler.util.MdmsBulkLoader;
 import org.egov.handler.web.models.User;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.event.EventListener;
 import org.springframework.util.StreamUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -16,18 +18,18 @@ import org.egov.handler.web.models.DefaultDataRequest;
 import org.egov.handler.web.models.Tenant;
 import org.egov.handler.web.models.TenantRequest;
 import org.egov.handler.config.ServiceConfiguration;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Profile("init")
 @RequiredArgsConstructor
-public class StartupDataInitializer implements ApplicationRunner {
+public class StartupDataInitializer{
 
     private final DataHandlerService dataHandlerService;
 
@@ -41,52 +43,65 @@ public class StartupDataInitializer implements ApplicationRunner {
 
     private final LocalizationUtil localizationUtil;
 
-    @Override
-    public void run(ApplicationArguments args) throws IOException {
-        String tenantCode = serviceConfig.getDefaultTenantId();
+    @EventListener(ApplicationReadyEvent.class)
+    public void onApplicationReady() {
+        System.out.println("Application is ready. Scheduling StartupDataInitializer to run after 10 minutes...");
 
-        Resource resource = resourceLoader.getResource("classpath:requestInfo.json");
-        Resource tenantJson = resourceLoader.getResource("classpath:tenant.json");
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.schedule(this::executeStartupLogic, 10, TimeUnit.MINUTES);
+    }
 
-        String json = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+    public void executeStartupLogic() {
+        try {
+            String tenantCode = serviceConfig.getDefaultTenantId();
 
-        String jsonTenant = StreamUtils.copyToString(tenantJson.getInputStream(), StandardCharsets.UTF_8);
+            Resource resource = resourceLoader.getResource("classpath:requestInfo.json");
+            Resource tenantJson = resourceLoader.getResource("classpath:tenant.json");
 
-        json = json.replace("{tenantid}", tenantCode);
-        jsonTenant = jsonTenant.replace("{tenantid}", tenantCode);
+            String json = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
 
-        Tenant tenant = objectMapper.readValue(jsonTenant, Tenant.class);
+            String jsonTenant = StreamUtils.copyToString(tenantJson.getInputStream(), StandardCharsets.UTF_8);
 
-        JsonNode rootNode = objectMapper.readTree(json);
-        JsonNode requestInfoNode = rootNode.get("RequestInfo");
+            json = json.replace("{tenantid}", tenantCode);
+            jsonTenant = jsonTenant.replace("{tenantid}", tenantCode);
 
-        if (requestInfoNode == null) {
-            throw new RuntimeException("Missing 'RequestInfo' node in JSON");
-        }
-        RequestInfo requestInfo = objectMapper.readValue(requestInfoNode.toString(), RequestInfo.class);
+            Tenant tenant = objectMapper.readValue(jsonTenant, Tenant.class);
 
-        TenantRequest tenantRequest = TenantRequest.builder()
-                .requestInfo(requestInfo)
-                .tenant(tenant)
-                .build();
+            JsonNode rootNode = objectMapper.readTree(json);
+            JsonNode requestInfoNode = rootNode.get("RequestInfo");
 
-        DefaultDataRequest defaultDataRequest = DefaultDataRequest.builder().requestInfo(tenantRequest.getRequestInfo()).targetTenantId(tenantRequest.getTenant().getCode()).schemaCodes(serviceConfig.getDefaultMdmsSchemaList()).onlySchemas(Boolean.FALSE).locales(serviceConfig.getDefaultLocalizationLocaleList()).modules(serviceConfig.getDefaultLocalizationModuleList()).build();
+            if (requestInfoNode == null) {
+                throw new RuntimeException("Missing 'RequestInfo' node in JSON");
+            }
+            RequestInfo requestInfo = objectMapper.readValue(requestInfoNode.toString(), RequestInfo.class);
 
-        User user = dataHandlerService.createUserFromFile(tenantRequest);
+            TenantRequest tenantRequest = TenantRequest.builder()
+                    .requestInfo(requestInfo)
+                    .tenant(tenant)
+                    .build();
+
+            DefaultDataRequest defaultDataRequest = DefaultDataRequest.builder().requestInfo(tenantRequest.getRequestInfo()).targetTenantId(tenantRequest.getTenant().getCode()).schemaCodes(serviceConfig.getDefaultMdmsSchemaList()).onlySchemas(Boolean.FALSE).locales(serviceConfig.getDefaultLocalizationLocaleList()).modules(serviceConfig.getDefaultLocalizationModuleList()).build();
+
+            User user = dataHandlerService.createUserFromFile(tenantRequest);
 //        if (user != null) {
 //            defaultDataRequest.getRequestInfo().setUserInfo(user);
 //        }
-        // create Employee
-        dataHandlerService.createEmployeeFromFile(defaultDataRequest.getRequestInfo());
-        // create Boundary Data
-        dataHandlerService.createBoundaryDataFromFile(defaultDataRequest);
-        // Load mdms data
-        mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
-        // upsert localization
-        localizationUtil.upsertLocalizationFromFile(defaultDataRequest);
+            // create Employee
+            dataHandlerService.createEmployeeFromFile(defaultDataRequest.getRequestInfo());
+            // create Boundary Data
+            dataHandlerService.createBoundaryDataFromFile(defaultDataRequest);
+            // Load mdms data
+            mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
+            // upsert localization
+            localizationUtil.upsertLocalizationFromFile(defaultDataRequest);
 
-        dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
-        dataHandlerService.createTenantConfig(tenantRequest);
+            dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
+            dataHandlerService.createTenantConfig(tenantRequest);
+        }
+        catch (Exception e) {
+            System.err.println("StartupDataInitializer failed: " + e.getMessage());
+            e.printStackTrace();
+        }
 
     }
 }
