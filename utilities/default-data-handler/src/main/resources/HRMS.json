@@ -1,7 +1,7 @@
 {
   "Employees": [
     {
-      "tenantId": "TENANTID",
+      "{tenantid}": "{tenantid}",
       "employeeStatus": "EMPLOYED",
       "assignments": [
         {
@@ -18,27 +18,27 @@
         {
           "hierarchy": "REVENUE",
           "boundaryType": "City",
-          "boundary": "TENANTID",
-          "tenantId": "TENANTID",
+          "boundary": "{tenantid}",
+          "{tenantid}": "{tenantid}",
           "roles": [
             {
               "code": "RESOLVER",
               "name": "PGR Last Mile Employee",
               "labelKey": "ACCESSCONTROL_ROLES_ROLES_RESOLVER",
-              "tenantId": "TENANTID"
+              "{tenantid}": "{tenantid}"
             },
             {
               "code": "EMPLOYEE",
               "name": "Employee",
               "labelKey": "ACCESSCONTROL_ROLES_ROLES_EMPLOYEE",
-              "tenantId": "TENANTID"
+              "{tenantid}": "{tenantid}"
             }
           ]
         }
       ],
       "user": {
         "mobileNumber": 9999999999,
-        "name": "ACTOR_NAME_TENANTID",
+        "name": "ACTOR_NAME_{tenantid}",
         "correspondenceAddress": "egov foundation",
         "emailId": "demoemployee@gmail.com",
         "gender": "MALE",
@@ -48,16 +48,16 @@
             "code": "RESOLVER",
             "name": "Resolver",
             "labelKey": "ACCESSCONTROL_ROLES_ROLES",
-            "tenantId": "TENANTID"
+            "{tenantid}": "{tenantid}"
           },
           {
             "code": "EMPLOYEE",
             "name": "Employee",
             "labelKey": "ACCESSCONTROL_ROLES_ROLES",
-            "tenantId": "TENANTID"
+            "{tenantid}": "{tenantid}"
           }
         ],
-        "tenantId": "TENANTID"
+        "{tenantid}": "{tenantid}"
       },
       "serviceHistory": [],
       "education": [],
