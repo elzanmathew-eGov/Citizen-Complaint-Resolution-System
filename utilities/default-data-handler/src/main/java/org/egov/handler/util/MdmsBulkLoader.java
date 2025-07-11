@@ -67,6 +67,7 @@ public class MdmsBulkLoader {
                     Map<String, Object> requestPayload = new HashMap<>();
                     requestPayload.put("Mdms", mdms);
                     requestPayload.put("RequestInfo", requestInfo);
+                    System.out.println(requestPayload);
 
                     String endpoint = serviceConfig.getMdmsDataCreateURI().replace("{schemaCode}", schemaCode);
                     restTemplate.postForObject(endpoint, requestPayload, Object.class);

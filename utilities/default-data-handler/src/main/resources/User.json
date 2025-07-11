@@ -1,6 +1,44 @@
 [
   {
-    "userName": "demo111",
+    "userName": "ADMIN",
+    "name": "ADMIN",
+    "gender": null,
+    "mobileNumber": "6307817430",
+    "active": true,
+    "type": "EMPLOYEE",
+    "roles": [
+      {
+        "name": "SUPER USER",
+        "code": "SUPERUSER",
+        "tenantId": "{tenantid}"
+      },
+      {
+        "code": "LOC_ADMIN",
+        "name": "Localisation admin",
+        "tenantId": "{tenantid}"
+      },
+      {
+        "code": "MDMS_ADMIN",
+        "name": "MDMS ADMIN",
+        "tenantId": "{tenantid}"
+      },
+      {
+        "code": "EMPLOYEE",
+        "name": "Employee",
+        "tenantId": "{tenantid}"
+      },
+      {
+        "code": "HRMS_ADMIN",
+        "name": "HRMS Admin",
+        "tenantId": "{tenantid}"
+      }
+    ],
+    "password": "eGov@123",
+    "otpReference": "12345",
+    "tenantId": "{tenantid}"
+  },
+  {
+    "userName": "SUPERUSER",
     "name": "demo111",
     "gender": null,
     "mobileNumber": "6307817430",
@@ -13,18 +51,77 @@
         "tenantId": "{tenantid}"
       },
       {
+        "code": "EMPLOYEE",
+        "name": "Employee",
+        "tenantId": "{tenantid}"
+      }
+    ],
+    "password": "eGov@123",
+    "otpReference": "12345",
+    "tenantId": "{tenantid}"
+  },
+  {
+    "userName": "LME",
+    "name": "demo111",
+    "gender": null,
+    "mobileNumber": "6307817430",
+    "active": true,
+    "type": "EMPLOYEE",
+    "roles": [
+      {
         "name": "PGR Last Mile Employee",
         "code": "PGR_LME",
         "tenantId": "{tenantid}"
       },
+      {
+        "code": "EMPLOYEE",
+        "name": "Employee",
+        "tenantId": "{tenantid}"
+      }
+    ],
+    "password": "eGov@123",
+    "otpReference": "12345",
+    "tenantId": "{tenantid}"
+  },
+  {
+    "userName": "CSR",
+    "name": "demo111",
+    "gender": null,
+    "mobileNumber": "6307817430",
+    "active": true,
+    "type": "EMPLOYEE",
+    "roles": [
       {
         "name": "Customer Support Representative",
         "code": "CSR",
         "tenantId": "{tenantid}"
       },
       {
+        "code": "EMPLOYEE",
+        "name": "Employee",
+        "tenantId": "{tenantid}"
+      }
+    ],
+    "password": "eGov@123",
+    "otpReference": "12345",
+    "tenantId": "{tenantid}"
+  },
+  {
+    "userName": "GRO",
+    "name": "demo111",
+    "gender": null,
+    "mobileNumber": "6307817430",
+    "active": true,
+    "type": "EMPLOYEE",
+    "roles": [
+      {
         "name": "Grievance Routing Officer",
         "code": "GRO",
+        "tenantId": "{tenantid}"
+      },
+      {
+        "code": "EMPLOYEE",
+        "name": "Employee",
         "tenantId": "{tenantid}"
       }
     ],

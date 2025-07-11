@@ -1,67 +1,67 @@
 [
-    {
-      "name": "Street Lights",
-      "code": "DEPT_1",
-      "active": true
-    },
-    {
-      "name": "Building & Roads",
-      "code": "DEPT_2",
-      "active": true
-    },
-    {
-      "name": "Health & Sanitation",
-      "code": "DEPT_3",
-      "active": true
-    },
-    {
-      "name": "Operation & Maintenance",
-      "code": "DEPT_4",
-      "active": true
-    },
-    {
-      "name": "Horticulture",
-      "code": "DEPT_5",
-      "active": true
-    },
-    {
-      "name": "Building Branch",
-      "code": "DEPT_6",
-      "active": true
-    },
-    {
-      "name": "Citizen service desk",
-      "code": "DEPT_7",
-      "active": true
-    },
-    {
-      "name": "Complaint Cell",
-      "code": "DEPT_8",
-      "active": true
-    },
-    {
-      "name": "Executive Branch",
-      "code": "DEPT_9",
-      "active": true
-    },
-    {
-      "name": "Others",
-      "code": "DEPT_10",
-      "active": true
-    },
-    {
-      "name": "Tax Branch",
-      "code": "DEPT_13",
-      "active": true
-    },
-    {
-      "name": "Accounts Branch",
-      "code": "DEPT_25",
-      "active": true
-    },
-    {
-      "name": "Works Branch",
-      "code": "DEPT_35",
-      "active": true
-    }
+  {
+    "code": "DEPT_35",
+    "name": "Works Branch",
+    "active": true
+  },
+  {
+    "code": "DEPT_25",
+    "name": "Accounts Branch",
+    "active": true
+  },
+  {
+    "code": "DEPT_13",
+    "name": "Tax Branch",
+    "active": true
+  },
+  {
+    "code": "DEPT_10",
+    "name": "Others",
+    "active": true
+  },
+  {
+    "code": "DEPT_9",
+    "name": "Executive Branch",
+    "active": true
+  },
+  {
+    "code": "DEPT_8",
+    "name": "Complaint Cell",
+    "active": true
+  },
+  {
+    "code": "DEPT_7",
+    "name": "Citizen service desk",
+    "active": true
+  },
+  {
+    "code": "DEPT_6",
+    "name": "Building Branch",
+    "active": true
+  },
+  {
+    "code": "DEPT_5",
+    "name": "Horticulture",
+    "active": true
+  },
+  {
+    "code": "DEPT_4",
+    "name": "Operation & Maintenance",
+    "active": true
+  },
+  {
+    "code": "DEPT_3",
+    "name": "Health & Sanitation",
+    "active": true
+  },
+  {
+    "code": "DEPT_2",
+    "name": "Building & Roads",
+    "active": true
+  },
+  {
+    "code": "DEPT_1",
+    "name": "Street Lights",
+    "active": true
+  }
 ]

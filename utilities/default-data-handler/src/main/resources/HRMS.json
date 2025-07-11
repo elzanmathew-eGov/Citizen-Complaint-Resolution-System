@@ -1,7 +1,7 @@
 {
   "Employees": [
     {
-      "{tenantid}": "{tenantid}",
+      "tenantId": "{tenantid}",
       "employeeStatus": "EMPLOYED",
       "assignments": [
         {
@@ -19,19 +19,19 @@
           "hierarchy": "REVENUE",
           "boundaryType": "City",
           "boundary": "{tenantid}",
-          "{tenantid}": "{tenantid}",
+          "tenantId": "{tenantid}",
           "roles": [
             {
               "code": "RESOLVER",
               "name": "PGR Last Mile Employee",
               "labelKey": "ACCESSCONTROL_ROLES_ROLES_RESOLVER",
-              "{tenantid}": "{tenantid}"
+              "tenantId": "{tenantid}"
             },
             {
               "code": "EMPLOYEE",
               "name": "Employee",
               "labelKey": "ACCESSCONTROL_ROLES_ROLES_EMPLOYEE",
-              "{tenantid}": "{tenantid}"
+              "tenantId": "{tenantid}"
             }
           ]
         }
@@ -48,16 +48,16 @@
             "code": "RESOLVER",
             "name": "Resolver",
             "labelKey": "ACCESSCONTROL_ROLES_ROLES",
-            "{tenantid}": "{tenantid}"
+            "tenantId": "{tenantid}"
           },
           {
             "code": "EMPLOYEE",
             "name": "Employee",
             "labelKey": "ACCESSCONTROL_ROLES_ROLES",
-            "{tenantid}": "{tenantid}"
+            "tenantId": "{tenantid}"
           }
         ],
-        "{tenantid}": "{tenantid}"
+        "tenantId": "{tenantid}"
       },
       "serviceHistory": [],
       "education": [],

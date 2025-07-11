@@ -28,6 +28,7 @@ public class WorkflowUtil {
 
 		StringBuilder uri = new StringBuilder();
 		uri.append(serviceConfig.getWfBusinessServiceCreateURI());
+		System.out.println(businessServiceRequest);
 		try {
 			restTemplate.postForObject(uri.toString(), businessServiceRequest, Map.class);
 		} catch (Exception e) {

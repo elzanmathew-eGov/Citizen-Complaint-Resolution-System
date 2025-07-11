@@ -15,6 +15,7 @@ import org.egov.tracer.model.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -181,6 +182,44 @@ public class DataHandlerService {
         }
     }
 
+    public void createMdmsSchemaFromFile(DefaultDataRequest defaultDataRequest) throws IOException {
+        try{
+            String mdmsSchemaCreateUri = serviceConfig.getMdmsSchemaCreateURI();
+
+            String tenantId = defaultDataRequest.getTargetTenantId();
+            RequestInfo requestInfo = defaultDataRequest.getRequestInfo();
+
+            Resource[] resources = new PathMatchingResourcePatternResolver()
+                    .getResources("classpath:schema/*.json");
+
+            for (Resource resource : resources) {
+                String rawJson = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+
+                // Replace {tenantid} placeholder with actual tenant ID
+                rawJson = rawJson.replace("{tenantid}", tenantId);
+
+                // Parse schema array from file
+                JsonNode schemaArray = new ObjectMapper().readTree(rawJson);
+                for (JsonNode schemaNode : schemaArray) {
+                    ObjectNode payload = objectMapper.createObjectNode();
+                    payload.set("RequestInfo", objectMapper.valueToTree(requestInfo));
+                    payload.set("SchemaDefinition", schemaNode);
+
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    HttpEntity<JsonNode> request = new HttpEntity<>(payload, headers);
+
+                    restTemplate.postForObject(mdmsSchemaCreateUri, request, Object.class);
+                    log.info("MDMS schema created successfully: {}", schemaNode.get("code").asText());
+                }
+            }
+
+        } catch (Exception e) {
+            log.error("Failed to create mdms schema for tenant: {}", defaultDataRequest.getTargetTenantId(), e);
+            throw new CustomException("MDMS_SCHEMA_CREATE_FAILED", "Failed to create mdms schema: " + e.getMessage());
+        }
+    }
+
     public void createBoundaryDataFromFile(DefaultDataRequest defaultDataRequest) throws IOException {
 
         createBoundaryDefinitionFromFile(defaultDataRequest.getRequestInfo(), defaultDataRequest.getTargetTenantId());
@@ -205,6 +244,7 @@ public class DataHandlerService {
             Map<String, Object> payload = new HashMap<>();
             payload.put("RequestInfo", requestInfo);
             payload.put("BoundaryHierarchy", boundaryPayload.get("BoundaryHierarchy"));
+            System.out.println(payload);
 
             restTemplate.postForObject(hierarchyDefinitionCreateUri, payload, Object.class);
             log.info("Created boundary hierarchy for tenant: {}", targetTenantId);
@@ -232,6 +272,7 @@ public class DataHandlerService {
             Map<String, Object> payload = new HashMap<>();
             payload.put("RequestInfo", requestInfo);
             payload.put("Boundary", objectMapper.convertValue(boundaryArrayNode, List.class));
+            System.out.println(payload);
 
             restTemplate.postForObject(hierarchyEntityCreateUri, payload, Object.class);
             log.info("Created boundary hierarchy entity for tenant: {}", targetTenantId);
@@ -261,8 +302,15 @@ public class DataHandlerService {
                 payload.set("RequestInfo", requestInfoNode);
                 payload.set("BoundaryRelationship", relationship);
 
-                String finalPayload = objectMapper.writeValueAsString(payload);
-                restTemplate.postForObject(hierarchyRelationshipCreateUri, finalPayload, Object.class);
+//                String finalPayload = objectMapper.writeValueAsString(payload);
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+
+                HttpEntity<JsonNode> entity = new HttpEntity<>(payload, headers);
+                System.out.println(entity);
+
+                restTemplate.postForObject(hierarchyRelationshipCreateUri, entity, Object.class);
             }
             log.info("Created boundary hierarchy relationship for tenant: {}", targetTenantId);
         }

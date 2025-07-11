@@ -49,7 +49,7 @@ public class StartupDataInitializer{
     private final AtomicBoolean hasRun = new AtomicBoolean(false);
 
     // Delay 1 minutes after app startup
-    @Scheduled(initialDelay = 2 * 60 * 1000, fixedDelay = Long.MAX_VALUE)
+    @Scheduled(initialDelay =  1* 10 * 1000, fixedDelay = Long.MAX_VALUE)
     public void runOnceAfterStartup() {
         if (hasRun.get()) return;
 
@@ -101,23 +101,24 @@ public class StartupDataInitializer{
                     .tenant(tenant)
                     .build();
 
-            DefaultDataRequest defaultDataRequest = DefaultDataRequest.builder().requestInfo(tenantRequest.getRequestInfo()).targetTenantId(tenantRequest.getTenant().getCode()).schemaCodes(serviceConfig.getDefaultMdmsSchemaList()).onlySchemas(Boolean.FALSE).locales(serviceConfig.getDefaultLocalizationLocaleList()).modules(serviceConfig.getDefaultLocalizationModuleList()).build();
-
-            User user = dataHandlerService.createUserFromFile(tenantRequest);
-//        if (user != null) {
-//            defaultDataRequest.getRequestInfo().setUserInfo(user);
-//        }
+            DefaultDataRequest defaultDataRequest = DefaultDataRequest.builder().requestInfo(tenantRequest.getRequestInfo()).targetTenantId(tenantCode).schemaCodes(serviceConfig.getDefaultMdmsSchemaList()).onlySchemas(Boolean.FALSE).locales(serviceConfig.getDefaultLocalizationLocaleList()).modules(serviceConfig.getDefaultLocalizationModuleList()).build();
+            defaultDataRequest.setTargetTenantId(tenantCode);
+//            //Create Schema
+//            dataHandlerService.createMdmsSchemaFromFile(defaultDataRequest);
+//            // Load mdms data
+//            mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
+//            // create Boundary Data
+//            dataHandlerService.createBoundaryDataFromFile(defaultDataRequest);
+//            // upsert localization
+//            localizationUtil.upsertLocalizationFromFile(defaultDataRequest);
+//            // create User
+//            dataHandlerService.createUserFromFile(tenantRequest);
+//
+//            dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
             // create Employee
             dataHandlerService.createEmployeeFromFile(defaultDataRequest.getRequestInfo());
-            // create Boundary Data
-            dataHandlerService.createBoundaryDataFromFile(defaultDataRequest);
-            // Load mdms data
-            mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
-            // upsert localization
-            localizationUtil.upsertLocalizationFromFile(defaultDataRequest);
 
-            dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
-            dataHandlerService.createTenantConfig(tenantRequest);
+//            dataHandlerService.createTenantConfig(tenantRequest);
         }
         catch (Exception e) {
             System.err.println("StartupDataInitializer failed: " + e.getMessage());
