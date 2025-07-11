@@ -39,7 +39,7 @@ func main() {
 	replaceInFile("../../../deploy-as-code/charts/environments/env-secrets.yaml", data, true)
 	fmt.Println("env secrets yaml file updated successfully!")
 
-	replaceInFile("../../../configs/assets/globalConfigsPGR.js", data, true)
+	replaceInFile("../../../../configs/assets/globalConfigsPGR.js", data, true)
 	fmt.Println("env secrets yaml file updated successfully!")
 }
 
