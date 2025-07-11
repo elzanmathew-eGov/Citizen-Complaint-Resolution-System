@@ -9,6 +9,7 @@ import org.egov.handler.web.models.User;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.StreamUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +23,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Component
-@Profile("init")
+//@Profile("init")
 @RequiredArgsConstructor
 public class StartupDataInitializer{
 
@@ -43,15 +46,33 @@ public class StartupDataInitializer{
 
     private final LocalizationUtil localizationUtil;
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void onApplicationReady() {
-        System.out.println("Application is ready. Scheduling StartupDataInitializer to run after 10 minutes...");
+    private final AtomicBoolean hasRun = new AtomicBoolean(false);
 
-        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.schedule(this::executeStartupLogic, 10, TimeUnit.MINUTES);
+    // Delay 1 minutes after app startup
+    @Scheduled(initialDelay = 2 * 60 * 1000, fixedDelay = Long.MAX_VALUE)
+    public void runOnceAfterStartup() {
+        if (hasRun.get()) return;
+
+        System.out.println("[DEBUG] Delayed startup logic executing at: " + Instant.now());
+        try {
+            executeStartupLogic();
+            hasRun.set(true);
+        } catch (Exception e) {
+            System.err.println("StartupDataInitializer failed: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    public void executeStartupLogic() {
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void onApplicationReady() {
+//        System.out.println("[DEBUG] ApplicationReadyEvent triggered");
+//
+//        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+//        scheduler.schedule(this::executeStartupLogic, 10, TimeUnit.SECONDS);
+//    }
+
+    public void executeStartupLogic() throws Exception {
+        System.out.println("[DEBUG] Startup logic executing at: " + Instant.now());
         try {
             String tenantCode = serviceConfig.getDefaultTenantId();
 
