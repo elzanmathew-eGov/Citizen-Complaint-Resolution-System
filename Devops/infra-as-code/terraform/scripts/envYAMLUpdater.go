@@ -36,6 +36,9 @@ func main() {
 		KubeConfig struct {
 			Value string `json:"value"`
 		} `json:"kubectl_config"`
+		AssetsBucket struct {
+			Value string `json:"value"`
+		} `json:"s3_assets_bucket"`
 		FilestoreBucket struct {
 			Value string `json:"value"`
 		} `json:"s3_filestore_bucket"`
@@ -57,6 +60,7 @@ func main() {
 	// Replace the placeholders with the actual volume IDs
 	output = strings.ReplaceAll(output, "<db_host_name>", tfOutput.DBHost.Value)
 	output = strings.ReplaceAll(output, "<db_name>", tfOutput.DBName.Value)
+	output = strings.ReplaceAll(output, "<assets_s3_bucket>", tfOutput.AssetsBucket.Value)
 	output = strings.ReplaceAll(output, "<filestore_s3_bucket>", tfOutput.FilestoreBucket.Value)
 
 	
