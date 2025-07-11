@@ -196,6 +196,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION:  ${{ secrets.AWS_DEFAULT_REGION }}
           AWS_REGION:  ${{ secrets.AWS_REGION }}
+      - name: Updating the terraform output data in environment.yaml files for deployment
+        run: terraform output -json | go run ../scripts/envYAMLUpdater.go
+        working-directory: Devops/infra-as-code/terraform/sample-aws
       - name: Upload assets to S3 (via Terraform output)
         run: |
           BUCKET_NAME=$(terraform output -json s3_assets_bucket | jq -r .value)
@@ -206,9 +209,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION:  ${{ secrets.AWS_DEFAULT_REGION }}
           AWS_REGION:  ${{ secrets.AWS_REGION }}
-      - name: Updating the terraform output data in environment.yaml files for deployment
-        run: terraform output -json | go run ../scripts/envYAMLUpdater.go
-        working-directory: Devops/infra-as-code/terraform/sample-aws
       - name: Archive infra-as-code folder
         run: tar -czf infra-as-code.tar.gz Devops/infra-as-code/
       - name: Archive deploy-as-code folder
