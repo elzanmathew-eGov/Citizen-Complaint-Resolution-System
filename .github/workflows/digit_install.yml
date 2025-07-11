@@ -199,11 +199,17 @@ jobs:
       - name: Updating the terraform output data in environment.yaml files for deployment
         run: terraform output -json | go run ../scripts/envYAMLUpdater.go
         working-directory: Devops/infra-as-code/terraform/sample-aws
-      - name: Upload assets to S3 (via Terraform output)
+      - name: Get S3 bucket name
+        id: get-bucket
         run: |
-          BUCKET_NAME=$(terraform output -json s3_assets_bucket | jq -r .value)
-          echo "Uploading to bucket: $BUCKET_NAME"
-          aws s3 cp configs/assets/ s3://$BUCKET_NAME/ --recursive
+          BUCKET=$(terraform output -json s3_assets_bucket | jq -r .value)
+          echo "bucket=$BUCKET" >> $GITHUB_OUTPUT
+        working-directory: Devops/infra-as-code/terraform/sample-aws
+      - name: Upload configs/assets to S3 root
+        run: |
+          echo "Uploading to s3://${{ steps.get-bucket.outputs.bucket }}/"
+          aws s3 cp . s3://${{ steps.get-bucket.outputs.bucket }}/ --recursive
+        working-directory: configs/assets
         env:
           AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
