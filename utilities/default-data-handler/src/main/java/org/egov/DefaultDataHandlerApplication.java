@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class DefaultDataHandlerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(StartupDataInitializer.class);
         SpringApplication.run(DefaultDataHandlerApplication.class, args);
     }
 
