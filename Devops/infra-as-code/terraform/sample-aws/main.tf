@@ -55,6 +55,49 @@ resource "kubernetes_secret" "egov-filestore" {
   type = "Opaque"
 }
 
+resource "aws_s3_bucket" "assets_bucket" {
+  bucket = "${var.cluster_name}-assets-bucket"
+
+  tags = {
+    "KubernetesCluster" = var.cluster_name
+    "Name"              = var.cluster_name
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "assets_bucket_access" {
+  bucket = aws_s3_bucket.assets_bucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_policy" "assets_bucket_policy" {
+  depends_on = [aws_s3_bucket_public_access_block.assets_bucket_access]
+  bucket = aws_s3_bucket.assets_bucket.id
+  policy = data.aws_iam_policy_document.assets_bucket_policy.json
+}
+
+data "aws_iam_policy_document" "assets_bucket_policy" {
+  depends_on = [aws_s3_bucket_public_access_block.assets_bucket_access]
+  statement {
+    sid           = "PublicReadGetObject"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    actions = [
+      "s3:GetObject",
+    ]
+
+    resources = [
+      "${aws_s3_bucket.assets_bucket.arn}/*",
+    ]
+  }
+}
+
 resource "aws_s3_bucket" "filestore_bucket" {
   bucket = "${var.cluster_name}-filestore-bucket"
 
@@ -97,6 +140,41 @@ resource "aws_s3_bucket_public_access_block" "filestore_bucket_access" {
 #     ]
 #   }
 # }
+
+resource "aws_iam_policy" "filestore_policy" {
+  name        = "${var.cluster_name}-filestore-bucket-policy"  # Replace with your desired policy name
+  description = "Filestore Policy for S3 access"
+  policy = jsonencode({
+    "Version" = "2012-10-17"
+    "Statement" = [
+      {
+        "Effect" = "Allow"
+        "Action" = [
+          "s3:GetBucketLocation",
+          "s3:ListAllMyBuckets"
+        ]
+        "Resource" = "arn:aws:s3:::*"
+      },
+      {
+        "Effect" = "Allow"
+        "Action" = [
+          "s3:*"
+        ]
+        "Resource" = "${aws_s3_bucket.filestore_bucket.arn}" # Allow access to the bucket
+      },
+      {
+        "Effect" = "Allow"
+        "Action" = [
+          "s3:PutObject",
+          "s3:PutObjectAcl",
+          "s3:GetObject",
+          "s3:DeleteObject"
+        ]
+        "Resource" = "${aws_s3_bucket.filestore_bucket.arn}/*" # Allow access to objects in the bucket
+      }
+    ]
+  })
+}
 
 resource "aws_iam_user_policy_attachment" "filestore_attachment" {
   user       = "${aws_iam_user.filestore_user.name}"  # Reference the IAM user
