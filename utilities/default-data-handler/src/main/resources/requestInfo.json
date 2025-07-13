@@ -31,7 +31,7 @@
           "tenantId": "{tenantid}"
         }
       ],
-      "tenantId": "pg"
+      "tenantId": "{tenantid}"
     },
     "msgId": "1695889012604|en_IN",
     "plainAccessRequest": {}
