@@ -103,18 +103,18 @@ public class StartupDataInitializer{
 
             DefaultDataRequest defaultDataRequest = DefaultDataRequest.builder().requestInfo(tenantRequest.getRequestInfo()).targetTenantId(tenantCode).schemaCodes(serviceConfig.getDefaultMdmsSchemaList()).onlySchemas(Boolean.FALSE).locales(serviceConfig.getDefaultLocalizationLocaleList()).modules(serviceConfig.getDefaultLocalizationModuleList()).build();
             defaultDataRequest.setTargetTenantId(tenantCode);
-//            //Create Schema
-//            dataHandlerService.createMdmsSchemaFromFile(defaultDataRequest);
-//            // Load mdms data
-//            mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
-//            // create Boundary Data
-//            dataHandlerService.createBoundaryDataFromFile(defaultDataRequest);
-//            // upsert localization
-//            localizationUtil.upsertLocalizationFromFile(defaultDataRequest);
-//            // create User
-//            dataHandlerService.createUserFromFile(tenantRequest);
-//
-//            dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
+            //Create Schema
+            dataHandlerService.createMdmsSchemaFromFile(defaultDataRequest);
+            // Load mdms data
+            mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
+            // create Boundary Data
+            dataHandlerService.createBoundaryDataFromFile(defaultDataRequest);
+            // upsert localization
+            localizationUtil.upsertLocalizationFromFile(defaultDataRequest);
+            // create User
+            dataHandlerService.createUserFromFile(tenantRequest);
+
+            dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
             // create Employee
             dataHandlerService.createEmployeeFromFile(defaultDataRequest.getRequestInfo());
 
