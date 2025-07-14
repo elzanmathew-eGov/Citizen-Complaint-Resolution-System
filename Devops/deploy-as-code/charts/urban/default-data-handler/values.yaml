@@ -3,6 +3,13 @@ labels:
   app: "default-data-handler"
   group: "core"
 
+
+# Ingress Configs
+ingress:
+  enabled: true
+  zuul: true
+  context: "default-data-handler"
+  
 initContainers:
   extraInitContainers: |
     - name: wait-for-dependencies
@@ -23,6 +30,11 @@ initContainers:
 image:
   repository: "default-data-handler"
   tag: sandbox-pgr-4d26840-14
+replicas: "1"
+healthChecks:
+  enabled: true
+  livenessProbePath: "/default-data-handler/health"
+  readinessProbePath: "/default-data-handler/health"
 
 appType: "java-spring"
 tracing-enabled: true
@@ -35,7 +47,6 @@ default-mdms-schemacode-list: "SandBoxLanding.AdditionalModuleLinks,tenant.citie
 mdms-schemacode-map: "{PGR:'RAINMAKER-PGR.ServiceDefs,common-masters.Department,common-masters.IdFormat', HRMS:'common-masters.Department,common-masters.Designation,common-masters.IdFormat,common-masters.GenderType,egov-hrms.Specalization,egov-hrms.EmployeeType,egov-hrms.EmployeeStatus,egov-hrms.EmployeeDepartment,egov-hrms.DeactivationReason,egov-hrms.CommonFieldsConfig,egov-hrms.CampaignAssignmentFieldsConfig'}"
 default-localization-locale-list: "en_IN,hi_IN"
 default-localization-module-list: "egov-user,rainmaker-dss,digit-ui,digit-sandbox,rainmaker-common,digit-privacy-policy,rainmaker-pgr,rainmaker-hr,rainmaker-workbench,rainmaker-mdms,rainmaker-schema"
-
 
 # Additional Container Envs
 env: |
@@ -125,4 +136,4 @@ env: |
   - name: MANAGEMENT_SECURITY_ENABLED
     value: "false"
   - name: JAVA_ENABLE_DEBUG
-    value: "false"
+    value: "true"
