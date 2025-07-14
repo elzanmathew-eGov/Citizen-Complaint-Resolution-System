@@ -15,7 +15,7 @@
       "shapeFileLocation": null,
       "districtTenantCode": "pg.citya"
     },
-    "code": "pg.citya",
+    "code": "{tenantid}.citya",
     "name": "City A",
     "type": "CITY",
     "logoId": "https://s3.ap-south-1.amazonaws.com/pg-egov-assets/pg.citya/logo.png",
@@ -54,7 +54,7 @@
       "shapeFileLocation": null,
       "districtTenantCode": "pg.cityd"
     },
-    "code": "pg.cityd",
+    "code": "{tenantid}.cityd",
     "name": "City D",
     "type": "CITY",
     "logoId": "https://s3.ap-south-1.amazonaws.com/pg-egov-assets/pg.cityd/logo.png",
@@ -88,7 +88,7 @@
       "shapeFileLocation": null,
       "districtTenantCode": "pg.cityc"
     },
-    "code": "pg.cityc",
+    "code": "{tenantid}.cityc",
     "name": "City C",
     "type": "CITY",
     "logoId": "https://s3.ap-south-1.amazonaws.com/pg-egov-assets/pg.cityc/logo.png",
@@ -122,7 +122,7 @@
       "shapeFileLocation": null,
       "districtTenantCode": "pg.cityb"
     },
-    "code": "pg.cityb",
+    "code": "{tenantid}.cityb",
     "name": "City B",
     "type": "CITY",
     "logoId": "https://s3.ap-south-1.amazonaws.com/pg-egov-assets/pg.cityb/logo.png",

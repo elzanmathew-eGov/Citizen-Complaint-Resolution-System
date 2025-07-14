@@ -6,13 +6,13 @@
     "module": "Workbench",
     "tenants": [
       {
-        "code": "pg.cityb"
+        "code": "{tenantid}.cityb"
       },
       {
-        "code": "pg.cityc"
+        "code": "{tenantid}.cityc"
       },
       {
-        "code": "pg.citya"
+        "code": "{tenantid}.citya"
       }
     ]
   },
@@ -23,19 +23,19 @@
     "module": "PGR",
     "tenants": [
       {
-        "code": "pg.citya"
+        "code": "{tenantid}.citya"
       },
       {
-        "code": "pg.cityb"
+        "code": "{tenantid}.cityb"
       },
       {
-        "code": "pg.cityc"
+        "code": "{tenantid}.cityc"
       },
       {
-        "code": "pg.cityd"
+        "code": "{tenantid}.cityd"
       },
       {
-        "code": "pg.citye"
+        "code": "{tenantid}.citye"
       }
     ]
   },
@@ -46,22 +46,22 @@
     "module": "HRMS",
     "tenants": [
       {
-        "code": "pg"
+        "code": "{tenantid}"
       },
       {
-        "code": "pg.citya"
+        "code": "{tenantid}.citya"
       },
       {
-        "code": "pg.cityb"
+        "code": "{tenantid}.cityb"
       },
       {
-        "code": "pg.cityc"
+        "code": "{tenantid}.cityc"
       },
       {
-        "code": "pg.cityd"
+        "code": "{tenantid}.cityd"
       },
       {
-        "code": "pg.citye"
+        "code": "{tenantid}.citye"
       }
     ]
   }
