@@ -3,11 +3,27 @@ labels:
   app: "default-data-handler"
   group: "core"
 
+
 # Ingress Configs
 ingress:
   enabled: true
   zuul: true
   context: "default-data-handler"
+  
+initContainers:
+  extraInitContainers: |
+    - name: wait-for-dependencies
+      image: busybox
+      command:
+        - sh
+        - -c
+        - |
+          echo "Waiting for dependent services..."
+          until nc -z boundary-service 8080 && nc -z egov-hrms 8080 && nc -z egov-user 8080 && nc -z egov-enc-service 8080 && nc -z egov-workflow-v2 8080 && nc -z mdms-v2 8080 && nc -z egov-localization 8080; do
+            echo "Waiting for services to be ready..."
+            sleep 5
+          done
+          echo "All services are ready and then proceeded..."
 
 
 # Container Configs
@@ -19,6 +35,7 @@ healthChecks:
   enabled: true
   livenessProbePath: "/default-data-handler/health"
   readinessProbePath: "/default-data-handler/health"
+
 appType: "java-spring"
 tracing-enabled: true
 memory_limits: 512Mi
