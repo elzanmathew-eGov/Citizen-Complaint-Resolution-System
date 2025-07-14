@@ -1,6 +1,6 @@
 [
     {
-      "tenantId": "{tenantid}",
+      "tenantId": "{tenantid}.citya",
       "employeeStatus": "EMPLOYED",
       "assignments": [
         {
@@ -18,32 +18,32 @@
           "hierarchy": "ADMIN",
           "boundaryType": "City",
           "boundary": "{tenantid}",
-          "tenantId": "{tenantid}",
+          "tenantId": "{tenantid}.citya",
           "roles": [
             {
               "name": "SUPER USER",
               "code": "SUPERUSER",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "LOC_ADMIN",
               "name": "Localisation admin",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "MDMS_ADMIN",
               "name": "MDMS ADMIN",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "EMPLOYEE",
               "name": "Employee",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "HRMS_ADMIN",
               "name": "HRMS Admin",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             }
           ]
         }
@@ -59,39 +59,39 @@
           {
             "name": "SUPER USER",
             "code": "SUPERUSER",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "LOC_ADMIN",
             "name": "Localisation admin",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "MDMS_ADMIN",
             "name": "MDMS ADMIN",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "EMPLOYEE",
             "name": "Employee",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "HRMS_ADMIN",
             "name": "HRMS Admin",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           }
         ],
         "password": "eGov@123",
         "otpReference": "12345",
-        "tenantId": "{tenantid}"
+        "tenantId": "{tenantid}.citya"
       },
       "serviceHistory": [],
       "education": [],
       "tests": []
     },
     {
-      "tenantId": "{tenantid}",
+      "tenantId": "{tenantid}.citya",
       "employeeStatus": "EMPLOYED",
       "assignments": [
         {
@@ -109,17 +109,17 @@
           "hierarchy": "ADMIN",
           "boundaryType": "City",
           "boundary": "{tenantid}",
-          "tenantId": "{tenantid}",
+          "tenantId": "{tenantid}.citya",
           "roles": [
             {
               "name": "SUPER USER",
               "code": "SUPERUSER",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "EMPLOYEE",
               "name": "Employee",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             }
           ]
         }
@@ -135,24 +135,24 @@
           {
             "name": "SUPER USER",
             "code": "SUPERUSER",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "EMPLOYEE",
             "name": "Employee",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           }
         ],
         "password": "eGov@123",
         "otpReference": "12345",
-        "tenantId": "{tenantid}"
+        "tenantId": "{tenantid}.citya"
       },
       "serviceHistory": [],
       "education": [],
       "tests": []
     },
     {
-      "tenantId": "{tenantid}",
+      "tenantId": "{tenantid}.citya",
       "employeeStatus": "EMPLOYED",
       "assignments": [
         {
@@ -170,17 +170,17 @@
           "hierarchy": "ADMIN",
           "boundaryType": "City",
           "boundary": "{tenantid}",
-          "tenantId": "{tenantid}",
+          "tenantId": "{tenantid}.citya",
           "roles": [
             {
               "name": "PGR Last Mile Employee",
               "code": "PGR_LME",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "EMPLOYEE",
               "name": "Employee",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             }
           ]
         }
@@ -196,24 +196,24 @@
           {
             "name": "PGR Last Mile Employee",
             "code": "PGR_LME",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "EMPLOYEE",
             "name": "Employee",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           }
         ],
         "password": "eGov@123",
         "otpReference": "12345",
-        "tenantId": "{tenantid}"
+        "tenantId": "{tenantid}.citya"
       },
       "serviceHistory": [],
       "education": [],
       "tests": []
     },
     {
-      "tenantId": "{tenantid}",
+      "tenantId": "{tenantid}.citya",
       "employeeStatus": "EMPLOYED",
       "assignments": [
         {
@@ -231,17 +231,17 @@
           "hierarchy": "ADMIN",
           "boundaryType": "City",
           "boundary": "{tenantid}",
-          "tenantId": "{tenantid}",
+          "tenantId": "{tenantid}.citya",
           "roles": [
             {
               "name": "Customer Support Representative",
               "code": "CSR",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "EMPLOYEE",
               "name": "Employee",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             }
           ]
         }
@@ -257,24 +257,24 @@
           {
             "name": "Customer Support Representative",
             "code": "CSR",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "EMPLOYEE",
             "name": "Employee",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           }
         ],
         "password": "eGov@123",
         "otpReference": "12345",
-        "tenantId": "{tenantid}"
+        "tenantId": "{tenantid}.citya"
       },
       "serviceHistory": [],
       "education": [],
       "tests": []
     },
     {
-      "tenantId": "{tenantid}",
+      "tenantId": "{tenantid}.citya",
       "employeeStatus": "EMPLOYED",
       "assignments": [
         {
@@ -292,17 +292,17 @@
           "hierarchy": "ADMIN",
           "boundaryType": "City",
           "boundary": "{tenantid}",
-          "tenantId": "{tenantid}",
+          "tenantId": "{tenantid}.citya",
           "roles": [
             {
               "name": "Grievance Routing Officer",
               "code": "GRO",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "EMPLOYEE",
               "name": "Employee",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             }
           ]
         }
@@ -318,17 +318,17 @@
           {
             "name": "Grievance Routing Officer",
             "code": "GRO",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "EMPLOYEE",
             "name": "Employee",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           }
         ],
         "password": "eGov@123",
         "otpReference": "12345",
-        "tenantId": "{tenantid}"
+        "tenantId": "{tenantid}.citya"
       },
       "serviceHistory": [],
       "education": [],

@@ -27,15 +27,6 @@
       },
       {
         "code": "{tenantid}.cityb"
-      },
-      {
-        "code": "{tenantid}.cityc"
-      },
-      {
-        "code": "{tenantid}.cityd"
-      },
-      {
-        "code": "{tenantid}.citye"
       }
     ]
   },
@@ -53,15 +44,6 @@
       },
       {
         "code": "{tenantid}.cityb"
-      },
-      {
-        "code": "{tenantid}.cityc"
-      },
-      {
-        "code": "{tenantid}.cityd"
-      },
-      {
-        "code": "{tenantid}.citye"
       }
     ]
   }

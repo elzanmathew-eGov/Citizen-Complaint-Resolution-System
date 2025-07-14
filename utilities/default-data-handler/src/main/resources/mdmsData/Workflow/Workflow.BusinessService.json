@@ -12,11 +12,11 @@
             "roles": "CITIZEN,TL_CEMP",
             "action": "APPLY",
             "stateId": "bf5fd4f4-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fd8c8-f7df-11e8-8eb2-f2801f1b9fd1"
           }
         ],
-        "tenantId": "pg",
+        "tenantId": "{tenantid}",
         "isStartState": "true",
         "UpdateAllowed": "false",
         "isTerminateState": "false",
@@ -34,7 +34,7 @@
             "roles": "SYSTEM_PAYMENT",
             "action": "PAY",
             "stateId": "bf5fd8c8-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fdaee-f7df-11e8-8eb2-f2801f1b9fd1"
           },
           {
@@ -42,7 +42,7 @@
             "roles": "CLERK",
             "action": "CANCEL",
             "stateId": "bf5fd8c8-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fe0fc-f7df-11e8-8eb2-f2801f1b9fd1"
           },
           {
@@ -50,7 +50,7 @@
             "roles": "CLERK",
             "action": "REJECT",
             "stateId": "bf5fd8c8-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fe318-f7df-11e8-8eb2-f2801f1b9fd1"
           },
           {
@@ -58,11 +58,11 @@
             "roles": "TL_APPROVER",
             "action": "APPROVE",
             "stateId": "bf5fe444-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fdfbc-f7df-11e8-8eb2-f2801f1b9fd1"
           }
         ],
-        "tenantId": "pg",
+        "tenantId": "{tenantid}",
         "isStartState": "false",
         "UpdateAllowed": "true",
         "isTerminateState": "false",
@@ -80,7 +80,7 @@
             "roles": "CLERK",
             "action": "CANCEL",
             "stateId": "bf5fdaee-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fe0fc-f7df-11e8-8eb2-f2801f1b9fd1"
           },
           {
@@ -88,7 +88,7 @@
             "roles": "CLERK",
             "action": "REJECT",
             "stateId": "bf5fdaee-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fe318-f7df-11e8-8eb2-f2801f1b9fd1"
           },
           {
@@ -96,7 +96,7 @@
             "roles": "CLERK",
             "action": "MARK",
             "stateId": "bf5fdaee-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fdaee-f7df-11e8-8eb2-f2801f1b9fd1"
           },
           {
@@ -104,11 +104,11 @@
             "roles": "CLERK",
             "action": "FORWARD",
             "stateId": "bf5fdaee-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fdd28-f7df-11e8-8eb2-f2801f1b9fd1"
           }
         ],
-        "tenantId": "pg",
+        "tenantId": "{tenantid}",
         "isStartState": "false",
         "UpdateAllowed": "true",
         "isTerminateState": "false",
@@ -126,7 +126,7 @@
             "roles": "TL_FIELD_INSPECTOR",
             "action": "CANCEL",
             "stateId": "bf5fdd28-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fe0fc-f7df-11e8-8eb2-f2801f1b9fd1"
           },
           {
@@ -134,7 +134,7 @@
             "roles": "TL_FIELD_INSPECTOR",
             "action": "REJECT",
             "stateId": "bf5fdd28-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fe318-f7df-11e8-8eb2-f2801f1b9fd1"
           },
           {
@@ -142,7 +142,7 @@
             "roles": "TL_FIELD_INSPECTOR",
             "action": "MARK",
             "stateId": "bf5fdd28-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fdd28-f7df-11e8-8eb2-f2801f1b9fd1"
           },
           {
@@ -150,11 +150,11 @@
             "roles": "TL_FIELD_INSPECTOR",
             "action": "FORWARD",
             "stateId": "bf5fdd28-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fe444-f7df-11e8-8eb2-f2801f1b9fd1"
           }
         ],
-        "tenantId": "pg",
+        "tenantId": "{tenantid}",
         "isStartState": "false",
         "UpdateAllowed": "",
         "isTerminateState": "false",
@@ -172,11 +172,11 @@
             "roles": "TL_APPROVER",
             "action": "CANCEL",
             "stateId": "bf5fdfbc-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fe0fc-f7df-11e8-8eb2-f2801f1b9fd1"
           }
         ],
-        "tenantId": "pg",
+        "tenantId": "{tenantid}",
         "isStartState": "false",
         "UpdateAllowed": "true",
         "isTerminateState": "true",
@@ -194,11 +194,11 @@
             "roles": "",
             "action": "",
             "stateId": "bf5fe0fc-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": ""
           }
         ],
-        "tenantId": "pg",
+        "tenantId": "{tenantid}",
         "isStartState": "false",
         "UpdateAllowed": "true",
         "isTerminateState": "true",
@@ -216,11 +216,11 @@
             "roles": "CITIZEN,TL_CEMP",
             "action": "REINITIATE",
             "stateId": "bf5fe318-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fd4f4-f7df-11e8-8eb2-f2801f1b9fd1"
           }
         ],
-        "tenantId": "pg",
+        "tenantId": "{tenantid}",
         "isStartState": "false",
         "UpdateAllowed": "true",
         "isTerminateState": "true",
@@ -238,7 +238,7 @@
             "roles": "TL_APPROVER",
             "action": "APPROVE",
             "stateId": "bf5fe444-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fdfbc-f7df-11e8-8eb2-f2801f1b9fd1"
           },
           {
@@ -246,7 +246,7 @@
             "roles": "TL_APPROVER",
             "action": "CANCEL",
             "stateId": "bf5fe444-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fe0fc-f7df-11e8-8eb2-f2801f1b9fd1"
           },
           {
@@ -254,11 +254,11 @@
             "roles": "TL_APPROVER",
             "action": "REJECT",
             "stateId": "bf5fe444-f7df-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fe318-f7df-11e8-8eb2-f2801f1b9fd1"
           }
         ],
-        "tenantId": "pg",
+        "tenantId": "{tenantid}",
         "isStartState": "false",
         "UpdateAllowed": "",
         "isTerminateState": "false",
@@ -276,11 +276,11 @@
             "roles": "CITIZEN,TL_CEMP",
             "action": "INITIATE",
             "stateId": "9d458700-f894-11e8-8eb2-f2801f1b9fd1",
-            "tenantId": "pg",
+            "tenantId": "{tenantid}",
             "nextStateId": "bf5fd4f4-f7df-11e8-8eb2-f2801f1b9fd1"
           }
         ],
-        "tenantId": "pg",
+        "tenantId": "{tenantid}",
         "isStartState": "true",
         "UpdateAllowed": "true",
         "isTerminateState": "false",
@@ -291,7 +291,7 @@
       }
     ],
     "postUri": "",
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "businessService": "NewTL"
   }
 ]

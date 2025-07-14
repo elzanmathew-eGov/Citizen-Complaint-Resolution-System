@@ -13,7 +13,7 @@
       "districtCode": "CITYA",
       "districtName": null,
       "shapeFileLocation": null,
-      "districtTenantCode": "pg.citya"
+      "districtTenantCode": "{tenantid}.citya"
     },
     "code": "{tenantid}.citya",
     "name": "City A",
@@ -40,74 +40,6 @@
   },
   {
     "city": {
-      "code": "109",
-      "name": "City D",
-      "captcha": null,
-      "ddrName": "DDR B",
-      "latitude": 35.6339793,
-      "ulbGrade": "Municipal Corporation",
-      "localName": null,
-      "longitude": 75.8722642,
-      "regionName": null,
-      "districtCode": "CITYD",
-      "districtName": null,
-      "shapeFileLocation": null,
-      "districtTenantCode": "pg.cityd"
-    },
-    "code": "{tenantid}.cityd",
-    "name": "City D",
-    "type": "CITY",
-    "logoId": "https://s3.ap-south-1.amazonaws.com/pg-egov-assets/pg.cityd/logo.png",
-    "address": "City D Municipal Corporation Address",
-    "emailId": "cityd@gmail.com",
-    "imageId": null,
-    "domainUrl": "https://www.egovernments.org",
-    "twitterUrl": null,
-    "description": null,
-    "facebookUrl": null,
-    "OfficeTimings": {
-      "Sat": "9.00 AM - 12.00 PM",
-      "Mon - Fri": "9.00 AM - 6.00 PM"
-    },
-    "contactNumber": "0978-7645345",
-    "helpLineNumber": "0654-8734567"
-  },
-  {
-    "city": {
-      "code": "108",
-      "name": "City C",
-      "captcha": null,
-      "ddrName": "DDR B",
-      "latitude": 31.6339793,
-      "ulbGrade": "Municipal Corporation",
-      "localName": null,
-      "longitude": 73.8722642,
-      "regionName": null,
-      "districtCode": "CITYC",
-      "districtName": null,
-      "shapeFileLocation": null,
-      "districtTenantCode": "pg.cityc"
-    },
-    "code": "{tenantid}.cityc",
-    "name": "City C",
-    "type": "CITY",
-    "logoId": "https://s3.ap-south-1.amazonaws.com/pg-egov-assets/pg.cityc/logo.png",
-    "address": "City C Municipal Corporation Address",
-    "emailId": "cityc@gmail.com",
-    "imageId": null,
-    "domainUrl": "https://www.egovernments.org",
-    "twitterUrl": null,
-    "description": null,
-    "facebookUrl": null,
-    "OfficeTimings": {
-      "Sat": "9.00 AM - 12.00 PM",
-      "Mon - Fri": "9.00 AM - 6.00 PM"
-    },
-    "contactNumber": "0978-7645345",
-    "helpLineNumber": "0654-8734567"
-  },
-  {
-    "city": {
       "code": "107",
       "name": "City B",
       "captcha": null,
@@ -120,7 +52,7 @@
       "districtCode": "CITYB",
       "districtName": null,
       "shapeFileLocation": null,
-      "districtTenantCode": "pg.cityb"
+      "districtTenantCode": "{tenantid}.cityb"
     },
     "code": "{tenantid}.cityb",
     "name": "City B",

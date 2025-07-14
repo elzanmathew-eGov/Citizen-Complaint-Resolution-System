@@ -1,6 +1,6 @@
 [
   {
-    "tenantId": "{tenantid}",
+    "tenantId": "{tenantid}.citya",
     "code": "City",
     "geometry": {
       "type": "Polygon",

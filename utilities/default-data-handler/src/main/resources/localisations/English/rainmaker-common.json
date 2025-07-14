@@ -16464,6 +16464,24 @@
     "locale": "en_IN"
   },
   {
+    "code": "DIGIT_I_ACCEPT",
+    "message": "I accept",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "DIGIT_I_DO_NOT_ACCEPT",
+    "message": "I do not accept",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "DIGIT_TABLE_OF_CONTENTS",
+    "message": "Privacy Policy",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
     "code": "DIRECTRENEWAL",
     "message": "Direct Renewal",
     "module": "rainmaker-common",
@@ -18696,6 +18714,12 @@
     "locale": "en_IN"
   },
   {
+    "code": "ES_BY_CLICKING",
+    "message": "I agree to the DIGIT's",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
     "code": "ES_CE_DELETE",
     "message": "Delete",
     "module": "rainmaker-common",
@@ -20198,6 +20222,12 @@
   {
     "code": "ES_PGR_NEW_COMPLAINT",
     "message": "New Complaint",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "ES_PRIVACY_POLICY",
+    "message": "Privacy Policy",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
@@ -35238,6 +35268,24 @@
     "locale": "en_IN"
   },
   {
+    "code": "PGR_CREATE_ANOTHER_COMPLAIN",
+    "message": "Create Another Complaint",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PGR_INBOX",
+    "message": "Inbox",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PGR_SEARCH_RESULTS_HEADING",
+    "message": "Search Citizen Complaint",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
     "code": "PG_ADDISABABA_ADMIN_ADD01",
     "message": "Sabiyan",
     "module": "rainmaker-common",
@@ -49698,6 +49746,84 @@
     "locale": "en_IN"
   },
   {
+    "code": "PG_CITYA_ADMIN_SUN01",
+    "message": "Locality 01",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN02",
+    "message": "Locality 02",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN03",
+    "message": "Locality 03",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN10",
+    "message": "Locality 10",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN11",
+    "message": "Locality 11",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN12",
+    "message": "Locality 12",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN20",
+    "message": "Locality 20",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN21",
+    "message": "Locality 21",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN22",
+    "message": "Locality 22",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN30",
+    "message": "Locality 30",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN31",
+    "message": "Locality 31",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN32",
+    "message": "Locality 32",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN33",
+    "message": "Locality 33",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
     "code": "PG_CITYA_CITYA_LABEL",
     "message": "City A",
     "module": "rainmaker-common",
@@ -62744,6 +62870,24 @@
   {
     "code": "SUMMARY_DETAILS",
     "message": "Summary details",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "SUN01_ADMIN_LOCALITY",
+    "message": "Locality 01",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "SUN02_ADMIN_LOCALITY",
+    "message": "Locality 02",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "SUN03_ADMIN_LOCALITY",
+    "message": "Locality 03",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
