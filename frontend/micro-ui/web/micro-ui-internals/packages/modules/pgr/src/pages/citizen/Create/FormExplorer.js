@@ -121,7 +121,6 @@ const FormExplorer = () => {
           const id = responseData.ServiceWrappers[0].service.serviceRequestId;
           
           await client.refetchQueries(["complaintsList"]);
-          console.log("*** Log ===> ", match.path);
           history.push(`/digit-ui/citizen/pgr/response`);
           
         }

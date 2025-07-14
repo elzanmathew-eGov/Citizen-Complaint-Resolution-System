@@ -22,6 +22,10 @@ const getBoundaryTypeOrder = (tenantBoundary) => {
   const fetchBoundaries = async ({ tenantId }) => {
     const hierarchyType =  window?.globalConfigs?.getConfig("HIERARCHY_TYPE") || "ADMIN";
     const boundaryType =  window?.globalConfigs?.getConfig("BOUNDARY_TYPE") || "Locality";
+    console.log("*** Log ===> ", "fetchBoundaryData2");
+    console.log("*** Log ===> ", tenantId);
+  
+
     try {
       const fetchBoundaryData = await Digit.CustomService.getResponse({
         url: `/boundary-service/boundary-relationships/_search`,
@@ -29,7 +33,7 @@ const getBoundaryTypeOrder = (tenantBoundary) => {
         method: "POST",
         userService: false,
         params: {
-          tenantId: "pg.citya",
+          tenantId: tenantId,
           hierarchyType: hierarchyType,
           boundaryType: boundaryType,
           includeChildren: true,
