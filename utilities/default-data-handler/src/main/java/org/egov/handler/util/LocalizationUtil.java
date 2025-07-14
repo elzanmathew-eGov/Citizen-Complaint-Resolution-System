@@ -78,7 +78,7 @@ public class LocalizationUtil {
 			log.info("Localization data upserted successfully for tenant: {}", tenantId);
 		} catch (Exception e) {
 			log.error("Error creating Tenant localization data for {} : {}", tenantId, e.getMessage());
-			throw new CustomException("TENANT", "Failed to create localization data for " + tenantId + " : " + e.getMessage());
+//			throw new CustomException("TENANT", "Failed to create localization data for " + tenantId + " : " + e.getMessage());
 		}
 	}
 

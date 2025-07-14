@@ -1,5 +1,4 @@
-{
-  "Employees": [
+[
     {
       "tenantId": "{tenantid}",
       "employeeStatus": "EMPLOYED",
@@ -335,5 +334,4 @@
       "education": [],
       "tests": []
     }
-  ]
-}
+]

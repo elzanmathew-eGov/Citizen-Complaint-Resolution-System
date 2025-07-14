@@ -33,7 +33,7 @@ public class WorkflowUtil {
 			restTemplate.postForObject(uri.toString(), businessServiceRequest, Map.class);
 		} catch (Exception e) {
 			log.error("Error creating workflow configuration: {}", e.getMessage());
-			throw new CustomException("WF_CONFIG_CREATE_FAILED", "Failed to create workflow configuration: " + e.getMessage());
+//			throw new CustomException("WF_CONFIG_CREATE_FAILED", "Failed to create workflow configuration: " + e.getMessage());
 		}
 	}
 }

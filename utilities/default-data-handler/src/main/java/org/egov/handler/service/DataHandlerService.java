@@ -2,6 +2,7 @@ package org.egov.handler.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -151,36 +152,45 @@ public class DataHandlerService {
 
 
     public void createEmployeeFromFile(RequestInfo requestInfo) throws IOException {
+        String uri = serviceConfig.getHrmsHost() + serviceConfig.getHrmsCreatePath();
+        String tenantId = requestInfo.getUserInfo().getTenantId();
 
         try {
-            String uri = serviceConfig.getHrmsHost() + serviceConfig.getHrmsCreatePath();
-
             Resource resource = resourceLoader.getResource("classpath:HRMS.json");
             String rawJson = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
 
-            String tenantId = requestInfo.getUserInfo().getTenantId();
+            // Replace placeholders with tenant ID
             rawJson = rawJson.replace("{tenantid}", tenantId);
 
-            JsonNode employeeNode = objectMapper.readTree(rawJson).get("Employees");
+            // Parse the raw JSON into an array of employees
+            ArrayNode employeesArray = (ArrayNode) objectMapper.readTree(rawJson);
 
-            // Build final payload with Employees and RequestInfo
-            ObjectNode payload = objectMapper.createObjectNode();
-            payload.set("Employees", employeeNode);
-            payload.set("RequestInfo", objectMapper.valueToTree(requestInfo));
+            for (JsonNode employeeNode : employeesArray) {
+                try {
+                    // Build individual payload
+                    ObjectNode payload = objectMapper.createObjectNode();
+                    payload.set("Employees", objectMapper.createArrayNode().add(employeeNode));
+                    payload.set("RequestInfo", objectMapper.valueToTree(requestInfo));
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
 
-            HttpEntity<JsonNode> entity = new HttpEntity<>(payload, headers);
+                    HttpEntity<JsonNode> entity = new HttpEntity<>(payload, headers);
+                    restTemplate.postForObject(uri, entity, Object.class);
 
-            restTemplate.postForObject(uri, entity, Object.class);
+                    log.info("Employee created successfully: {}", employeeNode.get("code").asText());
+                } catch (Exception e) {
+                    log.error("Failed to create employee: {} | Error: {}",
+                            employeeNode.get("code").asText(), e.getMessage(), e);
+                    // continue to next employee
+                }
+            }
 
-            log.info("Employee created successfully for tenant: {}", tenantId);
         } catch (Exception e) {
-            log.error("Failed to create employee for tenant: {}", requestInfo.getUserInfo().getTenantId(), e);
-            throw new CustomException("EMPLOYEE_CREATE_FAILED", "Failed to create HRMS employee: " + e.getMessage());
+            log.error("Failed to read HRMS.json or create employees for tenant: {}", tenantId, e);
         }
     }
+
 
     public void createMdmsSchemaFromFile(DefaultDataRequest defaultDataRequest) throws IOException {
         try{
@@ -216,7 +226,7 @@ public class DataHandlerService {
 
         } catch (Exception e) {
             log.error("Failed to create mdms schema for tenant: {}", defaultDataRequest.getTargetTenantId(), e);
-            throw new CustomException("MDMS_SCHEMA_CREATE_FAILED", "Failed to create mdms schema: " + e.getMessage());
+//            throw new CustomException("MDMS_SCHEMA_CREATE_FAILED", "Failed to create mdms schema: " + e.getMessage());
         }
     }
 
@@ -251,7 +261,7 @@ public class DataHandlerService {
         }
         catch (Exception e) {
             log.error("Failed to create boundary hierarchy for tenant: {}", targetTenantId);
-            throw new CustomException("BOUNDARY_DATA_CREATE_FAILED", "Failed to create boundary data for " + targetTenantId + " : " + e.getMessage());
+//            throw new CustomException("BOUNDARY_DATA_CREATE_FAILED", "Failed to create boundary data for " + targetTenantId + " : " + e.getMessage());
         }
     }
 
@@ -279,7 +289,7 @@ public class DataHandlerService {
         }
         catch (Exception e) {
             log.error("Failed to create boundary hierarchy entity for tenant: {}", targetTenantId);
-            throw new CustomException("BOUNDARY_DATA_CREATE_FAILED", "Failed to create boundary data for " + targetTenantId + " : " + e.getMessage());
+//            throw new CustomException("BOUNDARY_DATA_CREATE_FAILED", "Failed to create boundary data for " + targetTenantId + " : " + e.getMessage());
         }
     }
 
@@ -316,7 +326,7 @@ public class DataHandlerService {
         }
         catch (Exception e) {
             log.error("Failed to create boundary hierarchy relationship for tenant: {}", targetTenantId);
-            throw new CustomException("BOUNDARY_DATA_CREATE_FAILED", "Failed to create boundary data for " + targetTenantId + " : " + e.getMessage());
+//            throw new CustomException("BOUNDARY_DATA_CREATE_FAILED", "Failed to create boundary data for " + targetTenantId + " : " + e.getMessage());
         }
     }
 
@@ -433,7 +443,8 @@ public class DataHandlerService {
             businessServiceRequest.getBusinessServices().forEach(service -> service.setTenantId(targetTenantId));
             workflowUtil.createWfConfig(businessServiceRequest);
         } catch (IOException e) {
-            throw new CustomException("IO_EXCEPTION", "Error reading or mapping JSON file: " + e.getMessage());
+            log.error("Error reading or mapping JSON file: {}", e.getMessage());
+//            throw new CustomException("IO_EXCEPTION", "Error reading or mapping JSON file: " + e.getMessage());
         }
     }
 
