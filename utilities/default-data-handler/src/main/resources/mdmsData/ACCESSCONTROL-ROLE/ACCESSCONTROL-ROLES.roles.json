@@ -85,11 +85,6 @@
     "description": "Citizen who can raise complaint"
   },
   {
-    "code": "INTERNAL_MICROSERVICE_ROLE",
-    "name": "Internal Microservice Role",
-    "description": "Internal role for plain access"
-  },
-  {
     "code": "ANONYMOUS",
     "name": "Anonymous User",
     "description": "Anonymous User to be used in case of no auth"
