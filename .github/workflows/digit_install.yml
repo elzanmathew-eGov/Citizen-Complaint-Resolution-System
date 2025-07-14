@@ -537,6 +537,7 @@ jobs:
         run: |
           terraform state rm \
             kubernetes_namespace.namespace \
+            kubernetes_secret.egov-filestore \
             kubernetes_storage_class.ebs_csi_encrypted_gp3_storage_class || true
         working-directory: Devops/infra-as-code/terraform/sample-aws
       - name: Terraform Plan - Infra destruction
