@@ -3,30 +3,26 @@ labels:
   app: "default-data-handler"
   group: "core"
 
-# Job Specific
-kind: Job
-spec:
-  backoffLimit: 5  # Retry 5 times if it fails
-  template:
-    spec:
-      restartPolicy: OnFailure  # Retry on failure
-      initContainers:
-        - name: wait-for-dependencies
-          image: busybox
-          command:
-            - sh
-            - -c
-            - |
-              echo "Waiting for dependent services..."
-              until nc -z boundary-service 8080 && nc -z egov-hrms 8080 && nc -z egov-user 8080 && nc -z egov-enc-service 8080 && nc -z egov-workflow-v2 8080 && nc -z mdms-v2 8080 && nc -z egov-localization 8080; do
-                echo "Waiting for services to be ready..."
-                sleep 5
-              done
+initContainers:
+  extraInitContainers: |
+    - name: wait-for-dependencies
+      image: busybox
+      command:
+        - sh
+        - -c
+        - |
+          echo "Waiting for dependent services..."
+          until nc -z boundary-service 8080 && nc -z egov-hrms 8080 && nc -z egov-user 8080 && nc -z egov-enc-service 8080 && nc -z egov-workflow-v2 8080 && nc -z mdms-v2 8080 && nc -z egov-localization 8080; do
+            echo "Waiting for services to be ready..."
+            sleep 5
+          done
+          echo "All services are ready and then proceeded..."
+
 
 # Container Configs
 image:
   repository: "default-data-handler"
-  tag: sandbox-pgr-7303785-12
+  tag: sandbox-pgr-4d26840-14
 
 appType: "java-spring"
 tracing-enabled: true
@@ -90,6 +86,11 @@ env: |
       configMapKeyRef:
         name: egov-config
         key: es-indexer-host
+  - name: EGOV_BOUNDARY_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: boundary-service
   - name: SPRING_KAFKA_CONSUMER_GROUP_ID
     value: default-data-handler
   - name: KAFKA_TOPICS_CREATE_TENANT
