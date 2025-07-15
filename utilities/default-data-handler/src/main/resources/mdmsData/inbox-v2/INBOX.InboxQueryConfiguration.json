@@ -54,7 +54,13 @@
       },
       {
         "name": "mobileNumber",
-        "path": "Data.service.user.mobileNumber.keyword",
+        "path": "Data.service.citizen.mobileNumber.keyword",
+        "operator": "EQUAL",
+        "isMandatory": false
+      },
+      {
+        "name": "tenantId",
+        "path": "Data.service.tenantId.keyword",
         "operator": "EQUAL",
         "isMandatory": false
       }
