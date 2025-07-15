@@ -1066,7 +1066,7 @@
   {
     "id": 482,
     "actionid": 2006,
-    "rolecode": "LME",
+    "rolecode": "PGR_LME",
     "tenantId": "{tenantid}",
     "actioncode": ""
   },
