@@ -153,6 +153,7 @@ public class DataHandlerService {
 
     public void createEmployeeFromFile(RequestInfo requestInfo) throws IOException {
         String uri = serviceConfig.getHrmsHost() + serviceConfig.getHrmsCreatePath();
+        String userUpdateUrl = serviceConfig.getUserHost() +serviceConfig.getUserContextPath() + serviceConfig.getUserUpdateEndpoint();
         String tenantId = requestInfo.getUserInfo().getTenantId();
 
         try {
@@ -176,10 +177,38 @@ public class DataHandlerService {
                     headers.setContentType(MediaType.APPLICATION_JSON);
 
                     HttpEntity<JsonNode> entity = new HttpEntity<>(payload, headers);
-                    log.info("entity");
-                    restTemplate.postForObject(uri, entity, Object.class);
-
+                    Object response = restTemplate.postForObject(uri, entity, Object.class);
                     log.info("Employee created successfully: {}", employeeNode.get("code").asText());
+
+                    // Convert response to JsonNode
+                    JsonNode responseJson = objectMapper.convertValue(response, JsonNode.class);
+
+                    // Extract user from response
+                    JsonNode userNode = responseJson.at("/Employees/0/user");
+                    if (!userNode.isMissingNode()) {
+                        ObjectNode updatedUser = (ObjectNode) userNode.deepCopy();
+
+                        // Set password
+                        updatedUser.put("password", "eGov@123");
+
+                        // Prepare update payload
+                        ObjectNode updatePayload = objectMapper.createObjectNode();
+                        updatePayload.set("user", updatedUser);
+                        updatePayload.set("requestInfo", objectMapper.valueToTree(requestInfo)); // Use appropriate requestInfo
+
+                        // Send update request
+                        HttpHeaders updateHeaders = new HttpHeaders();
+                        updateHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+                        HttpEntity<JsonNode> updateEntity = new HttpEntity<>(updatePayload, updateHeaders);
+
+                        restTemplate.postForObject(userUpdateUrl, updateEntity, Object.class);
+
+                        log.info("Password updated for user: {}", updatedUser.get("userName").asText());
+                    } else {
+                        log.error("User node missing in HRMS response for employee: {}", employeeNode.get("code").asText());
+                    }
+
                 } catch (Exception e) {
                     log.error("Failed to create employee: {} | Error: {}",
                             employeeNode.get("code").asText(), e.getMessage(), e);

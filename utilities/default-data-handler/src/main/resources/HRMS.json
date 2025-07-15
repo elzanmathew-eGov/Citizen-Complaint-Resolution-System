@@ -10,7 +10,7 @@
           "designation": "DESIG_04"
         }
       ],
-      "code": "adminemployee@gmail.com",
+      "code": "ADMIN",
       "dateOfAppointment": 1718841600000,
       "employeeType": "PERMANENT",
       "jurisdictions": [
@@ -49,10 +49,9 @@
         }
       ],
       "user": {
-        "userName": "ADMIN",
         "name": "ADMIN",
         "gender": null,
-        "mobileNumber": "9307817401",
+        "mobileNumber": "9307816401",
         "active": true,
         "type": "EMPLOYEE",
         "roles": [
@@ -101,7 +100,7 @@
           "designation": "DESIG_04"
         }
       ],
-      "code": "superuseremployee@gmail.com",
+      "code": "SUPERUSER",
       "dateOfAppointment": 1718841600000,
       "employeeType": "PERMANENT",
       "jurisdictions": [
@@ -125,7 +124,6 @@
         }
       ],
       "user": {
-        "userName": "SUPERUSER",
         "name": "demo111",
         "gender": null,
         "mobileNumber": "9307817402",
@@ -162,7 +160,7 @@
           "designation": "DESIG_04"
         }
       ],
-      "code": "lmeemployee@gmail.com",
+      "code": "LME",
       "dateOfAppointment": 1718841600000,
       "employeeType": "PERMANENT",
       "jurisdictions": [
@@ -186,7 +184,6 @@
         }
       ],
       "user": {
-        "userName": "LME",
         "name": "demo111",
         "gender": null,
         "mobileNumber": "9307817403",
@@ -223,7 +220,7 @@
           "designation": "DESIG_04"
         }
       ],
-      "code": "CSRemployee@gmail.com",
+      "code": "CSR",
       "dateOfAppointment": 1718841600000,
       "employeeType": "PERMANENT",
       "jurisdictions": [
@@ -247,7 +244,6 @@
         }
       ],
       "user": {
-        "userName": "CSR",
         "name": "demo111",
         "gender": null,
         "mobileNumber": "9307817404",
@@ -284,7 +280,7 @@
           "designation": "DESIG_04"
         }
       ],
-      "code": "groemployee@gmail.com",
+      "code": "GRO",
       "dateOfAppointment": 1718841600000,
       "employeeType": "PERMANENT",
       "jurisdictions": [
@@ -308,7 +304,6 @@
         }
       ],
       "user": {
-        "userName": "GRO",
         "name": "demo111",
         "gender": null,
         "mobileNumber": "9307817405",
