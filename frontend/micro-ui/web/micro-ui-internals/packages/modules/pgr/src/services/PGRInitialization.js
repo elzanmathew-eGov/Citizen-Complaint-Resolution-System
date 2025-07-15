@@ -13,8 +13,9 @@
  */
 const initializePGRModule = async ({ tenantId }) => {
   // Get hierarchy type from global config or fallback to "HIERARCHYTEST"
-  const hierarchyType = window?.globalConfigs?.getConfig("HIERARCHY_TYPE") || "HIERARCHYTEST";
-
+  const hierarchyType = window?.globalConfigs?.getConfig("HIERARCHY_TYPE") || "ADMIN";
+  const boundaryType =  window?.globalConfigs?.getConfig("BOUNDARY_TYPE") || "Locality";
+    const tenantIdvalue = Digit.SessionStorage.get("CITIZEN.COMMON.HOME.CITY")?.code
   // Get current logged-in user from session (not used further here, but could be used for logging/debugging)
   let user = Digit?.SessionStorage.get("User");
 
@@ -26,9 +27,9 @@ const initializePGRModule = async ({ tenantId }) => {
       method: "POST",
       userService: false,
       params: {
-        tenantId: "pg.citya",
-        hierarchyType: "REVENUE-LOCALITY",
-        boundaryType: "Locality",
+        tenantId: user.info.tenantId,
+        hierarchyType: hierarchyType,
+        boundaryType: boundaryType,
         includeChildren: true,
       }
     });

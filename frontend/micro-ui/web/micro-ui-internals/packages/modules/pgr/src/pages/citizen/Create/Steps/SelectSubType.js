@@ -8,8 +8,6 @@ const SelectSubType = ({ t, config, onSelect, value }) => {
   });
   const { complaintType } = value;
   const menu = Digit.Hooks.pgr.useComplaintSubType(complaintType, t);
-
-
   const goNext = () => {
     // const serviceCode = subType.key;
     onSelect({ subType });

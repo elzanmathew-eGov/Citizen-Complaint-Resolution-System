@@ -122,4 +122,10 @@ public class ServiceConfiguration {
 
     @Value("${egov.boundary.host}${egov.boundary.hierarchy.definition.create}")
     private String hierarchyDefinitionCreateUri;
+
+    @Value("${egov.boundary.host}${egov.boundary.entity.create}")
+    private String boundaryEntityCreateUri;
+
+    @Value("${egov.boundary.host}${egov.boundary.relationship.create}")
+    private String boundaryRelationshipCreateUri;
 }
