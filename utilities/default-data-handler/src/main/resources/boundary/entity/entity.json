@@ -31,7 +31,7 @@
     }
   },
   {
-    "tenantId": "{tenantid}",
+    "tenantId": "{tenantid}.citya",
     "code": "PG_CITYA_ADMIN_CITY",
     "geometry": {
       "type": "Polygon",
@@ -62,7 +62,7 @@
     }
   },
   {
-    "tenantId": "{tenantid}",
+    "tenantId": "{tenantid}.citya",
     "code": "Z1_ADMIN_ZONE",
     "geometry": {
       "type": "Polygon",
@@ -93,7 +93,7 @@
     }
   },
   {
-    "tenantId": "{tenantid}",
+    "tenantId": "{tenantid}.citya",
     "code": "B1_ADMIN_BLOCK",
     "geometry": {
       "type": "Polygon",
@@ -124,7 +124,7 @@
     }
   },
   {
-    "tenantId": "{tenantid}",
+    "tenantId": "{tenantid}.citya",
     "code": "SUN01_ADMIN_LOCALITY",
     "geometry": {
       "type": "Polygon",
@@ -155,7 +155,7 @@
     }
   },
   {
-    "tenantId": "{tenantid}",
+    "tenantId": "{tenantid}.citya",
     "code": "SUN02_ADMIN_LOCALITY",
     "geometry": {
       "type": "Polygon",
@@ -186,7 +186,7 @@
     }
   },
   {
-    "tenantId": "{tenantid}",
+    "tenantId": "{tenantid}.citya",
     "code": "SUN03_ADMIN_LOCALITY",
     "geometry": {
       "type": "Polygon",

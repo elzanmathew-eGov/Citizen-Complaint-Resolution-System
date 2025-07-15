@@ -176,13 +176,13 @@ public class DataHandlerService {
                     headers.setContentType(MediaType.APPLICATION_JSON);
 
                     HttpEntity<JsonNode> entity = new HttpEntity<>(payload, headers);
+                    log.info("entity");
                     restTemplate.postForObject(uri, entity, Object.class);
 
                     log.info("Employee created successfully: {}", employeeNode.get("code").asText());
                 } catch (Exception e) {
                     log.error("Failed to create employee: {} | Error: {}",
                             employeeNode.get("code").asText(), e.getMessage(), e);
-                    // continue to next employee
                 }
             }
 
