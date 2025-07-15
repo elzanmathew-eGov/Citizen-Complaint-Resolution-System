@@ -49,9 +49,10 @@
               "roles": [
                 "CITIZEN",
                 "SUPERUSER",
-                "ADMIN",
-                "COMPLAINTS_ADMIN",
-                "ASSIGNER"
+                "CSR",
+                "PGR_LME",
+                "GRO",
+                "WORKFLOW_ADMIN"
               ]
             }
           ]
