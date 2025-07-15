@@ -77,20 +77,24 @@
               "action": "ASSIGN",
               "nextState": "PENDINGATLME",
               "roles": [
+                "CITIZEN",
                 "SUPERUSER",
-                "ADMIN",
-                "COMPLAINTS_ADMIN",
-                "ASSIGNER"
+                "CSR",
+                "PGR_LME",
+                "GRO",
+                "WORKFLOW_ADMIN"
               ]
             },
             {
               "action": "REJECT",
               "nextState": "REJECTED",
               "roles": [
+                "CITIZEN",
                 "SUPERUSER",
-                "ADMIN",
-                "COMPLAINTS_ADMIN",
-                "ASSIGNER"
+                "CSR",
+                "PGR_LME",
+                "GRO",
+                "WORKFLOW_ADMIN"
               ]
             }
           ]
@@ -115,20 +119,24 @@
               "action": "REASSIGN",
               "nextState": "PENDINGATLME",
               "roles": [
+                "CITIZEN",
                 "SUPERUSER",
-                "ADMIN",
-                "COMPLAINTS_ADMIN",
-                "ASSIGNER"
+                "CSR",
+                "PGR_LME",
+                "GRO",
+                "WORKFLOW_ADMIN"
               ]
             },
             {
               "action": "REJECT",
               "nextState": "REJECTED",
               "roles": [
+                "CITIZEN",
                 "SUPERUSER",
-                "ADMIN",
-                "COMPLAINTS_ADMIN",
-                "ASSIGNER"
+                "CSR",
+                "PGR_LME",
+                "GRO",
+                "WORKFLOW_ADMIN"
               ]
             }
           ]
@@ -153,21 +161,24 @@
               "action": "RESOLVE",
               "nextState": "RESOLVED",
               "roles": [
+                "CITIZEN",
                 "SUPERUSER",
-                "ADMIN",
-                "COMPLAINTS_ADMIN",
-                "RESOLVER"
+                "CSR",
+                "PGR_LME",
+                "GRO",
+                "WORKFLOW_ADMIN"
               ]
             },
             {
               "action": "REASSIGN",
               "nextState": "PENDINGFORREASSIGNMENT",
               "roles": [
+                "CITIZEN",
                 "SUPERUSER",
-                "ADMIN",
-                "COMPLAINTS_ADMIN",
-                "ASSIGNER",
-                "RESOLVER"
+                "CSR",
+                "PGR_LME",
+                "GRO",
+                "WORKFLOW_ADMIN"
               ]
             }
           ]
