@@ -1,6 +1,6 @@
 [
   {
-    "index": "pgr-services",
+    "index": "inbox-pgr-services",
     "module": "RAINMAKER-PGR",
     "sortBy": {
       "path": "Data.service.auditDetails.createdTime",
