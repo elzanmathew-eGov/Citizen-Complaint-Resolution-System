@@ -1064,6 +1064,20 @@
     "actioncode": ""
   },
   {
+    "id": 482,
+    "actionid": 2006,
+    "rolecode": "PGR_LME",
+    "tenantId": "{tenantid}",
+    "actioncode": ""
+  },
+  {
+    "id": 489,
+    "actionid": 2006,
+    "rolecode": "GRO",
+    "tenantId": "{tenantid}",
+    "actioncode": ""
+  },
+  {
     "id": 481,
     "actionid": 623,
     "rolecode": "EMPLOYEE",
