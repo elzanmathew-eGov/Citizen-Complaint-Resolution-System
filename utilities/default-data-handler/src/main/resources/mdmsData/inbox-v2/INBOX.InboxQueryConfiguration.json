@@ -11,7 +11,7 @@
       "Data.service.serviceRequestId",
       "Data.service.address.locality.code",
       "Data.service.applicationStatus",
-      "Data.service.user",
+      "Data.service.citizen",
       "Data.service.auditDetails.createdTime",
       "Data.auditDetails",
       "Data.tenantId"
