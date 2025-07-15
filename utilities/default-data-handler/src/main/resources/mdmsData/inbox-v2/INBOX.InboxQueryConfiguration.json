@@ -13,7 +13,8 @@
       "Data.service.applicationStatus",
       "Data.service.user",
       "Data.service.auditDetails.createdTime",
-      "Data.auditDetails"
+      "Data.auditDetails",
+      "Data.tenantId"
     ],
     "allowedSearchCriteria": [
       {
