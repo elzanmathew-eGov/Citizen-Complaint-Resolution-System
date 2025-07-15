@@ -2658,5 +2658,19 @@
     "rolecode": "SUPERUSER",
     "tenantId": "{tenantid}",
     "actioncode": ""
+  },
+  {
+    "id": 745,
+    "actionid": 1729,
+    "rolecode": "CSR",
+    "tenantId": "{tenantid}",
+    "actioncode": ""
+  },
+  {
+    "id": 745,
+    "actionid": 1729,
+    "rolecode": "PGR_LME",
+    "tenantId": "{tenantid}",
+    "actioncode": ""
   }
 ]
