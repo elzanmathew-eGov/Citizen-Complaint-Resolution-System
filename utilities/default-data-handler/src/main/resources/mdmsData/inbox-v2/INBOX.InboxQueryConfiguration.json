@@ -32,8 +32,7 @@
         "name": "assignedToMe",
         "path": "Data.workflow.assignes.*.uuid.keyword",
         "operator": "EQUAL",
-        "isMandatory": false,
-        "isHashingRequired": true
+        "isMandatory": false
       },
       {
         "name": "fromDate",
