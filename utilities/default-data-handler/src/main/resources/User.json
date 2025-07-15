@@ -39,5 +39,140 @@
     "password": "eGov@123",
     "otpReference": "12345",
     "tenantId": "{tenantid}"
+  },
+  {
+    "userName": "GRO",
+    "name": "GRO",
+    "gender": null,
+    "mobileNumber": "9307817405",
+    "active": true,
+    "type": "EMPLOYEE",
+    "roles": [
+      {
+        "name": "Grievance Routing Officer",
+        "code": "GRO",
+        "tenantId": "{tenantid}.citya"
+      },
+      {
+        "code": "EMPLOYEE",
+        "name": "Employee",
+        "tenantId": "{tenantid}.citya"
+      }
+    ],
+    "password": "eGov@123",
+    "otpReference": "12345",
+    "tenantId": "{tenantid}.citya"
+  },
+  {
+    "userName": "CSR",
+    "name": "CSR",
+    "gender": null,
+    "mobileNumber": "9307817404",
+    "active": true,
+    "type": "EMPLOYEE",
+    "roles": [
+      {
+        "name": "Customer Support Representative",
+        "code": "CSR",
+        "tenantId": "{tenantid}.citya"
+      },
+      {
+        "code": "EMPLOYEE",
+        "name": "Employee",
+        "tenantId": "{tenantid}.citya"
+      }
+    ],
+    "password": "eGov@123",
+    "otpReference": "12345",
+    "tenantId": "{tenantid}.citya"
+  },
+  {
+    "userName": "LME",
+    "name": "LME",
+    "gender": null,
+    "mobileNumber": "9307817403",
+    "active": true,
+    "type": "EMPLOYEE",
+    "roles": [
+      {
+        "name": "PGR Last Mile Employee",
+        "code": "PGR_LME",
+        "tenantId": "{tenantid}.citya"
+      },
+      {
+        "code": "EMPLOYEE",
+        "name": "Employee",
+        "tenantId": "{tenantid}.citya"
+      }
+    ],
+    "password": "eGov@123",
+    "otpReference": "12345",
+    "tenantId": "{tenantid}.citya"
+  },
+  {
+    "userName": "SUPERUSER",
+    "name": "SUPERUSER",
+    "gender": null,
+    "mobileNumber": "9307817402",
+    "active": true,
+    "type": "EMPLOYEE",
+    "roles": [
+      {
+        "name": "SUPER USER",
+        "code": "SUPERUSER",
+        "tenantId": "{tenantid}.citya"
+      },
+      {
+        "code": "EMPLOYEE",
+        "name": "Employee",
+        "tenantId": "{tenantid}.citya"
+      }
+    ],
+    "password": "eGov@123",
+    "otpReference": "12345",
+    "tenantId": "{tenantid}.citya"
+  },
+  {
+    "userName": "ADMIN",
+    "name": "ADMIN",
+    "gender": null,
+    "mobileNumber": "9307817401",
+    "active": true,
+    "type": "EMPLOYEE",
+    "roles": [
+      {
+        "name": "SUPER USER",
+        "code": "SUPERUSER",
+        "tenantId": "{tenantid}.citya"
+      },
+      {
+        "code": "LOC_ADMIN",
+        "name": "Localisation admin",
+        "tenantId": "{tenantid}.citya"
+      },
+      {
+        "code": "MDMS_ADMIN",
+        "name": "MDMS ADMIN",
+        "tenantId": "{tenantid}.citya"
+      },
+      {
+        "code": "EMPLOYEE",
+        "name": "Employee",
+        "tenantId": "{tenantid}.citya"
+      },
+      {
+        "code": "HRMS_ADMIN",
+        "name": "HRMS Admin",
+        "tenantId": "{tenantid}.citya"
+      },
+      {
+        "code": "WORKFLOW_ADMIN",
+        "name": "WORKFLOW Admin",
+        "tenantId": "{tenantid}.citya"
+      }
+    ],
+    "password": "eGov@123",
+    "otpReference": "12345",
+    "tenantId": "{tenantid}.citya"
   }
 ]
