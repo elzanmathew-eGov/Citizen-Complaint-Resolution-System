@@ -19,6 +19,7 @@ const PGRSearchInboxConfig = () => {
             requestParam: {},
             requestBody: {
                 inbox: {
+                    "tenantId": tenantId,
                     processSearchCriteria: {
                         businessService: [
                             "PGR"
