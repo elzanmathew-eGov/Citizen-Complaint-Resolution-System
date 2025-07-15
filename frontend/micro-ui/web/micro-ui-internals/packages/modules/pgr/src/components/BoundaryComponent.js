@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const BoundaryComponent = ({ t, config, onSelect, userType, formData }) => {
+
   const tenantId = Digit.ULBService.getCurrentTenantId();
-  console.log("*** Log ===> ", "tenantId");
-  console.log("*** Log ===> ", tenantId);
+
 
   const { data: childrenData, isLoading: isBoundaryLoading } = Digit.Hooks.pgr.useFetchBoundaries(tenantId);
 
@@ -17,12 +17,23 @@ const BoundaryComponent = ({ t, config, onSelect, userType, formData }) => {
   const [value, setValue] = useState({});
 
   // Effect to initialize dropdowns when data loads
-  useEffect(() => {
-    if (childrenData && childrenData.length > 0) {
-      const firstBoundaryType = childrenData[0]?.boundary[0].boundaryType;
-      setValue({ [firstBoundaryType]: [childrenData[0]?.boundary[0]] });
+useEffect(() => {
+  if (childrenData && childrenData.length > 0) {
+    const boundaryMap = {};
+    let currentLevel = childrenData[0]?.boundary;
+
+    while (currentLevel && currentLevel.length > 0) {
+      const currentType = currentLevel[0].boundaryType;
+      boundaryMap[currentType] = currentLevel;
+
+      // Proceed to children of the first element for next level
+      const hasChildren = currentLevel[0]?.children;
+      currentLevel = hasChildren && hasChildren.length > 0 ? currentLevel[0].children : null;
     }
-  }, [childrenData]);
+
+    setValue(boundaryMap);
+  }
+}, [childrenData]);
 
   /**
    * Handle dropdown selection.
