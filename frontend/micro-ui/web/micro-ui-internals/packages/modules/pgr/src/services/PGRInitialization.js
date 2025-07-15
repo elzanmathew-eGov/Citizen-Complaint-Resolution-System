@@ -15,9 +15,21 @@ const initializePGRModule = async ({ tenantId }) => {
   // Get hierarchy type from global config or fallback to "HIERARCHYTEST"
   const hierarchyType = window?.globalConfigs?.getConfig("HIERARCHY_TYPE") || "ADMIN";
   const boundaryType =  window?.globalConfigs?.getConfig("BOUNDARY_TYPE") || "Locality";
-    const tenantIdvalue = Digit.SessionStorage.get("CITIZEN.COMMON.HOME.CITY")?.code
-  // Get current logged-in user from session (not used further here, but could be used for logging/debugging)
-  let user = Digit?.SessionStorage.get("User");
+
+    // Get user info from localStorage
+  const citizenInfo = window.localStorage.getItem("user-info");
+
+  if (citizenInfo) {
+    const user = JSON.parse(citizenInfo);
+    const userType = user.type;
+
+    if (userType === "CITIZEN") {
+      tenantId = Digit.SessionStorage.get("CITIZEN.COMMON.HOME.CITY")?.code;
+    }
+  } else {
+    console.log("No CITIZEN user info found in localStorage.");
+  }
+
 
   try {
     // Call boundary-service to get hierarchical boundary data with children included
@@ -27,7 +39,7 @@ const initializePGRModule = async ({ tenantId }) => {
       method: "POST",
       userService: false,
       params: {
-        tenantId: user.info.tenantId,
+        tenantId: tenantId,
         hierarchyType: hierarchyType,
         boundaryType: boundaryType,
         includeChildren: true,
