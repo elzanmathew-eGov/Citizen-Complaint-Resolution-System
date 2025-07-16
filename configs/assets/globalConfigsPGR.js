@@ -14,7 +14,7 @@ var globalConfigs = (function () {
   var localeDefault = "en";
   var xstateWebchatServices = "wss://dev.digit.org/xstate-webchat/";
   var mdmsContext = "mdms-v2";
-  var hrmsContext = "health-hrms";
+  var hrmsContext = "egov-hrms";
   var projectContext = "health-project";
   var mdmsFeatures = {
     bulkDownload: true,
