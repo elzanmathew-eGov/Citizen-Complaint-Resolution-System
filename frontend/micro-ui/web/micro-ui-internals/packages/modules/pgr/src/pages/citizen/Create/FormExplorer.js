@@ -228,7 +228,6 @@ const onSubmit = async (data) => {
 const onFormValueChange = (setValue, formData, formState, reset, setError, clearErrors, trigger, getValues) => {
   const complaintType = formData?.SelectComplaintType;
   const currentMenuPath = complaintType?.menuPath;
-  console.log("*** Log ===> ", formData);
 
   // Skip if menuPath didn't change
   if (!currentMenuPath || previousMenuPathRef.current === currentMenuPath) return;
