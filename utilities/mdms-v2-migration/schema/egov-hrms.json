@@ -1,6 +1,6 @@
 [
   {
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "code": "egov-hrms.DeactivationReason",
     "description": "egov-hrms.DeactivationReason",
     "isActive": true,
@@ -22,11 +22,13 @@
         "active": {
           "type": "boolean"
         }
-      }
+      },
+      "x-ref-schema": [],
+      "additionalProperties": false
     }
   },
   {
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "code": "egov-hrms.Degree",
     "description": "egov-hrms.Degree",
     "isActive": true,
@@ -48,11 +50,13 @@
         "active": {
           "type": "boolean"
         }
-      }
+      },
+      "x-ref-schema": [],
+      "additionalProperties": false
     }
   },
   {
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "code": "egov-hrms.EmployeeStatus",
     "description": "egov-hrms.EmployeeStatus",
     "isActive": true,
@@ -74,11 +78,13 @@
         "active": {
           "type": "boolean"
         }
-      }
+      },
+      "x-ref-schema": [],
+      "additionalProperties": false
     }
   },
   {
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "code": "egov-hrms.EmployeeType",
     "description": "egov-hrms.EmployeeType",
     "isActive": true,
@@ -100,11 +106,13 @@
         "active": {
           "type": "boolean"
         }
-      }
+      },
+      "x-ref-schema": [],
+      "additionalProperties": false
     }
   },
   {
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "code": "egov-hrms.EmploymentTest",
     "description": "egov-hrms.EmploymentTest",
     "isActive": true,
@@ -126,11 +134,13 @@
         "active": {
           "type": "boolean"
         }
-      }
+      },
+      "x-ref-schema": [],
+      "additionalProperties": false
     }
   },
   {
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "code": "egov-hrms.Specalization",
     "description": "egov-hrms.Specalization",
     "isActive": true,
@@ -152,7 +162,9 @@
         "active": {
           "type": "boolean"
         }
-      }
+      },
+      "x-ref-schema": [],
+      "additionalProperties": false
     }
   }
 ]

@@ -1,6 +1,6 @@
 {
     "host": "https://pgr-demo.digit.org",
-    "localhost": "http://localhost:8083",
+    "localhost": "http://localhost:8082",
     "stateCode": "pg",
     "cityCode": "citya",
     "auth_header": {

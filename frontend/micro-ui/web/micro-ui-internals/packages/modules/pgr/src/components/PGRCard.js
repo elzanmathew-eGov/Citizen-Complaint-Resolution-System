@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const ROLES = {
-  PGR: ["HELPDESK_USER", "PGR_ADMIN", "PGR-ADMIN"],
+  PGR: ["GRO", "PGR_LME", "CSR"],
 };
 
 const PGRCard = () => {

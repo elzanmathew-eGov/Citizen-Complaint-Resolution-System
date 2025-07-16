@@ -13,6 +13,8 @@ import { UICustomizations } from "./Customisations/UICustomizations";
 import { initUtilitiesComponents } from "@egovernments/digit-ui-module-utilities";
 import { initPGRComponents,PGRReducers, } from "@egovernments/digit-ui-module-health-pgr";
 import { Loader } from "@egovernments/digit-ui-components";
+import { initWorkbenchComponents } from "@egovernments/digit-ui-module-workbench";
+import { initHRMSComponents } from "@egovernments/digit-ui-module-hrms";
 
 window.contextPath = window?.globalConfigs?.getConfig("CONTEXT_PATH");
 
@@ -26,6 +28,8 @@ const DigitUI = React.lazy(() =>
 const enabledModules = [
   "Utilities",
   "PGR",
+  "Workbench",
+  "HRMS",
 ];
 
 initLibraries().then(() => {
@@ -45,6 +49,8 @@ const initDigitUI = () => {
 
   initUtilitiesComponents();
   initPGRComponents();
+  initWorkbenchComponents();
+  initHRMSComponents();
 };
 
 function App() {
@@ -62,7 +68,7 @@ function App() {
         enabledModules={enabledModules}
         moduleReducers={moduleReducers}
         defaultLanding="employee"
-        allowedUserTypes={["employee"]}
+        allowedUserTypes={["employee","citizen"]}
       />
     </Suspense>
   );

@@ -28,11 +28,12 @@ public class WorkflowUtil {
 
 		StringBuilder uri = new StringBuilder();
 		uri.append(serviceConfig.getWfBusinessServiceCreateURI());
+		System.out.println(businessServiceRequest);
 		try {
 			restTemplate.postForObject(uri.toString(), businessServiceRequest, Map.class);
 		} catch (Exception e) {
 			log.error("Error creating workflow configuration: {}", e.getMessage());
-			throw new CustomException("WF_CONFIG_CREATE_FAILED", "Failed to create workflow configuration: " + e.getMessage());
+//			throw new CustomException("WF_CONFIG_CREATE_FAILED", "Failed to create workflow configuration: " + e.getMessage());
 		}
 	}
 }

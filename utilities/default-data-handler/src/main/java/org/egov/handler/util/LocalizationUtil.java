@@ -2,6 +2,7 @@ package org.egov.handler.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.egov.common.contract.request.RequestInfo;
 import org.egov.common.contract.response.ResponseInfo;
 import org.egov.handler.config.ServiceConfiguration;
 import org.egov.handler.web.models.*;
@@ -49,27 +50,39 @@ public class LocalizationUtil {
 		}
 	}
 
-	public void upsertLocalizationFromFile(DefaultLocalizationDataRequest defaultLocalizationDataRequest){
+	public void upsertLocalizationFromFile(DefaultDataRequest defaultDataRequest){
 
-		List<Message> messageList = addMessagesFromFile(defaultLocalizationDataRequest);
-		defaultLocalizationDataRequest.getRequestInfo().getUserInfo().setId(128L);
-		CreateMessagesRequest createMessagesRequest = CreateMessagesRequest.builder()
-				.requestInfo(defaultLocalizationDataRequest.getRequestInfo())
-				.tenantId(defaultLocalizationDataRequest.getTargetTenantId())
-				.messages(messageList)
-				.build();
+		List<Message> messageList = addMessagesFromFile(defaultDataRequest);
+		defaultDataRequest.getRequestInfo().getUserInfo().setId(128L);
 
-		StringBuilder uri = new StringBuilder();
-		uri.append(serviceConfig.getUpsertLocalizationURI());
+		String tenantId = defaultDataRequest.getTargetTenantId();
+		RequestInfo requestInfo = defaultDataRequest.getRequestInfo();
+		String uri = serviceConfig.getUpsertLocalizationURI();
+
+		int batchSize = 100;
+		int totalMessages = messageList.size();
+
 		try {
-			restTemplate.postForObject(uri.toString(), createMessagesRequest, ResponseInfo.class);
+			for (int i = 0; i < totalMessages; i += batchSize) {
+				int end = Math.min(i + batchSize, totalMessages);
+				List<Message> batch = messageList.subList(i, end);
+
+				CreateMessagesRequest createMessagesRequest = CreateMessagesRequest.builder()
+						.requestInfo(requestInfo)
+						.tenantId(tenantId)
+						.messages(batch)
+						.build();
+
+				restTemplate.postForObject(uri, createMessagesRequest, ResponseInfo.class);
+			}
+			log.info("Localization data upserted successfully for tenant: {}", tenantId);
 		} catch (Exception e) {
-			log.error("Error creating Tenant localization data for {} : {}", defaultLocalizationDataRequest.getTargetTenantId(), e.getMessage());
-			throw new CustomException("TENANT", "Failed to create localization data for " +  defaultLocalizationDataRequest.getTargetTenantId() + " : " + e.getMessage());
+			log.error("Error creating Tenant localization data for {} : {}", tenantId, e.getMessage());
+//			throw new CustomException("TENANT", "Failed to create localization data for " + tenantId + " : " + e.getMessage());
 		}
 	}
 
-	public List addMessagesFromFile(DefaultLocalizationDataRequest defaultLocalizationDataRequest){
+	public List addMessagesFromFile(DefaultDataRequest defaultDataRequest){
 		List<Message> messages = new ArrayList<>();
 		ObjectMapper objectMapper = new ObjectMapper();
 

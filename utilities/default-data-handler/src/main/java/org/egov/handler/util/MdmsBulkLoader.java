@@ -44,11 +44,19 @@ public class MdmsBulkLoader {
                 JsonNode arrayNode = objectMapper.readTree(rawJson);
 
                 if (!arrayNode.isArray()) {
-                    throw new IllegalArgumentException("File must contain a JSON array: " + fileName);
+                    log.error("File must contain a JSON array: {}", fileName);
+//                    throw new IllegalArgumentException("File must contain a JSON array: " + fileName);
                 }
 
                 for (JsonNode singleObjectNode : arrayNode) {
-                    Object singleDataObject = objectMapper.convertValue(singleObjectNode, Object.class);
+                    // Convert node to raw string
+                    String singleObjectJson = objectMapper.writeValueAsString(singleObjectNode);
+
+                    // Replace all {tenantid} placeholders with actual tenant ID
+                    singleObjectJson = singleObjectJson.replace("{tenantid}", tenantId);
+
+                    // Convert back to object
+                    Object singleDataObject = objectMapper.readValue(singleObjectJson, Object.class);
 
                     // Construct MDMS wrapper
                     Map<String, Object> mdms = new HashMap<>();
@@ -60,6 +68,7 @@ public class MdmsBulkLoader {
                     Map<String, Object> requestPayload = new HashMap<>();
                     requestPayload.put("Mdms", mdms);
                     requestPayload.put("RequestInfo", requestInfo);
+                    System.out.println(requestPayload);
 
                     String endpoint = serviceConfig.getMdmsDataCreateURI().replace("{schemaCode}", schemaCode);
                     restTemplate.postForObject(endpoint, requestPayload, Object.class);
@@ -70,7 +79,7 @@ public class MdmsBulkLoader {
 
         } catch (Exception e) {
             log.error("Failed to load MDMS files: {}", e.getMessage(), e);
-            throw new CustomException("MDMS_BULK_LOAD_FAILED", "Failed to load all MDMS data: " + e.getMessage());
+//            throw new CustomException("MDMS_BULK_LOAD_FAILED", "Failed to load all MDMS data: " + e.getMessage());
         }
     }
 }

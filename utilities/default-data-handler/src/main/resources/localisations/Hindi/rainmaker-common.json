@@ -15468,109 +15468,109 @@
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_B1",
+    "code": "STATEACITYA_ADMIN_B1",
     "message": "वार्ड वन",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_B2",
+    "code": "STATEACITYA_ADMIN_B2",
     "message": "वार्ड टू",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_B3",
+    "code": "STATEACITYA_ADMIN_B3",
     "message": "वार्ड थ्री",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_B4",
+    "code": "STATEACITYA_ADMIN_B4",
     "message": "वार्ड फोर",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_SUN01",
+    "code": "STATEACITYA_ADMIN_SUN01",
     "message": "राजन वला (दोनों पक्ष) - एरिया 1",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_SUN02",
+    "code": "STATEACITYA_ADMIN_SUN02",
     "message": "गुगा मादी रोड (पूर्व की ओर) - एरिया 2",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_SUN03",
+    "code": "STATEACITYA_ADMIN_SUN03",
     "message": "Singhkiyan (Nothern Side) - areas1",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_SUN10",
+    "code": "STATEACITYA_ADMIN_SUN10",
     "message": "अजीत नगर",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_SUN11",
+    "code": "STATEACITYA_ADMIN_SUN11",
     "message": "बख्तौर नगर - एरिया 1",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_SUN12",
+    "code": "STATEACITYA_ADMIN_SUN12",
     "message": "गुरुद्वारा नियाई साहिब स्ट्रीट 1 - एरिया 1",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_SUN20",
+    "code": "STATEACITYA_ADMIN_SUN20",
     "message": "सिनेमा रोड - एरिया 1",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_SUN21",
+    "code": "STATEACITYA_ADMIN_SUN21",
     "message": "चंद्र कॉलोनी बिगगरवाल रोड - एरिया 2",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_SUN22",
+    "code": "STATEACITYA_ADMIN_SUN22",
     "message": "Bigharwal Chowk to रेलवे स्टेशन - एरिया 2",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_SUN30",
+    "code": "STATEACITYA_ADMIN_SUN30",
     "message": "बाबू लाबा सिंह नगर",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_SUN31",
+    "code": "STATEACITYA_ADMIN_SUN31",
     "message": "डेरा प्रीत नगर झुगिया",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_SUN32",
+    "code": "STATEACITYA_ADMIN_SUN32",
     "message": "जावला नगर",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG.CITYA_ADMIN_SUN33",
+    "code": "STATEACITYA_ADMIN_SUN33",
     "message": "नागरा रोड",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "PG_PG.CITYA",
+    "code": "STATEA_STATEA.CITYA",
     "message": "शहर ए",
     "module": "rainmaker-common",
     "locale": "hi_IN"
@@ -17958,19 +17958,19 @@
     "locale": "hi_IN"
   },
   {
-    "code": "pg.cityA",
+    "code": "stateacityA",
     "message": "शहर ए",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "pg.cityB",
+    "code": "stateacityB",
     "message": "सिटी बी",
     "module": "rainmaker-common",
     "locale": "hi_IN"
   },
   {
-    "code": "pg.cityC",
+    "code": "stateacityC",
     "message": "शहर सी",
     "module": "rainmaker-common",
     "locale": "hi_IN"

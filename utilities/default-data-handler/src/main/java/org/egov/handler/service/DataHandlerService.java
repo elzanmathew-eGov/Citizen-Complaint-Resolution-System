@@ -2,6 +2,7 @@ package org.egov.handler.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +16,18 @@ import org.egov.tracer.model.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static org.egov.handler.config.ServiceConstants.TENANT_BOUNDARY_SCHEMA;
@@ -49,8 +57,10 @@ public class DataHandlerService {
 
     private final MdmsBulkLoader mdmsBulkLoader;
 
+    private final RestTemplate restTemplate;
+
     @Autowired
-    public DataHandlerService(MdmsV2Util mdmsV2Util, HrmsUtil hrmsUtil, LocalizationUtil localizationUtil, TenantManagementUtil tenantManagementUtil, ServiceConfiguration serviceConfig, ObjectMapper objectMapper, ResourceLoader resourceLoader, WorkflowUtil workflowUtil, CustomKafkaTemplate producer, MdmsBulkLoader mdmsBulkLoader) {
+    public DataHandlerService(MdmsV2Util mdmsV2Util, HrmsUtil hrmsUtil, LocalizationUtil localizationUtil, TenantManagementUtil tenantManagementUtil, ServiceConfiguration serviceConfig, ObjectMapper objectMapper, ResourceLoader resourceLoader, WorkflowUtil workflowUtil, CustomKafkaTemplate producer, MdmsBulkLoader mdmsBulkLoader, RestTemplate restTemplate) {
         this.mdmsV2Util = mdmsV2Util;
         this.hrmsUtil = hrmsUtil;
         this.localizationUtil = localizationUtil;
@@ -61,6 +71,7 @@ public class DataHandlerService {
         this.workflowUtil = workflowUtil;
         this.producer = producer;
         this.mdmsBulkLoader = mdmsBulkLoader;
+        this.restTemplate = restTemplate;
     }
 
     public void createDefaultData(DefaultDataRequest defaultDataRequest) {
@@ -74,30 +85,280 @@ public class DataHandlerService {
             mdmsV2Util.createDefaultMdmsData(defaultMdmsDataRequest);
         }
 
-        if (defaultDataRequest.getLocales() != null && defaultDataRequest.getModules() != null) {
-            for (String locale : defaultDataRequest.getLocales()) {
-                DefaultLocalizationDataRequest defaultLocalizationDataRequest = DefaultLocalizationDataRequest.builder().requestInfo(defaultDataRequest.getRequestInfo()).targetTenantId(defaultDataRequest.getTargetTenantId()).locale(locale).modules(defaultDataRequest.getModules()).build();
-                localizationUtil.upsertLocalizationFromFile(defaultLocalizationDataRequest);
+//        if (defaultDataRequest.getLocales() != null && defaultDataRequest.getModules() != null) {
+//            for (String locale : defaultDataRequest.getLocales()) {
+//                DefaultLocalizationDataRequest defaultLocalizationDataRequest = DefaultLocalizationDataRequest.builder().requestInfo(defaultDataRequest.getRequestInfo()).targetTenantId(defaultDataRequest.getTargetTenantId()).locale(locale).modules(defaultDataRequest.getModules()).build();
+//                localizationUtil.upsertLocalizationFromFile(defaultLocalizationDataRequest);
+//            }
+//        }
+    }
+
+    public User createUserFromFile(TenantRequest tenantRequest) throws IOException {
+        String tenantCode = tenantRequest.getTenant().getCode();
+        StringBuilder uri = new StringBuilder(serviceConfig.getUserHost())
+                .append(serviceConfig.getUserContextPath())
+                .append(serviceConfig.getUserCreateEndpoint());
+
+        ArrayList<User> userList = new ArrayList<>();
+
+        try {
+            log.info("Reading User.json for tenant: {}", tenantCode);
+            Resource resource = resourceLoader.getResource("classpath:User.json");
+            String rawJson = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+
+            rawJson = rawJson.replace("{tenantid}", tenantCode);
+
+            // Parse as array
+            JsonNode userArray = objectMapper.readTree(rawJson);
+
+            // Prepare requestInfo
+            RequestInfo requestInfo = tenantRequest.getRequestInfo();
+            JsonNode requestInfoNode = objectMapper.valueToTree(requestInfo);
+
+            for (JsonNode userNode : userArray) {
+                try {
+                    ObjectNode requestPayload = objectMapper.createObjectNode();
+                    requestPayload.set("requestInfo", requestInfoNode);
+                    requestPayload.set("user", userNode);
+
+                    String finalPayload = objectMapper.writeValueAsString(requestPayload);
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    HttpEntity<String> entity = new HttpEntity<>(finalPayload, headers);
+
+                    User user = restTemplate.postForObject(uri.toString(), entity, User.class);
+                    userList.add(user);
+                    log.info("User created successfully with username: {}", user.getUserName());
+                } catch (Exception e) {
+                    log.error("Failed to create user from payload: {} | Error: {}", userNode, e.getMessage());
+                }
             }
+
+            for (User user : userList) {
+                if (user.getRoles() != null && user.getRoles().stream()
+                        .anyMatch(role -> "SUPERUSER".equalsIgnoreCase(role.getCode()))) {
+                    log.info("Returning SUPERUSER: {}", user.getUserName());
+                    return user;
+                }
+            }
+
+        } catch (Exception e) {
+            log.error("Error creating users from User.json for tenant {}: {}", tenantCode, e.getMessage(), e);
+            throw new CustomException("USER_CREATION_FAILED", "Failed to create users for tenant: " + tenantCode);
+        }
+
+        return null;
+    }
+
+
+    public void createEmployeeFromFile(RequestInfo requestInfo) throws IOException {
+        String uri = serviceConfig.getHrmsHost() + serviceConfig.getHrmsCreatePath();
+        String userUpdateUrl = serviceConfig.getUserHost() +serviceConfig.getUserContextPath() + serviceConfig.getUserUpdateEndpoint();
+        String tenantId = requestInfo.getUserInfo().getTenantId();
+
+        try {
+            Resource resource = resourceLoader.getResource("classpath:HRMS.json");
+            String rawJson = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+
+            // Replace placeholders with tenant ID
+            rawJson = rawJson.replace("{tenantid}", tenantId);
+
+            // Parse the raw JSON into an array of employees
+            ArrayNode employeesArray = (ArrayNode) objectMapper.readTree(rawJson);
+
+            for (JsonNode employeeNode : employeesArray) {
+                try {
+                    // Build individual payload
+                    ObjectNode payload = objectMapper.createObjectNode();
+                    payload.set("Employees", objectMapper.createArrayNode().add(employeeNode));
+                    payload.set("RequestInfo", objectMapper.valueToTree(requestInfo));
+
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+
+                    HttpEntity<JsonNode> entity = new HttpEntity<>(payload, headers);
+                    Object response = restTemplate.postForObject(uri, entity, Object.class);
+                    log.info("Employee created successfully: {}", employeeNode.get("code").asText());
+
+                    // Convert response to JsonNode
+                    JsonNode responseJson = objectMapper.convertValue(response, JsonNode.class);
+
+                    // Extract user from response
+                    JsonNode userNode = responseJson.at("/Employees/0/user");
+                    if (!userNode.isMissingNode()) {
+                        ObjectNode updatedUser = (ObjectNode) userNode.deepCopy();
+
+                        // Set password
+                        updatedUser.put("password", "eGov@123");
+
+                        // Prepare update payload
+                        ObjectNode updatePayload = objectMapper.createObjectNode();
+                        updatePayload.set("user", updatedUser);
+                        updatePayload.set("requestInfo", objectMapper.valueToTree(requestInfo)); // Use appropriate requestInfo
+
+                        // Send update request
+                        HttpHeaders updateHeaders = new HttpHeaders();
+                        updateHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+                        HttpEntity<JsonNode> updateEntity = new HttpEntity<>(updatePayload, updateHeaders);
+
+                        restTemplate.postForObject(userUpdateUrl, updateEntity, Object.class);
+
+                        log.info("Password updated for user: {}", updatedUser.get("userName").asText());
+                    } else {
+                        log.error("User node missing in HRMS response for employee: {}", employeeNode.get("code").asText());
+                    }
+
+                } catch (Exception e) {
+                    log.error("Failed to create employee: {} | Error: {}",
+                            employeeNode.get("code").asText(), e.getMessage(), e);
+                }
+            }
+
+        } catch (Exception e) {
+            log.error("Failed to read HRMS.json or create employees for tenant: {}", tenantId, e);
         }
     }
 
-    public void createDefaultDataFromFile(DefaultDataRequest defaultDataRequest) {
-        if (defaultDataRequest.getSchemaCodes() != null) {
-            List<String> schemaCodes = new ArrayList<>(defaultDataRequest.getSchemaCodes());
-            if (schemaCodes.contains(TENANT_BOUNDARY_SCHEMA)) {
-                createTenantBoundarydata(defaultDataRequest.getRequestInfo(), defaultDataRequest.getTargetTenantId());
-                schemaCodes.remove(TENANT_BOUNDARY_SCHEMA);
+
+    public void createMdmsSchemaFromFile(DefaultDataRequest defaultDataRequest) throws IOException {
+        try{
+            String mdmsSchemaCreateUri = serviceConfig.getMdmsSchemaCreateURI();
+
+            String tenantId = defaultDataRequest.getTargetTenantId();
+            RequestInfo requestInfo = defaultDataRequest.getRequestInfo();
+
+            Resource[] resources = new PathMatchingResourcePatternResolver()
+                    .getResources("classpath:schema/*.json");
+
+            for (Resource resource : resources) {
+                String rawJson = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+
+                // Replace {tenantid} placeholder with actual tenant ID
+                rawJson = rawJson.replace("{tenantid}", tenantId);
+
+                // Parse schema array from file
+                JsonNode schemaArray = new ObjectMapper().readTree(rawJson);
+                for (JsonNode schemaNode : schemaArray) {
+                    ObjectNode payload = objectMapper.createObjectNode();
+                    payload.set("RequestInfo", objectMapper.valueToTree(requestInfo));
+                    payload.set("SchemaDefinition", schemaNode);
+
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    HttpEntity<JsonNode> request = new HttpEntity<>(payload, headers);
+
+                    restTemplate.postForObject(mdmsSchemaCreateUri, request, Object.class);
+                    log.info("MDMS schema created successfully: {}", schemaNode.get("code").asText());
+                }
             }
-            mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
-        }
-        if (defaultDataRequest.getLocales() != null && defaultDataRequest.getModules() != null) {
-            for (String locale : defaultDataRequest.getLocales()) {
-                DefaultLocalizationDataRequest defaultLocalizationDataRequest = DefaultLocalizationDataRequest.builder().requestInfo(defaultDataRequest.getRequestInfo()).targetTenantId(defaultDataRequest.getTargetTenantId()).locale(locale).modules(defaultDataRequest.getModules()).build();
-                localizationUtil.upsertLocalizationFromFile(defaultLocalizationDataRequest);
-            }
+
+        } catch (Exception e) {
+            log.error("Failed to create mdms schema for tenant: {}", defaultDataRequest.getTargetTenantId(), e);
+//            throw new CustomException("MDMS_SCHEMA_CREATE_FAILED", "Failed to create mdms schema: " + e.getMessage());
         }
     }
+
+    public void createBoundaryDataFromFile(DefaultDataRequest defaultDataRequest) throws IOException {
+
+        createBoundaryDefinitionFromFile(defaultDataRequest.getRequestInfo(), defaultDataRequest.getTargetTenantId());
+        createBoundaryEntityFromFile(defaultDataRequest.getRequestInfo(), defaultDataRequest.getTargetTenantId());
+        createBoundaryRelationshipFromFile(defaultDataRequest.getRequestInfo(), defaultDataRequest.getTargetTenantId());
+    }
+
+    public void createBoundaryDefinitionFromFile(RequestInfo requestInfo, String targetTenantId) throws IOException {
+        try{
+            String hierarchyDefinitionCreateUri = serviceConfig.getHierarchyDefinitionCreateUri();
+
+            Resource resource = resourceLoader.getResource("classpath:boundary/hierarchy-definition/hierarchy.json");
+            InputStream inputStream = resource.getInputStream();
+
+            // Read file content as raw JSON string
+            String rawJson = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+
+            rawJson = rawJson.replace("{tenantid}", targetTenantId);
+
+            JsonNode boundaryPayload = objectMapper.readTree(rawJson);
+
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("RequestInfo", requestInfo);
+            payload.put("BoundaryHierarchy", boundaryPayload.get("BoundaryHierarchy"));
+            System.out.println(payload);
+
+            restTemplate.postForObject(hierarchyDefinitionCreateUri, payload, Object.class);
+            log.info("Created boundary hierarchy for tenant: {}", targetTenantId);
+        }
+        catch (Exception e) {
+            log.error("Failed to create boundary hierarchy for tenant: {}", targetTenantId);
+//            throw new CustomException("BOUNDARY_DATA_CREATE_FAILED", "Failed to create boundary data for " + targetTenantId + " : " + e.getMessage());
+        }
+    }
+
+    public void createBoundaryEntityFromFile(RequestInfo requestInfo, String targetTenantId) throws IOException {
+        try{
+            String hierarchyEntityCreateUri = serviceConfig.getBoundaryEntityCreateUri();
+
+            Resource resource = resourceLoader.getResource("classpath:boundary/entity/entity.json");
+            InputStream inputStream = resource.getInputStream();
+
+            // Read file content as raw JSON string
+            String rawJson = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+
+            rawJson = rawJson.replace("{tenantid}", targetTenantId);
+
+            JsonNode boundaryArrayNode = objectMapper.readTree(rawJson);
+
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("RequestInfo", requestInfo);
+            payload.put("Boundary", objectMapper.convertValue(boundaryArrayNode, List.class));
+            System.out.println(payload);
+
+            restTemplate.postForObject(hierarchyEntityCreateUri, payload, Object.class);
+            log.info("Created boundary hierarchy entity for tenant: {}", targetTenantId);
+        }
+        catch (Exception e) {
+            log.error("Failed to create boundary hierarchy entity for tenant: {}", targetTenantId);
+//            throw new CustomException("BOUNDARY_DATA_CREATE_FAILED", "Failed to create boundary data for " + targetTenantId + " : " + e.getMessage());
+        }
+    }
+
+    public void createBoundaryRelationshipFromFile(RequestInfo requestInfo, String targetTenantId) throws IOException {
+        try{
+            String hierarchyRelationshipCreateUri = serviceConfig.getBoundaryRelationshipCreateUri();
+
+            Resource resource = resourceLoader.getResource("classpath:boundary/relationship/relationship.json");
+            InputStream inputStream = resource.getInputStream();
+
+            // Read file content as raw JSON string
+            String rawJson = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+
+            rawJson = rawJson.replace("{tenantid}", targetTenantId);
+            JsonNode relationshipArray = objectMapper.readTree(rawJson);
+            JsonNode requestInfoNode = objectMapper.valueToTree(requestInfo);
+
+            for (JsonNode relationship : relationshipArray) {
+                ObjectNode payload = objectMapper.createObjectNode();
+                payload.set("RequestInfo", requestInfoNode);
+                payload.set("BoundaryRelationship", relationship);
+
+//                String finalPayload = objectMapper.writeValueAsString(payload);
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+
+                HttpEntity<JsonNode> entity = new HttpEntity<>(payload, headers);
+                System.out.println(entity);
+
+                restTemplate.postForObject(hierarchyRelationshipCreateUri, entity, Object.class);
+            }
+            log.info("Created boundary hierarchy relationship for tenant: {}", targetTenantId);
+        }
+        catch (Exception e) {
+            log.error("Failed to create boundary hierarchy relationship for tenant: {}", targetTenantId);
+//            throw new CustomException("BOUNDARY_DATA_CREATE_FAILED", "Failed to create boundary data for " + targetTenantId + " : " + e.getMessage());
+        }
+    }
+
 
     private void createTenantBoundarydata(RequestInfo requestInfo, String targetTenantId) {
         List<String> schemaCodes = new ArrayList<>(Collections.singletonList(TENANT_BOUNDARY_SCHEMA));
@@ -211,7 +472,8 @@ public class DataHandlerService {
             businessServiceRequest.getBusinessServices().forEach(service -> service.setTenantId(targetTenantId));
             workflowUtil.createWfConfig(businessServiceRequest);
         } catch (IOException e) {
-            throw new CustomException("IO_EXCEPTION", "Error reading or mapping JSON file: " + e.getMessage());
+            log.error("Error reading or mapping JSON file: {}", e.getMessage());
+//            throw new CustomException("IO_EXCEPTION", "Error reading or mapping JSON file: " + e.getMessage());
         }
     }
 

@@ -15624,7 +15624,7 @@
     "locale": "en_IN"
   },
   {
-    "code": "CS_INBOX_PG_LOADING_MSG",
+    "code": "CS_INBOX_STATEA_LOADING_MSG",
     "message": "Loading Inbox",
     "module": "rainmaker-common",
     "locale": "en_IN"
@@ -16392,7 +16392,7 @@
     "locale": "en_IN"
   },
   {
-    "code": "DDR_PG_AMHARA",
+    "code": "DDR_STATEA_AMHARA",
     "message": "Ethiopia",
     "module": "rainmaker-common",
     "locale": "en_IN"
@@ -16460,6 +16460,24 @@
   {
     "code": "DESIGNATION",
     "message": "Designation",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "DIGIT_I_ACCEPT",
+    "message": "I accept",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "DIGIT_I_DO_NOT_ACCEPT",
+    "message": "I do not accept",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "DIGIT_TABLE_OF_CONTENTS",
+    "message": "Privacy Policy",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
@@ -16788,7 +16806,7 @@
     "locale": "en_IN"
   },
   {
-    "code": "DSS_PG_AMHARA",
+    "code": "DSS_STATEA_AMHARA",
     "message": "Ethiopia",
     "module": "rainmaker-common",
     "locale": "en_IN"
@@ -16980,25 +16998,25 @@
     "locale": "en_IN"
   },
   {
-    "code": "DSS_TB_PG_ADDISABABA",
+    "code": "DSS_TB_STATEA_ADDISABABA",
     "message": "City F",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "DSS_TB_PG_AMHARA",
+    "code": "DSS_TB_STATEA_AMHARA",
     "message": "Ethiopia",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "DSS_TB_PG_DIREDAWA",
+    "code": "DSS_TB_STATEA_DIREDAWA",
     "message": "City H",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "DSS_TB_PG_OROMIA",
+    "code": "DSS_TB_STATEA_OROMIA",
     "message": "City I",
     "module": "rainmaker-common",
     "locale": "en_IN"
@@ -17034,7 +17052,7 @@
     "locale": "en_IN"
   },
   {
-    "code": "DSS_TB__PG_OROMIA",
+    "code": "DSS_TB__STATEA_OROMIA",
     "message": "City I",
     "module": "rainmaker-common",
     "locale": "en_IN"
@@ -18696,6 +18714,12 @@
     "locale": "en_IN"
   },
   {
+    "code": "ES_BY_CLICKING",
+    "message": "I agree to the DIGIT's",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
     "code": "ES_CE_DELETE",
     "message": "Delete",
     "module": "rainmaker-common",
@@ -20198,6 +20222,12 @@
   {
     "code": "ES_PGR_NEW_COMPLAINT",
     "message": "New Complaint",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "ES_PRIVACY_POLICY",
+    "message": "Privacy Policy",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
@@ -30222,8 +30252,8 @@
     "locale": "en_IN"
   },
   {
-    "code": "MYCITY_PG_LABEL",
-    "message": "PG",
+    "code": "MYCITY_STATEA_LABEL",
+    "message": "State A",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
@@ -33678,7 +33708,7 @@
     "locale": "en_IN"
   },
   {
-    "code": "PDF_STATIC_LABEL_MUTATION_DECLARATION_LABEL_PG_CITYA",
+    "code": "PDF_STATIC_LABEL_MUTATION_DECLARATION_LABEL_STATEA_CITYA",
     "message": "In exercise of the power vested with the Municipal Commissioner under Section 207 and 208 of Municipal Corporations Act,1994(formerly MCA ACT,1955) on the request made by applicant and based on the strength of documentary evidence produced, the transfer of the title is hereby effected on the building premises within the Corporation limits as follows:-",
     "module": "rainmaker-common",
     "locale": "en_IN"
@@ -35234,6 +35264,24 @@
   {
     "code": "PGR",
     "message": "Citizen Complaint Resolution System",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PGR_CREATE_ANOTHER_COMPLAIN",
+    "message": "Create Another Complaint",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PGR_INBOX",
+    "message": "Inbox",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PGR_SEARCH_RESULTS_HEADING",
+    "message": "Search Citizen Complaint",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
@@ -49698,6 +49746,84 @@
     "locale": "en_IN"
   },
   {
+    "code": "PG_CITYA_ADMIN_SUN01",
+    "message": "Locality 01",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN02",
+    "message": "Locality 02",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN03",
+    "message": "Locality 03",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN10",
+    "message": "Locality 10",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN11",
+    "message": "Locality 11",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN12",
+    "message": "Locality 12",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN20",
+    "message": "Locality 20",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN21",
+    "message": "Locality 21",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN22",
+    "message": "Locality 22",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN30",
+    "message": "Locality 30",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN31",
+    "message": "Locality 31",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN32",
+    "message": "Locality 32",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "PG_CITYA_ADMIN_SUN33",
+    "message": "Locality 33",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
     "code": "PG_CITYA_CITYA_LABEL",
     "message": "City A",
     "module": "rainmaker-common",
@@ -56550,157 +56676,157 @@
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_LOCALITY_PG_01_01_SUN01",
+    "code": "PG_CITYA_REVENUE_LOCALITY_STATEA_01_01_SUN01",
     "message": "Ajit Nagar - Area1",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_LOCALITY_PG_01_02_SUN02",
+    "code": "PG_CITYA_REVENUE_LOCALITY_STATEA_01_02_SUN02",
     "message": "Back Side 33 KVA Grid Patiala Road",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_LOCALITY_PG_01_03_SUN03",
+    "code": "PG_CITYA_REVENUE_LOCALITY_STATEA_01_03_SUN03",
     "message": "Bharath Colony",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_LOCALITY_PG_02_01_SUN10",
+    "code": "PG_CITYA_REVENUE_LOCALITY_STATEA_02_01_SUN10",
     "message": "Backside Brijbala Hospital - Area3",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_LOCALITY_PG_02_02_SUN11",
+    "code": "PG_CITYA_REVENUE_LOCALITY_STATEA_02_02_SUN11",
     "message": "Bigharwal Chowk to Railway Station - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_LOCALITY_PG_02_03_SUN12",
+    "code": "PG_CITYA_REVENUE_LOCALITY_STATEA_02_03_SUN12",
     "message": "Chandar Colony Biggarwal Road - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_LOCALITY_PG_03_01_SUN20",
+    "code": "PG_CITYA_REVENUE_LOCALITY_STATEA_03_01_SUN20",
     "message": "Aggarsain Chowk to Mal Godown - Both Sides - Area3",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_LOCALITY_PG_03_02_SUN21",
+    "code": "PG_CITYA_REVENUE_LOCALITY_STATEA_03_02_SUN21",
     "message": "ATAR SINGH COLONY - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_LOCALITY_PG_03_03_SUN22",
+    "code": "PG_CITYA_REVENUE_LOCALITY_STATEA_03_03_SUN22",
     "message": "Back Side Naina Devi Mandir - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_LOCALITY_PG_04_01_SUN30",
+    "code": "PG_CITYA_REVENUE_LOCALITY_STATEA_04_01_SUN30",
     "message": "Bakhtaur Nagar - Area1",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_LOCALITY_PG_04_02_SUN31",
+    "code": "PG_CITYA_REVENUE_LOCALITY_STATEA_04_02_SUN31",
     "message": "Bhai Mool Chand Sahib Colony - Area1",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_LOCALITY_PG_04_03_SUN32",
+    "code": "PG_CITYA_REVENUE_LOCALITY_STATEA_04_03_SUN32",
     "message": "College Road (Southern side) - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_LOCALITY_PG_04_04_SUN33",
+    "code": "PG_CITYA_REVENUE_LOCALITY_STATEA_04_04_SUN33",
     "message": "Ekta Colony (Southern Side) - Area1",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_PG_01_01_SUN01",
+    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_STATEA_01_01_SUN01",
     "message": "Ajit Nagar - Area1",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_PG_01_02_SUN02",
+    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_STATEA_01_02_SUN02",
     "message": "Back Side 33 KVA Grid Patiala Road",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_PG_01_03_SUN03",
+    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_STATEA_01_03_SUN03",
     "message": "Bharath Colony",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_PG_02_01_SUN10",
+    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_STATEA_02_01_SUN10",
     "message": "Backside Brijbala Hospital - Area3",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_PG_02_02_SUN11",
+    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_STATEA_02_02_SUN11",
     "message": "Bigharwal Chowk to Railway Station - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_PG_02_03_SUN12",
+    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_STATEA_02_03_SUN12",
     "message": "Chandar Colony Biggarwal Road - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_PG_03_01_SUN20",
+    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_STATEA_03_01_SUN20",
     "message": "Aggarsain Chowk to Mal Godown - Both Sides - Area3",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_PG_03_02_SUN21",
+    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_STATEA_03_02_SUN21",
     "message": "ATAR SINGH COLONY - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_PG_03_03_SUN22",
+    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_STATEA_03_03_SUN22",
     "message": "Back Side Naina Devi Mandir - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_PG_04_01_SUN30",
+    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_STATEA_04_01_SUN30",
     "message": "Bakhtaur Nagar - Area1",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_PG_04_02_SUN31",
+    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_STATEA_04_02_SUN31",
     "message": "Bhai Mool Chand Sahib Colony - Area1",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_PG_04_03_SUN32",
+    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_STATEA_04_03_SUN32",
     "message": "College Road (Southern side) - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_PG_04_04_SUN33",
+    "code": "PG_CITYA_REVENUE_REVENUE_LOCALITY_STATEA_04_04_SUN33",
     "message": "Ekta Colony (Southern Side) - Area1",
     "module": "rainmaker-common",
     "locale": "en_IN"
@@ -62256,79 +62382,79 @@
     "locale": "en_IN"
   },
   {
-    "code": "REVENUE_LOCALITY_PG_01_01_SUN01",
+    "code": "REVENUE_LOCALITY_STATEA_01_01_SUN01",
     "message": "Ajit Nagar - Area1",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "REVENUE_LOCALITY_PG_01_02_SUN02",
+    "code": "REVENUE_LOCALITY_STATEA_01_02_SUN02",
     "message": "Back Side 33 KVA Grid Patiala Road",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "REVENUE_LOCALITY_PG_01_03_SUN03",
+    "code": "REVENUE_LOCALITY_STATEA_01_03_SUN03",
     "message": "Bharath Colony",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "REVENUE_LOCALITY_PG_02_01_SUN10",
+    "code": "REVENUE_LOCALITY_STATEA_02_01_SUN10",
     "message": "Backside Brijbala Hospital - Area3",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "REVENUE_LOCALITY_PG_02_02_SUN11",
+    "code": "REVENUE_LOCALITY_STATEA_02_02_SUN11",
     "message": "Bigharwal Chowk to Railway Station - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "REVENUE_LOCALITY_PG_02_03_SUN12",
+    "code": "REVENUE_LOCALITY_STATEA_02_03_SUN12",
     "message": "Chandar Colony Biggarwal Road - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "REVENUE_LOCALITY_PG_03_01_SUN20",
+    "code": "REVENUE_LOCALITY_STATEA_03_01_SUN20",
     "message": "Aggarsain Chowk to Mal Godown - Both Sides - Area3",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "REVENUE_LOCALITY_PG_03_02_SUN21",
+    "code": "REVENUE_LOCALITY_STATEA_03_02_SUN21",
     "message": "ATAR SINGH COLONY - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "REVENUE_LOCALITY_PG_03_03_SUN22",
+    "code": "REVENUE_LOCALITY_STATEA_03_03_SUN22",
     "message": "Back Side Naina Devi Mandir - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "REVENUE_LOCALITY_PG_04_01_SUN30",
+    "code": "REVENUE_LOCALITY_STATEA_04_01_SUN30",
     "message": "Bakhtaur Nagar - Area1",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "REVENUE_LOCALITY_PG_04_02_SUN31",
+    "code": "REVENUE_LOCALITY_STATEA_04_02_SUN31",
     "message": "Bhai Mool Chand Sahib Colony - Area1",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "REVENUE_LOCALITY_PG_04_03_SUN32",
+    "code": "REVENUE_LOCALITY_STATEA_04_03_SUN32",
     "message": "College Road (Southern side) - Area2",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "REVENUE_LOCALITY_PG_04_04_SUN33",
+    "code": "REVENUE_LOCALITY_STATEA_04_04_SUN33",
     "message": "Ekta Colony (Southern Side) - Area1",
     "module": "rainmaker-common",
     "locale": "en_IN"
@@ -62744,6 +62870,24 @@
   {
     "code": "SUMMARY_DETAILS",
     "message": "Summary details",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "SUN01_ADMIN_LOCALITY",
+    "message": "Locality 01",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "SUN02_ADMIN_LOCALITY",
+    "message": "Locality 02",
+    "module": "rainmaker-common",
+    "locale": "en_IN"
+  },
+  {
+    "code": "SUN03_ADMIN_LOCALITY",
+    "message": "Locality 03",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
@@ -72006,121 +72150,121 @@
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG",
-    "message": "Demo",
+    "code": "TENANT_TENANTS_STATEA",
+    "message": "State A",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_ADDISABABA",
+    "code": "TENANT_TENANTS_STATEA_ADDISABABA",
     "message": "City F",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_AMHARA",
+    "code": "TENANT_TENANTS_STATEA_AMHARA",
     "message": "Ethopia",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_BALASORE",
+    "code": "TENANT_TENANTS_STATEA_BALASORE",
     "message": "Balasore",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_BALASORE_MUNICIPALITY",
+    "code": "TENANT_TENANTS_STATEA_BALASORE_MUNICIPALITY",
     "message": "Balasore",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_BERHAMPUR",
+    "code": "TENANT_TENANTS_STATEA_BERHAMPUR",
     "message": "Berhampur",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_BERHAMPUR_MUNICIPAL_CORPORATION",
+    "code": "TENANT_TENANTS_STATEA_BERHAMPUR_MUNICIPAL_CORPORATION",
     "message": "Berhmapur",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_CITYA",
+    "code": "TENANT_TENANTS_STATEA_CITYA",
     "message": "City A",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_CITYB",
+    "code": "TENANT_TENANTS_STATEA_CITYB",
     "message": "City B",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_CITYC",
+    "code": "TENANT_TENANTS_STATEA_CITYC",
     "message": "City C",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_CITYD",
+    "code": "TENANT_TENANTS_STATEA_CITYD",
     "message": "City D",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_CITYE",
+    "code": "TENANT_TENANTS_STATEA_CITYE",
     "message": "City E",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_CITY_A",
+    "code": "TENANT_TENANTS_STATEA_CITY_A",
     "message": "City A",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_CITY_B",
+    "code": "TENANT_TENANTS_STATEA_CITY_B",
     "message": "City B",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_CITY_C",
+    "code": "TENANT_TENANTS_STATEA_CITY_C",
     "message": "City C",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_CITY_D",
+    "code": "TENANT_TENANTS_STATEA_CITY_D",
     "message": "City D",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_CITY_E",
+    "code": "TENANT_TENANTS_STATEA_CITY_E",
     "message": "City E",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_DHENKANAL",
+    "code": "TENANT_TENANTS_STATEA_DHENKANAL",
     "message": "Dhenkanal",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_DIREDAWA",
+    "code": "TENANT_TENANTS_STATEA_DIREDAWA",
     "message": "City H",
     "module": "rainmaker-common",
     "locale": "en_IN"
   },
   {
-    "code": "TENANT_TENANTS_PG_OROMIA",
+    "code": "TENANT_TENANTS_STATEA_OROMIA",
     "message": "City I",
     "module": "rainmaker-common",
     "locale": "en_IN"

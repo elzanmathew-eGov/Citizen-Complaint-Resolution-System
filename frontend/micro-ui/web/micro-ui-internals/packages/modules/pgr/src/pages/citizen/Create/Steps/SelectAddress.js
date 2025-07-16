@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { CardLabel, Dropdown, FormStep, RadioButtons } from "@egovernments/digit-ui-react-components";
 
-const SelectAddress = ({ t, config, onSelect, value }) => {
+const SelectAddress = ({ t, config, onSelect, userType, formData, value = {} }) => {
   const allCities = Digit.Hooks.pgr.useTenants();
   const cities = value?.pincode ? allCities.filter((city) => city?.pincode?.some((pin) => pin == value["pincode"])) : allCities;
 
@@ -11,7 +11,7 @@ const SelectAddress = ({ t, config, onSelect, value }) => {
   });
   const { data: fetchedLocalities } = Digit.Hooks.useBoundaryLocalities(
     selectedCity?.code,
-    "admin",
+    "ADMIN",
     {
       enabled: !!selectedCity,
     },
@@ -36,11 +36,20 @@ const SelectAddress = ({ t, config, onSelect, value }) => {
     setSelectedLocality(null);
     setLocalities(null);
     setSelectedCity(city);
+    onSelect(config.key, {
+      "city": city,
+      "locality": {}
+    })
     // Digit.SessionStorage.set("city_complaint", city);
   }
 
   function selectLocality(locality) {
     setSelectedLocality(locality);
+    onSelect(config.key, {
+      "city": selectedCity,
+      "locality": locality
+    })
+
     // Digit.SessionStorage.set("locality_complaint", locality);
   }
 

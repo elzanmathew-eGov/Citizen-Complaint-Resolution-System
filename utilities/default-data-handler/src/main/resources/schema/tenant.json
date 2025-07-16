@@ -1,6 +1,6 @@
 [
   {
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "code": "tenant.citymodule",
     "description": "tenant.citymodule",
     "isActive": true,
@@ -45,11 +45,13 @@
             }
           }
         }
-      }
+      },
+      "x-ref-schema": [],
+      "additionalProperties": false
     }
   },
   {
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "code": "tenant.tenants",
     "description": "tenant.tenants",
     "isActive": true,
@@ -60,18 +62,14 @@
       "required": [
         "code",
         "name",
-        "description",
+        "domainUrl",
+        "type",
+        "imageId",
+        "emailId",
         "OfficeTimings",
         "city",
         "address",
-        "blockcode",
-        "blockname",
-        "villageCode",
-        "villageName",
-        "districtCode",
-        "districtName",
-        "panchayatcode",
-        "panchayatname"
+        "contactNumber"
       ],
       "x-unique": [
         "code"
@@ -81,117 +79,77 @@
           "type": "object",
           "required": [
             "name",
-            "code",
-            "ddrName",
-            "projectId",
-            "blockcode",
-            "blockname",
-            "villageCode",
-            "villageName",
-            "districtCode",
             "districtName",
-            "panchayatcode",
-            "panchayatname"
+            "districtTenantCode",
+            "ulbGrade",
+            "code"
           ],
           "properties": {
             "code": {
-              "type": "string",
-              "default": ""
+              "type": "string"
             },
             "name": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "default": ""
+              "type": "string"
             },
             "captcha": {
               "type": [
                 "string",
                 "null"
-              ],
-              "default": ""
-            },
-            "ddrName": {
-              "type": "string",
-              "default": ""
-            },
-            "latitude": {
-              "type": [
-                "number",
-                "null"
               ]
             },
-            "ulbGrade": {
+            "ddrName": {
               "type": [
                 "string",
                 "null"
-              ],
-              "default": ""
+              ]
             },
-            "blockcode": {
+            "latitude": {
+              "type": "number"
+            },
+            "ulbGrade": {
               "type": "string"
             },
-            "blockname": {
-              "type": "string"
+            "blockCode": {
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "localName": {
               "type": [
                 "string",
                 "null"
-              ],
-              "default": ""
-            },
-            "longitude": {
-              "type": [
-                "number",
-                "null"
               ]
             },
-            "projectId": {
-              "type": "string",
-              "default": ""
+            "longitude": {
+              "type": "number"
             },
             "regionName": {
               "type": [
                 "string",
                 "null"
-              ],
-              "default": ""
-            },
-            "villageCode": {
-              "type": "string",
-              "default": ""
-            },
-            "villageName": {
-              "type": "string",
-              "default": ""
+              ]
             },
             "districtCode": {
               "type": [
                 "string",
                 "null"
-              ],
-              "default": ""
+              ]
             },
             "districtName": {
               "type": [
                 "string",
                 "null"
-              ],
-              "default": ""
-            },
-            "panchayatcode": {
-              "type": "string"
-            },
-            "panchayatname": {
-              "type": "string"
+              ]
             },
             "shapeFileLocation": {
               "type": [
                 "string",
                 "null"
               ]
+            },
+            "districtTenantCode": {
+              "type": "string"
             }
           }
         },
@@ -201,17 +159,14 @@
         "name": {
           "type": "string"
         },
+        "type": {
+          "type": "string"
+        },
         "logoId": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": "string"
         },
         "address": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": "string"
         },
         "emailId": {
           "type": "string"
@@ -225,29 +180,14 @@
         "pincode": {
           "type": "array",
           "items": {
-            "type": [
-              "number",
-              "null"
-            ]
+            "type": "number"
           }
         },
-        "blockcode": {
-          "type": "string"
-        },
-        "blockname": {
-          "type": "string"
-        },
         "domainUrl": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": "string"
         },
-        "pdfHeader": {
-          "type": [
-            "string",
-            "null"
-          ]
+        "centreType": {
+          "type": "string"
         },
         "twitterUrl": {
           "type": [
@@ -256,7 +196,10 @@
           ]
         },
         "description": {
-          "type": "string"
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "facebookUrl": {
           "type": [
@@ -264,78 +207,46 @@
             "null"
           ]
         },
-        "villageCode": {
-          "type": "string"
-        },
-        "villageName": {
-          "type": "string"
-        },
-        "districtCode": {
-          "type": "string"
-        },
-        "districtName": {
-          "type": "string"
-        },
         "OfficeTimings": {
           "type": "object",
           "required": [
             "Mon - Fri"
           ],
           "properties": {
+            "Sat": {
+              "type": "string"
+            },
             "Mon - Fri": {
-              "type": "string",
-              "default": ""
+              "type": "string"
             }
           }
         },
         "contactNumber": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "panchayatcode": {
           "type": "string"
         },
-        "panchayatname": {
+        "helpLineNumber": {
           "type": "string"
-        },
-        "pdfContactDetails": {
-          "type": [
-            "string",
-            "null"
-          ]
         }
       },
       "x-ui-schema": {
         "ui:order": [
           "code",
           "name",
+          "type",
           "logoId",
           "emailId",
           "imageId",
           "address",
           "domainUrl",
-          "pdfHeader",
-          "districtCode",
-          "districtName",
-          "blockcode",
-          "blockname",
-          "panchayatcode",
-          "panchayatname",
-          "villageName",
-          "villageCode",
           "twitterUrl",
           "facebookUrl",
           "description",
           "contactNumber",
-          "pdfContactDetails",
-          "pincode",
+          "helpLineNumber",
           "city",
           "OfficeTimings"
         ]
-      },
-      "x-ref-schema": []
+      }
     }
   }
 ]

@@ -9,7 +9,7 @@ var Digit = window.Digit || {};
 
 
 const businessServiceMap = {
- 
+
   "muster roll": "MR"
 };
 
@@ -20,7 +20,7 @@ const inboxModuleNameMap = {
 export const UICustomizations = {
   businessServiceMap,
   updatePayload: (applicationDetails, data, action, businessService) => {
-    
+
     if (businessService === businessServiceMap.estimate) {
       const workflow = {
         comment: data.comments,
@@ -96,7 +96,7 @@ export const UICustomizations = {
         workflow,
       };
     }
-    if(businessService === businessServiceMap?.["works.purchase"]){
+    if (businessService === businessServiceMap?.["works.purchase"]) {
       const workflow = {
         comment: data.comments,
         documents: data?.documents?.map((document) => {
@@ -117,20 +117,20 @@ export const UICustomizations = {
       });
 
       const additionalFieldsToSet = {
-        projectId:applicationDetails.additionalDetails.projectId,
-        invoiceDate:applicationDetails.billDate,
-        invoiceNumber:applicationDetails.referenceId.split('_')?.[1],
-        contractNumber:applicationDetails.referenceId.split('_')?.[0],
-        documents:applicationDetails.additionalDetails.documents
+        projectId: applicationDetails.additionalDetails.projectId,
+        invoiceDate: applicationDetails.billDate,
+        invoiceNumber: applicationDetails.referenceId.split('_')?.[1],
+        contractNumber: applicationDetails.referenceId.split('_')?.[0],
+        documents: applicationDetails.additionalDetails.documents
       }
       return {
-        bill: {...applicationDetails,...additionalFieldsToSet},
+        bill: { ...applicationDetails, ...additionalFieldsToSet },
         workflow,
       };
     }
   },
-  enableModalSubmit:(businessService,action,setModalSubmit,data)=>{
-    if(businessService === businessServiceMap?.["muster roll"] && action.action==="APPROVE"){
+  enableModalSubmit: (businessService, action, setModalSubmit, data) => {
+    if (businessService === businessServiceMap?.["muster roll"] && action.action === "APPROVE") {
       setModalSubmit(data?.acceptTerms)
     }
   },
@@ -141,10 +141,10 @@ export const UICustomizations = {
     if (businessService === businessServiceMap.contract) {
       return action.action.includes("VERIFY_AND_FORWARD");
     }
-     if (businessService === businessServiceMap?.["muster roll"]) {
+    if (businessService === businessServiceMap?.["muster roll"]) {
       return action.action.includes("VERIFY");
     }
-    if(businessService === businessServiceMap?.["works.purchase"]){
+    if (businessService === businessServiceMap?.["works.purchase"]) {
       return action.action.includes("VERIFY_AND_FORWARD")
     }
     return false;
@@ -182,33 +182,143 @@ export const UICustomizations = {
     }
   },
 
+    PGRInboxConfig: {
+    preProcess: (data) => {
+      data.body.inbox.tenantId = Digit.ULBService.getCurrentTenantId();
+      data.body.inbox.processSearchCriteria.tenantId = Digit.ULBService.getCurrentTenantId();
+
+      const requestDate = data?.body?.inbox?.moduleSearchCriteria?.range?.requestDate;
+
+      if (requestDate?.startDate && requestDate?.endDate) {
+        const fromDate = new Date(requestDate.startDate).getTime();
+        const toDate = new Date(requestDate.endDate).getTime();
+
+        data.body.inbox.moduleSearchCriteria.fromDate = fromDate;
+        data.body.inbox.moduleSearchCriteria.toDate = toDate;
+      }
+      else{
+        delete data.body.inbox.moduleSearchCriteria.fromDate;
+        delete data.body.inbox.moduleSearchCriteria.toDate;
+      }
+
+      // Always delete the full range object if it exists
+      delete data.body.inbox.moduleSearchCriteria.range;
+    
+      const assignee = _.clone(data.body.inbox.moduleSearchCriteria.assignedToMe);
+      delete data.body.inbox.moduleSearchCriteria.assignedToMe;
+      delete data.body.inbox.moduleSearchCriteria.assignee;
+    
+      if (assignee?.code === "ASSIGNED_TO_ME" || data?.state?.filterForm?.assignedToMe?.code === "ASSIGNED_TO_ME") {
+        data.body.inbox.moduleSearchCriteria.assignee = Digit.UserService.getUser().info.uuid;
+      }
+    
+      // --- Handle serviceCode ---
+      let serviceCodes = _.clone(data.body.inbox.moduleSearchCriteria.serviceCode || null);
+      serviceCodes = serviceCodes?.serviceCode;
+      delete data.body.inbox.moduleSearchCriteria.serviceCode;
+      if (serviceCodes != null) {
+        data.body.inbox.moduleSearchCriteria.complaintType = serviceCodes;
+      } else {
+        delete data.body.inbox.moduleSearchCriteria.complaintType;
+      }
+
+      delete data.body.inbox.moduleSearchCriteria.locality;
+      let rawLocality = data?.state?.filterForm?.locality;
+      let localityArray = [];
+      if (rawLocality) {
+        if (Array.isArray(rawLocality)) {
+          localityArray = rawLocality.map((loc) => loc?.code).filter(Boolean);
+        } else if (rawLocality.code) {
+          localityArray = [rawLocality.code];
+        }
+      }
+      
+      if (localityArray.length > 0) {
+        delete data.body.inbox.moduleSearchCriteria.locality;
+        data.body.inbox.moduleSearchCriteria.area = localityArray;
+      } else {
+        delete data.body.inbox.moduleSearchCriteria.area;
+      }
+    
+      // --- Handle status from state.filterForm ---
+      const rawStatuses = _.clone(data?.state?.filterForm?.status || {});
+      const statuses = Object.keys(rawStatuses).filter((key) => rawStatuses[key] === true);
+    
+      if (statuses.length > 0) {
+        data.body.inbox.moduleSearchCriteria.status = statuses;
+      } else {
+        delete data.body.inbox.moduleSearchCriteria.status;
+      }
+    
+      return data;
+    },
+    additionalCustomizations: (row, key, column, value, t, searchResult) => {
+      switch (key) {
+        case "CS_COMMON_COMPLAINT_NO":
+          return (
+            <div style={{display:"grid"}}>
+            <span className="link" style={{display:"grid"}}>
+            <Link
+              to={ `/${window.contextPath}/employee/pgr/complaint-details/${value}`}
+            >
+              {String(value ? (column.translate ? t(column.prefix ? `${column.prefix}${value}` : value) : value) : t("ES_COMMON_NA"))}
+            </Link>
+          </span>
+          <span>{t(`SERVICEDEFS.${row?.businessObject?.service?.serviceCode?.toUpperCase()}`)}</span>
+          </div>
+          );
+
+          case "WF_INBOX_HEADER_LOCALITY":
+          return value ? <span>{t(`${value}`)}</span> : <span>{t("NA")}</span>;
+
+        case "CS_COMPLAINT_DETAILS_CURRENT_STATUS":
+          return <span>{t(`CS_COMMON_${value}`)}</span>;
+
+        case "WF_INBOX_HEADER_CURRENT_OWNER":
+          return value ? <span>{value?.[0]?.name}</span> : <span>{t("NA")}</span>;
+
+        case "WF_INBOX_HEADER_SLA_DAYS_REMAINING":
+          return value > 0 ? <Tag label={value} showIcon={false} type="success" /> : <Tag label={value} showIcon={false} type="error" />;
+
+        default:
+          return t("ES_COMMON_NA");
+      }
+    },
+  },
+
   AttendanceInboxConfig: {
     preProcess: (data) => {
-      
+
       //set tenantId
       data.body.inbox.tenantId = Digit.ULBService.getCurrentTenantId();
       data.body.inbox.processSearchCriteria.tenantId = Digit.ULBService.getCurrentTenantId();
 
       const musterRollNumber = data?.body?.inbox?.moduleSearchCriteria?.musterRollNumber?.trim();
-      if(musterRollNumber) data.body.inbox.moduleSearchCriteria.musterRollNumber = musterRollNumber
+      if (musterRollNumber) data.body.inbox.moduleSearchCriteria.musterRollNumber = musterRollNumber
 
       const attendanceRegisterName = data?.body?.inbox?.moduleSearchCriteria?.attendanceRegisterName?.trim();
-      if(attendanceRegisterName) data.body.inbox.moduleSearchCriteria.attendanceRegisterName = attendanceRegisterName
+      if (attendanceRegisterName) data.body.inbox.moduleSearchCriteria.attendanceRegisterName = attendanceRegisterName
 
       // deleting them for now(assignee-> need clarity from pintu,ward-> static for now,not implemented BE side)
+
       const assignee = _.clone(data.body.inbox.moduleSearchCriteria.assignee);
       delete data.body.inbox.moduleSearchCriteria.assignee;
-      if (assignee?.code === "ASSIGNED_TO_ME") {
+      delete data.body.inbox.moduleSearchCriteria.assignee;
+
+      if (assignee?.code === "ASSIGNED_TO_ME" || data?.state?.filterForm?.assignee?.code === "ASSIGNED_TO_ME") {
         data.body.inbox.moduleSearchCriteria.assignee = Digit.UserService.getUser().info.uuid;
       }
 
+
+
+
       //cloning locality and workflow states to format them
       // let locality = _.clone(data.body.inbox.moduleSearchCriteria.locality ? data.body.inbox.moduleSearchCriteria.locality : []);
-      
-      let selectedOrg =  _.clone(data.body.inbox.moduleSearchCriteria.orgId ? data.body.inbox.moduleSearchCriteria.orgId : null);
+
+      let selectedOrg = _.clone(data.body.inbox.moduleSearchCriteria.orgId ? data.body.inbox.moduleSearchCriteria.orgId : null);
       delete data.body.inbox.moduleSearchCriteria.orgId;
-      if(selectedOrg) {
-         data.body.inbox.moduleSearchCriteria.orgId = selectedOrg?.[0]?.applicationNumber;
+      if (selectedOrg) {
+        data.body.inbox.moduleSearchCriteria.orgId = selectedOrg?.[0]?.applicationNumber;
       }
 
       // let selectedWard =  _.clone(data.body.inbox.moduleSearchCriteria.ward ? data.body.inbox.moduleSearchCriteria.ward : null);
@@ -226,11 +336,11 @@ export const UICustomizations = {
       // locality = locality?.map((row) => row?.code);
       states = Object.keys(states)?.filter((key) => states[key]);
       ward = ward?.map((row) => row?.code);
-      
-      
+
+
       // //adding formatted data to these keys
       // if (locality.length > 0) data.body.inbox.moduleSearchCriteria.locality = locality;
-      if (states.length > 0) data.body.inbox.moduleSearchCriteria.status = states;  
+      if (states.length > 0) data.body.inbox.moduleSearchCriteria.status = states;
       if (ward.length > 0) data.body.inbox.moduleSearchCriteria.ward = ward;
       const projectType = _.clone(data.body.inbox.moduleSearchCriteria.projectType ? data.body.inbox.moduleSearchCriteria.projectType : {});
       if (projectType?.code) data.body.inbox.moduleSearchCriteria.projectType = projectType.code;
@@ -239,7 +349,7 @@ export const UICustomizations = {
       data.body.inbox.moduleSearchCriteria.tenantId = Digit.ULBService.getCurrentTenantId();
 
       //setting limit and offset becoz somehow they are not getting set in muster inbox 
-      data.body.inbox .limit = data.state.tableForm.limit
+      data.body.inbox.limit = data.state.tableForm.limit
       data.body.inbox.offset = data.state.tableForm.offset
       delete data.state
       return data;
@@ -277,7 +387,7 @@ export const UICustomizations = {
       if (key === "ATM_NO_OF_INDIVIDUALS") {
         return <div>{value?.length}</div>;
       }
-      if(key === "ATM_AMOUNT_IN_RS"){
+      if (key === "ATM_AMOUNT_IN_RS") {
         return <span>{value ? Digit.Utils.dss.formatterWithoutRound(value, "number") : t("ES_COMMON_NA")}</span>;
       }
       if (key === "ATM_SLA") {
@@ -309,8 +419,8 @@ export const UICustomizations = {
         body: {
           SearchCriteria: {
             tenantId: tenantId,
-            functions : {
-              type : "CBO"
+            functions: {
+              type: "CBO"
             }
           },
         },
@@ -323,7 +433,7 @@ export const UICustomizations = {
       };
     },
   },
-  SearchWageSeekerConfig:  {
+  SearchWageSeekerConfig: {
     customValidationCheck: (data) => {
       //checking both to and from date are present
       const { createdFrom, createdTo } = data;
@@ -383,7 +493,7 @@ export const UICustomizations = {
           return (
             <span className="link">
               <Link to={`/${window.contextPath}/employee/masters/view-wageseeker?tenantId=${row?.tenantId}&individualId=${value}`}>
-                 {String(value ? (column.translate ? t(column.prefix ? `${column.prefix}${value}` : value) : value) : t("ES_COMMON_NA"))}
+                {String(value ? (column.translate ? t(column.prefix ? `${column.prefix}${value}` : value) : value) : t("ES_COMMON_NA"))}
               </Link>
             </span>
           );

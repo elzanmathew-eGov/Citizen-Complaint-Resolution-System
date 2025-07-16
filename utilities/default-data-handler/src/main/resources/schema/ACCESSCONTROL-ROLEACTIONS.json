@@ -1,6 +1,6 @@
 [
     {
-      "tenantId": "pg",
+      "tenantId": "{tenantid}",
       "code": "ACCESSCONTROL-ACTIONS-TEST.actions-test",
       "description": "ACCESSCONTROL-ACTIONS-TEST.actions-test",
       "isActive": true,
@@ -65,11 +65,13 @@
           "navigationURL": {
             "type": "string"
           }
-        }
+        },
+        "x-ref-schema": [],
+        "additionalProperties": true
       }
     },
     {
-      "tenantId": "pg",
+      "tenantId": "{tenantid}",
       "code": "ACCESSCONTROL-ROLEACTIONS.roleactions",
       "description": "ACCESSCONTROL-ROLEACTIONS.roleactions",
       "isActive": true,
@@ -94,11 +96,7 @@
             "type": "string"
           },
           "tenantId": {
-            "enum": [
-              "pg"
-            ],
-            "type": "string",
-            "default": "pg"
+            "type": "string"
           },
           "actioncode": {
             "type": "string"
@@ -117,7 +115,7 @@
       }
     },
     {
-      "tenantId": "pg",
+      "tenantId": "{tenantid}",
       "code": "ACCESSCONTROL-ROLES.roles",
       "description": "ACCESSCONTROL-ROLES.roles",
       "isActive": true,
@@ -142,7 +140,9 @@
           "description": {
             "type": "string"
           }
-        }
+        },
+        "x-ref-schema": [],
+        "additionalProperties": false
       }
     }
   ]
