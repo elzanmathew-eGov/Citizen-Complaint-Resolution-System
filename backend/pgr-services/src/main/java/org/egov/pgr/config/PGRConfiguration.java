@@ -231,4 +231,10 @@ public class PGRConfiguration {
     @Value("${egov.boundary.search.url}")
     private String boundarySearchEndpoint;
 
+    @Value("${pgr.kafka.create.inbox.topic}")
+    private String inboxCreateTopic;
+
+    @Value("${pgr.kafka.update.inbox.topic}")
+    private String inboxUpdateTopic;
+
 }

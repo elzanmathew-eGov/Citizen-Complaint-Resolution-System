@@ -15,7 +15,6 @@ const SelectComplaintType = ({ t, config, onSelect, value }) => {
   const textParams = config.texts;
 
   const menu = Digit.Hooks.pgr.useComplaintTypes({ stateCode: Digit.ULBService.getCurrentTenantId() });
-
   function selectedValue(value) {
     setComplaintType(value);
     // SessionStorage.set("complaintType", value);
@@ -35,3 +34,5 @@ const SelectComplaintType = ({ t, config, onSelect, value }) => {
 };
 
 export default SelectComplaintType;
+
+

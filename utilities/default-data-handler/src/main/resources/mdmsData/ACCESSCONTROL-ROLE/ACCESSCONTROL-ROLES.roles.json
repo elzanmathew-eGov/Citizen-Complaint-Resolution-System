@@ -83,5 +83,15 @@
     "code": "CITIZEN",
     "name": "Citizen",
     "description": "Citizen who can raise complaint"
+  },
+  {
+    "code": "ANONYMOUS",
+    "name": "Anonymous User",
+    "description": "Anonymous User to be used in case of no auth"
+  },
+  {
+    "code": "WORKFLOW_ADMIN",
+    "name": "WORKFLOW ADMIN",
+    "description": "WORKFLOW User that can create and search Workflow"
   }
 ]

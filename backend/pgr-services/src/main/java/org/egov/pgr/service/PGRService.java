@@ -78,6 +78,7 @@ public class PGRService {
         service.setAdditionalDetail(additionalDetailMap);
 
         producer.push(tenantId,config.getCreateTopic(),request);
+        producer.push(tenantId,config.getInboxCreateTopic(),request);
         return request;
     }
 
@@ -138,6 +139,7 @@ public class PGRService {
         enrichmentService.enrichUpdateRequest(request);
         workflowService.updateWorkflowStatus(request);
         producer.push(tenantId,config.getUpdateTopic(),request);
+        producer.push(tenantId,config.getInboxUpdateTopic(),request);
         return request;
     }
 

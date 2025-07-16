@@ -1,6 +1,6 @@
 [
     {
-      "tenantId": "{tenantid}",
+      "tenantId": "{tenantid}.citya",
       "employeeStatus": "EMPLOYED",
       "assignments": [
         {
@@ -10,7 +10,7 @@
           "designation": "DESIG_04"
         }
       ],
-      "code": "adminemployee@gmail.com",
+      "code": "ADMIN",
       "dateOfAppointment": 1718841600000,
       "employeeType": "PERMANENT",
       "jurisdictions": [
@@ -18,80 +18,79 @@
           "hierarchy": "ADMIN",
           "boundaryType": "City",
           "boundary": "{tenantid}",
-          "tenantId": "{tenantid}",
+          "tenantId": "{tenantid}.citya",
           "roles": [
             {
               "name": "SUPER USER",
               "code": "SUPERUSER",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "LOC_ADMIN",
               "name": "Localisation admin",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "MDMS_ADMIN",
               "name": "MDMS ADMIN",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "EMPLOYEE",
               "name": "Employee",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "HRMS_ADMIN",
               "name": "HRMS Admin",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             }
           ]
         }
       ],
       "user": {
-        "userName": "ADMIN",
         "name": "ADMIN",
         "gender": null,
-        "mobileNumber": "9307817401",
+        "mobileNumber": "9307816401",
         "active": true,
         "type": "EMPLOYEE",
         "roles": [
           {
             "name": "SUPER USER",
             "code": "SUPERUSER",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "LOC_ADMIN",
             "name": "Localisation admin",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "MDMS_ADMIN",
             "name": "MDMS ADMIN",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "EMPLOYEE",
             "name": "Employee",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "HRMS_ADMIN",
             "name": "HRMS Admin",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           }
         ],
         "password": "eGov@123",
         "otpReference": "12345",
-        "tenantId": "{tenantid}"
+        "tenantId": "{tenantid}.citya"
       },
       "serviceHistory": [],
       "education": [],
       "tests": []
     },
     {
-      "tenantId": "{tenantid}",
+      "tenantId": "{tenantid}.citya",
       "employeeStatus": "EMPLOYED",
       "assignments": [
         {
@@ -101,7 +100,7 @@
           "designation": "DESIG_04"
         }
       ],
-      "code": "superuseremployee@gmail.com",
+      "code": "SUPERUSER",
       "dateOfAppointment": 1718841600000,
       "employeeType": "PERMANENT",
       "jurisdictions": [
@@ -109,23 +108,22 @@
           "hierarchy": "ADMIN",
           "boundaryType": "City",
           "boundary": "{tenantid}",
-          "tenantId": "{tenantid}",
+          "tenantId": "{tenantid}.citya",
           "roles": [
             {
               "name": "SUPER USER",
               "code": "SUPERUSER",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "EMPLOYEE",
               "name": "Employee",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             }
           ]
         }
       ],
       "user": {
-        "userName": "SUPERUSER",
         "name": "demo111",
         "gender": null,
         "mobileNumber": "9307817402",
@@ -135,24 +133,24 @@
           {
             "name": "SUPER USER",
             "code": "SUPERUSER",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "EMPLOYEE",
             "name": "Employee",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           }
         ],
         "password": "eGov@123",
         "otpReference": "12345",
-        "tenantId": "{tenantid}"
+        "tenantId": "{tenantid}.citya"
       },
       "serviceHistory": [],
       "education": [],
       "tests": []
     },
     {
-      "tenantId": "{tenantid}",
+      "tenantId": "{tenantid}.citya",
       "employeeStatus": "EMPLOYED",
       "assignments": [
         {
@@ -162,7 +160,7 @@
           "designation": "DESIG_04"
         }
       ],
-      "code": "lmeemployee@gmail.com",
+      "code": "LME",
       "dateOfAppointment": 1718841600000,
       "employeeType": "PERMANENT",
       "jurisdictions": [
@@ -170,23 +168,22 @@
           "hierarchy": "ADMIN",
           "boundaryType": "City",
           "boundary": "{tenantid}",
-          "tenantId": "{tenantid}",
+          "tenantId": "{tenantid}.citya",
           "roles": [
             {
               "name": "PGR Last Mile Employee",
               "code": "PGR_LME",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "EMPLOYEE",
               "name": "Employee",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             }
           ]
         }
       ],
       "user": {
-        "userName": "LME",
         "name": "demo111",
         "gender": null,
         "mobileNumber": "9307817403",
@@ -196,24 +193,24 @@
           {
             "name": "PGR Last Mile Employee",
             "code": "PGR_LME",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "EMPLOYEE",
             "name": "Employee",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           }
         ],
         "password": "eGov@123",
         "otpReference": "12345",
-        "tenantId": "{tenantid}"
+        "tenantId": "{tenantid}.citya"
       },
       "serviceHistory": [],
       "education": [],
       "tests": []
     },
     {
-      "tenantId": "{tenantid}",
+      "tenantId": "{tenantid}.citya",
       "employeeStatus": "EMPLOYED",
       "assignments": [
         {
@@ -223,7 +220,7 @@
           "designation": "DESIG_04"
         }
       ],
-      "code": "CSRemployee@gmail.com",
+      "code": "CSR",
       "dateOfAppointment": 1718841600000,
       "employeeType": "PERMANENT",
       "jurisdictions": [
@@ -231,23 +228,22 @@
           "hierarchy": "ADMIN",
           "boundaryType": "City",
           "boundary": "{tenantid}",
-          "tenantId": "{tenantid}",
+          "tenantId": "{tenantid}.citya",
           "roles": [
             {
               "name": "Customer Support Representative",
               "code": "CSR",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "EMPLOYEE",
               "name": "Employee",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             }
           ]
         }
       ],
       "user": {
-        "userName": "CSR",
         "name": "demo111",
         "gender": null,
         "mobileNumber": "9307817404",
@@ -257,24 +253,24 @@
           {
             "name": "Customer Support Representative",
             "code": "CSR",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "EMPLOYEE",
             "name": "Employee",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           }
         ],
         "password": "eGov@123",
         "otpReference": "12345",
-        "tenantId": "{tenantid}"
+        "tenantId": "{tenantid}.citya"
       },
       "serviceHistory": [],
       "education": [],
       "tests": []
     },
     {
-      "tenantId": "{tenantid}",
+      "tenantId": "{tenantid}.citya",
       "employeeStatus": "EMPLOYED",
       "assignments": [
         {
@@ -284,7 +280,7 @@
           "designation": "DESIG_04"
         }
       ],
-      "code": "groemployee@gmail.com",
+      "code": "GRO",
       "dateOfAppointment": 1718841600000,
       "employeeType": "PERMANENT",
       "jurisdictions": [
@@ -292,23 +288,22 @@
           "hierarchy": "ADMIN",
           "boundaryType": "City",
           "boundary": "{tenantid}",
-          "tenantId": "{tenantid}",
+          "tenantId": "{tenantid}.citya",
           "roles": [
             {
               "name": "Grievance Routing Officer",
               "code": "GRO",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             },
             {
               "code": "EMPLOYEE",
               "name": "Employee",
-              "tenantId": "{tenantid}"
+              "tenantId": "{tenantid}.citya"
             }
           ]
         }
       ],
       "user": {
-        "userName": "GRO",
         "name": "demo111",
         "gender": null,
         "mobileNumber": "9307817405",
@@ -318,17 +313,17 @@
           {
             "name": "Grievance Routing Officer",
             "code": "GRO",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           },
           {
             "code": "EMPLOYEE",
             "name": "Employee",
-            "tenantId": "{tenantid}"
+            "tenantId": "{tenantid}.citya"
           }
         ],
         "password": "eGov@123",
         "otpReference": "12345",
-        "tenantId": "{tenantid}"
+        "tenantId": "{tenantid}.citya"
       },
       "serviceHistory": [],
       "education": [],

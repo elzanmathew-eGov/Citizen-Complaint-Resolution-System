@@ -103,7 +103,7 @@ public class StartupDataInitializer{
 
             DefaultDataRequest defaultDataRequest = DefaultDataRequest.builder().requestInfo(tenantRequest.getRequestInfo()).targetTenantId(tenantCode).schemaCodes(serviceConfig.getDefaultMdmsSchemaList()).onlySchemas(Boolean.FALSE).locales(serviceConfig.getDefaultLocalizationLocaleList()).modules(serviceConfig.getDefaultLocalizationModuleList()).build();
             defaultDataRequest.setTargetTenantId(tenantCode);
-            //Create Schema
+//            Create Schema
             dataHandlerService.createMdmsSchemaFromFile(defaultDataRequest);
             // Load mdms data
             mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());

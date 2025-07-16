@@ -29,7 +29,7 @@ initContainers:
 # Container Configs
 image:
   repository: "default-data-handler"
-  tag: sandbox-pgr-4d26840-14
+  tag: sandbox-pgr-79e3408-21
 replicas: "1"
 healthChecks:
   enabled: true

@@ -1597,7 +1597,7 @@ export const UICustomizations = {
       delete data.body.inbox.moduleSearchCriteria.assignee;
     
       if (assignee?.code === "ASSIGNED_TO_ME" || data?.state?.filterForm?.assignedToMe?.code === "ASSIGNED_TO_ME") {
-        data.body.inbox.moduleSearchCriteria.assignedToMe = Digit.UserService.getUser().info.uuid;
+        data.body.inbox.moduleSearchCriteria.assignee = Digit.UserService.getUser().info.uuid;
       }
     
       // --- Handle serviceCode ---
@@ -1652,7 +1652,7 @@ export const UICustomizations = {
               {String(value ? (column.translate ? t(column.prefix ? `${column.prefix}${value}` : value) : value) : t("ES_COMMON_NA"))}
             </Link>
           </span>
-          <span>{t(`SERVICEDEFS.${row?.businessObject?.service?.serviceCode.toUpperCase()}`)}</span>
+          <span>{t(`SERVICEDEFS.${row?.businessObject?.service?.serviceCode?.toUpperCase()}`)}</span>
           </div>
           );
 
@@ -1863,7 +1863,7 @@ export const UICustomizations = {
     additionalCustomizations: (row, key, column, value, t, searchResult) => {
       const { id } = useParams();
       const tenantId = Digit.ULBService.getCurrentTenantId();
-      const hierarchyType = window?.globalConfigs?.getConfig("HIERARCHY_TYPE") || "HIERARCHYTEST";
+      const hierarchyType = window?.globalConfigs?.getConfig("HIERARCHY_TYPE") || "ADMIN";
       const projectContextPath = window?.globalConfigs?.getConfig("PROJECT_CONTEXT_PATH") || "health-project";
       const [toast, setToast] = useState(null);
       const [modalOpen, setModalOpen] = useState(false);

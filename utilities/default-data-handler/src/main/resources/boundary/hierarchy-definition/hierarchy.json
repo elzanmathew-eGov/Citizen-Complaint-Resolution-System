@@ -1,6 +1,6 @@
 {
   "BoundaryHierarchy": {
-    "tenantId": "{tenantid}",
+    "tenantId": "{tenantid}.citya",
     "hierarchyType": "ADMIN",
     "boundaryHierarchy": [
       {

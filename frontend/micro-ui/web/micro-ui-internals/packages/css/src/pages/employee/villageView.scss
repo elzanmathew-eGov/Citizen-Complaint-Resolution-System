@@ -39,7 +39,7 @@
 .label-text {
     @extend .typography.body-l;
     color: theme(digitv2.lightTheme.text-primary);
-    width: 80%;
+    width: 100% !important;
 }
 
 .edit-label-field-pair {

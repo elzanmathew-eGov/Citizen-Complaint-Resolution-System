@@ -16,39 +16,12 @@ initContainers:
     schemaTable: "egov_hrms_schema"
     image:
       repository: "egov-hrms-db"
-      tag: "v1.3.0-37304bc82e-14"
-    env: |
-      {{- if index .Values "egov-hrms-ismultischema-enabled" }}
-      - name: SCHEMA_NAME
-        value: {{ index .Values "egov-hrms-schemas" | quote }}
-      {{- end }}
-      - name: "DB_URL"
-        valueFrom:
-          configMapKeyRef:
-            name: egov-config
-            key: db-url
-      - name: "SCHEMA_TABLE"
-        value: {{ .Values.initContainers.dbMigration.schemaTable | quote }}
-      - name: "FLYWAY_USER"
-        valueFrom:
-          secretKeyRef:
-              name: db
-              key: flyway-username
-      - name: "FLYWAY_PASSWORD"
-        valueFrom:
-          secretKeyRef:
-              name: db
-              key: flyway-password
-      - name: "FLYWAY_LOCATIONS"
-        valueFrom:
-          configMapKeyRef:
-              name: egov-config
-              key: flyway-locations
+      tag: "hrms-boundary-dfe1cb188f-16"
 
 # Container Configs
 image:
   repository: "egov-hrms"
-  tag: "v1.3.0-37304bc82e-14"
+  tag: "hrms-boundary-dfe1cb188f-16"
 replicas: "1"
 healthChecks:
   enabled: true
