@@ -1,6 +1,6 @@
 [
   {
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "code": "Workflow.AutoEscalation",
     "description": "Workflow.AutoEscalation",
     "isActive": true,
@@ -15,9 +15,11 @@
         "action",
         "active",
         "stateSLA",
+        "businessSLA",
         "topic"
       ],
       "x-unique": [
+        "state",
         "businessService"
       ],
       "properties": {
@@ -45,11 +47,13 @@
         "businessService": {
           "type": "string"
         }
-      }
+      },
+      "x-ref-schema": [],
+      "additionalProperties": false
     }
   },
   {
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "code": "Workflow.AutoEscalationStatesToIgnore",
     "description": "Workflow.AutoEscalationStatesToIgnore",
     "isActive": true,
@@ -78,11 +82,13 @@
         "businessService": {
           "type": "string"
         }
-      }
+      },
+      "x-ref-schema": [],
+      "additionalProperties": false
     }
   },
   {
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "code": "Workflow.BusinessService",
     "description": "Workflow.BusinessService",
     "isActive": true,
@@ -202,11 +208,13 @@
         "businessService": {
           "type": "string"
         }
-      }
+      },
+      "x-ref-schema": [],
+      "additionalProperties": false
     }
   },
   {
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "code": "Workflow.BusinessServiceConfig",
     "description": "Workflow.BusinessServiceConfig",
     "isActive": true,
@@ -228,11 +236,13 @@
         "isStateLevel": {
           "type": "boolean"
         }
-      }
+      },
+      "x-ref-schema": [],
+      "additionalProperties": false
     }
   },
   {
-    "tenantId": "pg",
+    "tenantId": "{tenantid}",
     "code": "Workflow.BusinessServiceMasterConfig",
     "description": "Workflow.BusinessServiceMasterConfig",
     "isActive": true,
@@ -258,7 +268,9 @@
         "businessService": {
           "type": "string"
         }
-      }
+      },
+      "x-ref-schema": [],
+      "additionalProperties": false
     }
   }
 ]
