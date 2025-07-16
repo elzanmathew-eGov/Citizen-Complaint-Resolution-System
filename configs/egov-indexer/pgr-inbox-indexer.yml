@@ -2,7 +2,7 @@ ServiceMaps:
   serviceName: Public Grievance Redressal - rainmaker
   version: 1.0.0
   mappings:
-    - topic: save-pgr-request
+    - topic: inbox-pgr-events
       configKey: INDEX
       indexes:
         - name: inbox-pgr-services
@@ -22,7 +22,7 @@ ServiceMaps:
               - inJsonPath: $.service.processInstance
                 outJsonPath: $.Data.currentProcessInstance
 
-    - topic: update-pgr-request
+    - topic: inbox-pgr-events
       configKey: INDEX
       indexes:
         - name: inbox-pgr-services
