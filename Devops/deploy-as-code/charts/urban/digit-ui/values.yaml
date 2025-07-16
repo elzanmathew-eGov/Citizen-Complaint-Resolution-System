@@ -14,7 +14,7 @@ initContainers: {}
 # Container Configs
 image:
   repository: "digit-ui"
-  tag: "sandbox-pgr-495d46b-30"
+  tag: "sandbox-pgr-74a6ea1-31"
 replicas: "1"
 httpPort: 80
 healthChecks:
