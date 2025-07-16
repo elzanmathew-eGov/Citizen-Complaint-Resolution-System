@@ -3,9 +3,6 @@ import axios from "axios";
 import { CustomisedHooks } from "../hooks";
 import { UICustomizations } from "../configs/UICustomizations";
 
-
-
-
 export const overrideHooks = () => {
   Object.keys(CustomisedHooks).map((ele) => {
     if (ele === "Hooks") {
