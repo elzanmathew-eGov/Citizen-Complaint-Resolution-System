@@ -3,9 +3,6 @@ import React, { useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { default as EmployeeApp } from "./pages/employee";
 import PGRCard from "./components/PGRCard";
-import GeoLocations from "./components/GeoLocations"; 
-import SelectAddress from "../../pgr/src/pages/citizen/Create/Steps/SelectAddress"; 
-import SelectImages from "../../pgr/src/pages/citizen/Create/Steps/SelectImages"; 
 import { overrideHooks, updateCustomConfigs } from "./utils";
 import { ProviderContext } from "./utils/context";
 import BoundaryComponent from "./components/BoundaryComponent";
@@ -14,11 +11,11 @@ import TimelineWrapper from "./components/TimeLineWrapper";
 import AssigneeComponent from "./components/AssigneeComponent";
 import PGRSearchInbox from "./pages/employee/PGRInbox";
 import CreateComplaint from "./pages/employee/CreateComplaint";
-import CreatePGRFlow from "./pages/citizen/Create/FormExplorer";
 import Response from "./components/Response";
 import BreadCrumbs from "./components/BreadCrumbs";
 import CitizenApp from "./pages/citizen";
 import getRootReducer from "./redux/reducers";
+
 import { CreateComplaint as CreateComplaintCitizen } from "./pages/citizen/Create";
 import { ComplaintsList } from "./pages/citizen/ComplaintsList";
 import ComplaintDetailsPage from "./pages/citizen/ComplaintDetails";
@@ -32,9 +29,9 @@ export const PGRModule = ({ stateCode, userType, tenants }) => {
   const { path, url } = useRouteMatch();
   const tenantId = Digit.ULBService.getCurrentTenantId();
 
-  const hierarchyType = window?.globalConfigs?.getConfig("HIERARCHY_TYPE") || "ADMIN";
+  const hierarchyType = window?.globalConfigs?.getConfig("HIERARCHY_TYPE") || "HIERARCHYTEST";
   const moduleCode = ["pgr", `boundary-${hierarchyType?.toString().toLowerCase()}`];
-  const modulePrefix = "rainmaker";
+  const modulePrefix = "hcm";
   const language = Digit.StoreData.getCurrentLanguage();
   const { isLoading, data: store } = Digit.Services.useStore({
     stateCode,
@@ -102,11 +99,7 @@ const componentsToRegister = {
   PGRComplaintsList : ComplaintsList,
   PGRComplaintDetailsPage : ComplaintDetailsPage,
   PGRSelectRating : SelectRating,
-  PGRResponseCitzen : ResponseCitizen,
-  GeoLocations,
-  SelectAddress,
-  SelectImages,
-  CreatePGRFlow:CreatePGRFlow,
+  PGRResponseCitzen : ResponseCitizen
 };
 
 export const initPGRComponents = () => {
