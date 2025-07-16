@@ -15,12 +15,12 @@ import Response from "./components/Response";
 import BreadCrumbs from "./components/BreadCrumbs";
 import CitizenApp from "./pages/citizen";
 import getRootReducer from "./redux/reducers";
-
 import { CreateComplaint as CreateComplaintCitizen } from "./pages/citizen/Create";
 import { ComplaintsList } from "./pages/citizen/ComplaintsList";
 import ComplaintDetailsPage from "./pages/citizen/ComplaintDetails";
 import SelectRating from "./pages/citizen/Rating/SelectRating";
 import ResponseCitizen from "./pages/citizen/Response";
+import { UICustomizations } from "./configs/UICustomizations";
 
 export const PGRReducers = getRootReducer;
 
@@ -60,6 +60,12 @@ export const PGRModule = ({ stateCode, userType, tenants }) => {
     );
   }
 };
+
+
+
+/* To Overide any existing config/middlewares  we need to use similar method */
+  setupLibraries("Customizations", "commonUiConfig", { ...window?.Digit?.Customizations?.commonUiConfig, ...UICustomizations });
+
 
 const PGRLinks = ({ matchPath }) => {
   const { t } = useTranslation();
