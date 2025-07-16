@@ -17,7 +17,7 @@ initContainers:
     schemaTable: "pgr_services_schema"
     image:
       repository: "pgr-services-db"
-      tag: "sandbox-pgr-87dc525-2"
+      tag: "develop-de5dc8c-3"
     env: |
         {{- if index .Values "pgr-ismultischema-enabled" }}        
         - name: SCHEMA_NAME
