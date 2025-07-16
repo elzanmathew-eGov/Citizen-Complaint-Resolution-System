@@ -14,7 +14,7 @@ initContainers: {}
 # Container Configs
 image:
   repository: "digit-ui"
-  tag: "SB-PGR-CITIZEN-f230c72-36"
+  tag: "SB-PGR-CITIZEN-48c16b0-37"
 replicas: "1"
 httpPort: 80
 healthChecks:
