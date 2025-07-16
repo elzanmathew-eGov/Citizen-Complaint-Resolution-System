@@ -54,6 +54,19 @@ function validateGeoLocation(value) {
   }
   return {};
 }
+
+const getEffectiveServiceCode = (mainType, subType) => {
+  if (
+    subType &&
+    subType.department === mainType.department &&
+    subType.menuPath === mainType.menuPath &&
+    subType.serviceCode !== mainType.serviceCode
+  ) {
+    return subType.serviceCode;
+  }
+
+  return mainType.serviceCode;
+};
   function mapFormDataToRequest(formData, tenantId, user, stateInfo) {
     const timestamp = Date.now();
 
@@ -78,7 +91,7 @@ function validateGeoLocation(value) {
       service: {
         active: true,
         tenantId: tenantId || formData?.SelectAddress?.city?.code || "",
-        serviceCode: formData?.SelectComplaintType?.serviceCode,
+        serviceCode: getEffectiveServiceCode (formData?.SelectComplaintType,formData?.SelectSubComplaintType ),
         description: formData?.description || "",
         applicationStatus: "CREATED",
         source: "web",
