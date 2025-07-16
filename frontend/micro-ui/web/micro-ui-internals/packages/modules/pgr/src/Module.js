@@ -65,6 +65,13 @@ export const PGRModule = ({ stateCode, userType, tenants }) => {
   }
 };
 
+/* To Overide any existing libraries  we need to use similar method */
+const setupLibraries = (Library, service, method) => {
+  window.Digit = window.Digit || {};
+  window.Digit[Library] = window.Digit[Library] || {};
+  window.Digit[Library][service] = method;
+};
+
 
 
 /* To Overide any existing config/middlewares  we need to use similar method */
