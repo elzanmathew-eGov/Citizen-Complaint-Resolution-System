@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Component
 //@Profile("init")
 @RequiredArgsConstructor
-public class StartupDataInitializer{
+public class StartupSchemaAndMasterDataInitializer{
 
     private final DataHandlerService dataHandlerService;
 
@@ -58,18 +58,10 @@ public class StartupDataInitializer{
             executeStartupLogic();
             hasRun.set(true);
         } catch (Exception e) {
-            System.err.println("StartupDataInitializer failed: " + e.getMessage());
+            System.err.println("StartupSchemaAndMasterDataInitializer failed: " + e.getMessage());
             e.printStackTrace();
         }
     }
-
-//    @EventListener(ApplicationReadyEvent.class)
-//    public void onApplicationReady() {
-//        System.out.println("[DEBUG] ApplicationReadyEvent triggered");
-//
-//        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-//        scheduler.schedule(this::executeStartupLogic, 10, TimeUnit.SECONDS);
-//    }
 
     public void executeStartupLogic() throws Exception {
         System.out.println("[DEBUG] Startup logic executing at: " + Instant.now());
@@ -111,12 +103,12 @@ public class StartupDataInitializer{
             dataHandlerService.createBoundaryDataFromFile(defaultDataRequest);
             // upsert localization
             localizationUtil.upsertLocalizationFromFile(defaultDataRequest);
-            // create User
-            dataHandlerService.createUserFromFile(tenantRequest);
-
-            dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
-            // create Employee
-            dataHandlerService.createEmployeeFromFile(defaultDataRequest.getRequestInfo());
+//            // create User
+//            dataHandlerService.createUserFromFile(tenantRequest);
+//
+//            dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
+//            // create Employee
+//            dataHandlerService.createEmployeeFromFile(defaultDataRequest.getRequestInfo());
 
 //            dataHandlerService.createTenantConfig(tenantRequest);
         }
