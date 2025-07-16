@@ -53,7 +53,7 @@ env: |
       configMapKeyRef:
         name: egov-config
         key: egov-state-level-tenant-id
-   - name: STATE_LEVEL_TENANT_ID
+  - name: STATE_LEVEL_TENANT_ID
     valueFrom:
       configMapKeyRef:
         name: egov-config
