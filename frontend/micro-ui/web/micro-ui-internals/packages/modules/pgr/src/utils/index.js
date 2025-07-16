@@ -3,8 +3,6 @@ import axios from "axios";
 import { CustomisedHooks } from "../hooks";
 import { UICustomizations } from "../configs/UICustomizations";
 
-
-
 export const overrideHooks = () => {
   Object.keys(CustomisedHooks).map((ele) => {
     if (ele === "Hooks") {
@@ -41,8 +39,7 @@ const setupLibraries = (Library, service, method) => {
 
 /* To Overide any existing config/middlewares  we need to use similar method */
 export const updateCustomConfigs = () => {
-  setupLibraries("Customizations", "commonUiConfig", { ...window?.Digit?.Customizations?.commonUiConfig, ...UICustomizations });
-  // setupLibraries("Utils", "parsingUtils", { ...window?.Digit?.Utils?.parsingUtils, ...parsingUtils });
+setupLibraries("Customizations", "commonUiConfig", { ...window?.Digit?.Customizations?.commonUiConfig, ...UICustomizations });
 };
 
 /// Util function to downloads files with type as pdf or excel
@@ -154,6 +151,21 @@ export const convertEpochFormateToDate = (dateEpoch) => {
 };
 
 
+  const getEffectiveServiceCode = (mainType, subType) => {
+  if (
+    subType &&
+    subType.department === mainType.department &&
+    subType.menuPath === mainType.menuPath &&
+    subType.serviceCode !== mainType.serviceCode
+  ) {
+    return subType.serviceCode;
+  }
+
+  return mainType.serviceCode;
+};
+
+
+
 export const formPayloadToCreateComplaint = (formData, tenantId, user) => {
   const userInfo = formData?.complaintUser?.code === "ANOTHER_USER" ? {
     "name": formData?.ComplainantName?.trim()?.length > 0 ? formData?.ComplainantName?.trim() : null,
@@ -168,7 +180,7 @@ export const formPayloadToCreateComplaint = (formData, tenantId, user) => {
     "service": {
       "active": true,
       "tenantId": tenantId,
-      "serviceCode": formData?.SelectComplaintType?.serviceCode,
+      "serviceCode": getEffectiveServiceCode(formData?.SelectComplaintType,formData?.SelectSubComplaintType),
       "description": formData?.description,
       "applicationStatus": "CREATED",
       "source": "web",
@@ -181,7 +193,7 @@ export const formPayloadToCreateComplaint = (formData, tenantId, user) => {
         "street": formData?.AddressTwo,
         "pincode": formData?.postalCode,
         "locality": {
-          "code": formData?.SelectedBoundary?.code,
+          "code": formData?.SelectLocality?.code,
         },
         "geoLocation": {}
       },

@@ -391,6 +391,19 @@ export const createComplaint = {
       }
     },
     {
+  "isMandatory": false,
+  "key": "SelectSubComplaintType",
+  "type": "dropdown",
+  "label": "CS_COMPLAINT_DETAILS_COMPLAINT_SUBTYPE",
+  "disable": false,
+  "populators": {
+    "name": "SelectSubComplaintType",
+    "optionsKey": "i18nKey",
+    "options": [],
+    "error": "CORE_COMMON_REQUIRED_ERRMSG"
+  }
+},
+    {
       "inline": true,
       "label": "CS_COMPLAINT_DETAILS_COMPLAINT_DATE",
       "isMandatory": true,
