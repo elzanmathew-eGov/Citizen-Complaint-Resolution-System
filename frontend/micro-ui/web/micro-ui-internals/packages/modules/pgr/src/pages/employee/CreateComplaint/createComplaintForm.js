@@ -172,8 +172,11 @@ const CreateComplaintForm = ({
             includeChildren: true,
           }
         });
-        var formatedData = processLocalities(response.TenantBoundary[0].boundary)
+             // Add a small delay before setting the state
+      setTimeout(() => {
+        const formatedData = processLocalities(response.TenantBoundary[0].boundary);
         setLocalitiesOptions(formatedData);
+      }, 300); // 300ms delay
       } catch (error) {
         console.error("Error fetching boundary data:", error);
       }
