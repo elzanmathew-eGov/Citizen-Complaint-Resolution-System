@@ -139,7 +139,7 @@ const FormExplorer = () => {
     const user = Digit.UserService.getUser();
     if (isLast) {
       const payload = mapFormDataToRequest(merged, tenantId, user, stateInfo);
-
+      console.log("*** Log ===> ", payload);
       handleResponseForCreateComplaint(payload);
 
 
