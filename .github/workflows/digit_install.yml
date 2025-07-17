@@ -116,6 +116,8 @@ jobs:
         run: tar -xzf infra-as-code.tar.gz
       - name: Extract deploy-as-code folder
         run: tar -xzf deploy-as-code.tar.gz
+      - name: Extract configs folder
+        run: tar -xzf configs.tar.gz
       - name: Convert YAML to ENV
         uses: dcarbone/yaml-to-env-action@main
         with:
