@@ -38,6 +38,35 @@ const FormExplorer = () => {
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const tenantId = Digit.SessionStorage.get("CITIZEN.COMMON.HOME.CITY")?.code
+
+function validateString(value) {
+  return typeof value === "string" && value.trim().length > 0 ? value : "";
+}
+
+function validateGeoLocation(value) {
+  if (
+    value &&
+    typeof value === "object" &&
+    typeof value.lat === "number" &&
+    typeof value.lng === "number"
+  ) {
+    return value;
+  }
+  return {};
+}
+
+const getEffectiveServiceCode = (mainType, subType) => {
+  if (
+    subType &&
+    subType.department === mainType.department &&
+    subType.menuPath === mainType.menuPath &&
+    subType.serviceCode !== mainType.serviceCode
+  ) {
+    return subType.serviceCode;
+  }
+
+  return mainType.serviceCode;
+};
   function mapFormDataToRequest(formData, tenantId, user, stateInfo) {
     const timestamp = Date.now();
 
@@ -62,7 +91,7 @@ const FormExplorer = () => {
       service: {
         active: true,
         tenantId: tenantId || formData?.SelectAddress?.city?.code || "",
-        serviceCode: formData?.SelectComplaintType?.serviceCode,
+        serviceCode: getEffectiveServiceCode (formData?.SelectComplaintType,formData?.SelectSubComplaintType ),
         description: formData?.description || "",
         applicationStatus: "CREATED",
         source: "web",
@@ -70,18 +99,18 @@ const FormExplorer = () => {
         isDeleted: false,
         rowVersion: 1,
         address: {
-          landmark: formData?.landmark,
-          buildingName: formData?.AddressOne,
-          street: formData?.AddressTwo,
-          pincode: formData?.postalCode,
+          landmark: validateString(formData?.landmark),
+          buildingName: validateString(formData?.AddressOne),
+          street: validateString(formData?.AddressTwo),
+          pincode: validateString(formData?.postalCode),
           locality: {
             code: formData?.SelectedBoundary?.code || formData?.SelectAddress?.locality?.code || "",
           },
-          geoLocation: {
+          geoLocation: validateGeoLocation( {
             latitude: geoLocation.lat,
             longitude: geoLocation.lng,
-          },
-        },
+          }),
+        } ,
         additionalDetail: JSON.stringify(additionalDetail),
         auditDetails: {
           createdBy: user?.uuid,
@@ -110,46 +139,145 @@ const FormExplorer = () => {
 
     await CreateComplaintMutation(payload, {
       onError: async () => {
-        setToast({ show: true, label: t("FAILED_TO_CREATE_COMPLAINT"), type: "error" });
+        // setToast({ show: true, label: t("FAILED_TO_CREATE_COMPLAINT"), type: "error" });
       },
       onSuccess: async (responseData) => {
-          dispatch({
-            type: "CREATE_COMPLAINT",
-            payload: responseData,
-          });
+        dispatch({
+          type: "CREATE_COMPLAINT",
+          payload: responseData,
+        });
         if (responseData && responseData.responseInfo.status === "successful") {
           const id = responseData.ServiceWrappers[0].service.serviceRequestId;
-          
+
           await client.refetchQueries(["complaintsList"]);
           history.push(`/digit-ui/citizen/pgr/response`);
-          
+
         }
         if (responseData?.ResponseInfo?.Errors) {
-          setToast({ show: true, label: t("FAILED_TO_CREATE_COMPLAINT"), type: "error" });
+          // setToast({ show: true, label: t("FAILED_TO_CREATE_COMPLAINT"), type: "error" });
         } else {
         }
       },
     });
   };
 
-  const onSubmit = async (data) => {
-    const merged = { ...formData, ...data };
-    setFormData(merged);
-    console.log("Final data:", merged);
-    const user = Digit.UserService.getUser();
-    if (isLast) {
-      const payload = mapFormDataToRequest(merged, tenantId, user, stateInfo);
-      console.log("*** Log ===> ", payload);
-      handleResponseForCreateComplaint(payload);
 
 
 
-      // setToast(t("FORM_SUBMISSION_SUCCESS"));
-      // call your API here
+  //## validation
+  const mandatoryFieldsByStep = [
+  // Step 0 — createComplaint config
+    [],
+    [],
+    [],
+  // Step 1 — pinComplaintLocaton config
+  ["SelectAddress"],
+  ["description"],
+  // Step 5 — complaintsUploadimages config
+  ["ComplaintImagesPoint"],
+];
+
+
+const isFieldValid = (data, fieldKey) => {
+  switch (fieldKey) {
+    case "ComplaintImagesPoint":
+      return Array.isArray(data?.ComplaintImagesPoint) && data.ComplaintImagesPoint.length > 0;
+    case "SelectAddress":
+      return !!data?.SelectAddress?.city?.code;
+    case "description":
+      return typeof data?.description === "string" && data.description.trim().length > 0;
+    case "SelectComplaintType":
+      return data?.SelectComplaintType != null;
+    case "GeoLocationsPoint":
+      return data?.GeoLocationsPoint?.lat != null && data?.GeoLocationsPoint?.lng != null;
+    default:
+      return data[fieldKey] != null;
+  }
+};
+
+const onSubmit = async (data) => {
+  const merged = { ...formData, ...data };
+
+  // Get fields mandatory for current step
+  const mandatoryFields = mandatoryFieldsByStep[currentStep] || [];
+
+  // Find which mandatory fields are missing or invalid
+  const missingFields = mandatoryFields.filter(field => !isFieldValid(merged, field));
+
+  if (missingFields.length > 0) {
+    const missingLabels = missingFields.map(f => t(f));
+
+    return; // block next step or submit
+  }
+
+  setFormData(merged);
+
+  const user = Digit.UserService.getUser();
+
+  if (isLast) {
+    const payload = mapFormDataToRequest(merged, tenantId, user, stateInfo);
+    handleResponseForCreateComplaint(payload);
+  } else {
+    setCurrentStep((s) => s + 1);
+  }
+};
+
+
+  const previousMenuPathRef = React.useRef(null);
+
+const onFormValueChange = (setValue, formData, formState, reset, setError, clearErrors, trigger, getValues) => {
+  const complaintType = formData?.SelectComplaintType;
+  const currentMenuPath = complaintType?.menuPath;
+
+  // Skip if menuPath didn't change
+  if (!currentMenuPath || previousMenuPathRef.current === currentMenuPath) return;
+
+  previousMenuPathRef.current = currentMenuPath;
+
+  const allTypes = createComplaint.body.find(f => f.key === "SelectComplaintType")?.populators?.options || [];
+
+  const subTypes = allTypes
+    .filter(opt => opt.menuPath === currentMenuPath && opt.code !== complaintType.code)
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
+
+  // Remove the field if no subTypes available
+  const subTypeIndex = createComplaint.body.findIndex(f => f.key === "SelectSubComplaintType");
+  if (subTypes.length > 0) {
+    const newField = {
+      type: "dropdown",
+      label: "CS_COMPLAINT_DETAILS_COMPLAINT_SUBTYPE",
+      key: "SelectSubComplaintType",
+      isMandatory: true,
+      disable: false,
+      populators: {
+        name: "SelectSubComplaintType",
+        optionsKey: "i18nKey",
+        required: true,
+        error: "CORE_COMMON_REQUIRED_ERRMSG",
+        options: subTypes,
+      },
+    };
+
+    if (subTypeIndex === -1) {
+      // Inject below complaint type field
+      const typeIndex = createComplaint.body.findIndex(f => f.key === "SelectComplaintType");
+      createComplaint.body.splice(typeIndex + 1, 0, newField);
     } else {
-      setCurrentStep((s) => s + 1);
+      createComplaint.body[subTypeIndex] = newField; // update options
     }
-  };
+
+    setValue("SelectSubComplaintType", null); // Reset value when type changes
+  } else {
+    // Remove if previously added
+    if (subTypeIndex !== -1) {
+      createComplaint.body.splice(subTypeIndex, 1);
+    }
+
+    setValue("SelectSubComplaintType", null); // still reset value
+  }
+};
+
+
 
   return (
     <Card type="secondary">
@@ -157,11 +285,11 @@ const FormExplorer = () => {
 
       <FormComposerV2
         label={isLast ? t("SUBMIT") : t("NEXT")}
-        // config={configs}
         config={[configs[currentStep]]}
         defaultValues={formData}
         onSubmit={onSubmit}
         fieldStyle={{ marginBottom: "1rem" }}
+        onFormValueChange={onFormValueChange}
       />
 
       {/* {currentStep > 0 && (

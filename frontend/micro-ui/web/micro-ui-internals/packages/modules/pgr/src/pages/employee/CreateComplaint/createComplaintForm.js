@@ -30,16 +30,27 @@ const CreateComplaintForm = ({
   const history = useHistory();
 
   const [toast, setToast] = useState({ show: false, label: "", type: "" }); // Toast UI state
+  const [type, setType] = useState({});
+  const [subType, setSubType] = useState([]);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [localitiesOptions, setLocalitiesOptions] = useState([]);
+  const hierarchyType = window?.globalConfigs?.getConfig("HIERARCHY_TYPE") || "ADMIN";
+  const boundaryType = window?.globalConfigs?.getConfig("BOUNDARY_TYPE") || "Locality";
+
 
 
   const user = Digit.UserService.getUser();
+
+  const allCities = Digit.Hooks.pgr.useTenants();
 
   // Hook for creating a complaint
   const { mutate: CreateComplaintMutation } = Digit.Hooks.pgr.useCreateComplaint(tenantId);
 
   // Fetch the list of service definitions (e.g., complaint types) for current tenant
   const serviceDefs = Digit.Hooks.pgr.useServiceDefs(tenantId, "PGR");
-  // Auto-close toast after 3 seconds
+
+
+
   useEffect(() => {
     if (toast?.show) {
       const timer = setTimeout(() => {
@@ -53,7 +64,7 @@ const CreateComplaintForm = ({
   const validatePhoneNumber = (value, config) => {
     const { minLength, maxLength, min, max } = config?.populators?.validation || {};
     const stringValue = String(value || "");
-  
+
     if (
       (minLength && stringValue.length < minLength) ||
       (maxLength && stringValue.length > maxLength) ||
@@ -80,7 +91,103 @@ const CreateComplaintForm = ({
     };
   }, [sessionFormData?.complaintUser?.code]);
 
+
+  function getUniqueMenuPaths(data) {
+    const seenMenuPaths = new Set();
+    const uniqueItems = [];
+
+    for (const item of data) {
+      if (!seenMenuPaths.has(item.menuPath)) {
+        seenMenuPaths.add(item.menuPath);
+        uniqueItems.push(item);
+      }
+    }
+
+    return uniqueItems;
+  }
+
+  function getSubTypesByDepartment(baseItem, allItems) {
+
+    if (!baseItem || !baseItem.department || !Array.isArray(allItems)) {
+      console.warn("Invalid baseItem or allItems");
+      return [];
+    }
+
+    return allItems.filter(item => item.department === baseItem.department);
+  }
+
+
+
+
+  // Step 1: move this out of useMemo
+  useEffect(() => {
+    const fetchBoundaryData = async () => {
+      try {
+        const response = await Digit.CustomService.getResponse({
+          url: `/boundary-service/boundary-relationships/_search`,
+          useCache: false,
+          method: "POST",
+          userService: false,
+          params: {
+            tenantId: selectedCity,
+            hierarchyType,
+            boundaryType,
+            includeChildren: true,
+          }
+        });
+
+        setLocalitiesOptions(response?.TenantBoundary?.[0]?.boundary || []);
+      } catch (error) {
+        console.error("Error fetching boundary data:", error);
+        setLocalitiesOptions([]); // Fallback
+      }
+    };
+
+    if (selectedCity) fetchBoundaryData();
+  }, [selectedCity]); // ← this only runs when selectedCity changes
+
+
+  const processLocalities = (boundaryList = []) => {
+    if (!Array.isArray(boundaryList)) return [];
+
+    return boundaryList.map(item => ({
+      ...item,                    // Preserve all original fields
+      name: item.code,            // Add name as code
+      i18nKey: item.code          // Add i18nKey as code
+    }));
+  };
+
+  useEffect(() => {
+    const fetchBoundaryData = async () => {
+      try {
+        const response = await Digit.CustomService.getResponse({
+          url: `/boundary-service/boundary-relationships/_search`,
+          useCache: false,
+          method: "POST",
+          userService: false,
+          params: {
+            tenantId: selectedCity,
+            hierarchyType: hierarchyType,
+            boundaryType: boundaryType,
+            includeChildren: true,
+          }
+        });
+             // Add a small delay before setting the state
+      setTimeout(() => {
+        const formatedData = processLocalities(response.TenantBoundary[0].boundary);
+        setLocalitiesOptions(formatedData);
+      }, 300); // 300ms delay
+      } catch (error) {
+        console.error("Error fetching boundary data:", error);
+      }
+    };
+
+    if (selectedCity) fetchBoundaryData();
+  }, [selectedCity]); // ✅ this is correct
+
+
   const updatedConfig = useMemo(() => {
+
     const baseConfig = Digit.Utils.preProcessMDMSConfig(
       t,
       createComplaintConfig,
@@ -88,7 +195,19 @@ const CreateComplaintForm = ({
         updateDependent: [
           {
             key: "SelectComplaintType",
-            value: [serviceDefs ? serviceDefs : []],
+            value: [getUniqueMenuPaths(serviceDefs) ? getUniqueMenuPaths(serviceDefs) : []],
+          },
+          {
+            key: "SelectSubComplaintType",
+            value: [subType ? subType : []],
+          },
+          {
+            key: "SelectCity",
+            value: [allCities ? allCities : []],
+          },
+          {
+            key: "SelectLocality",
+            value: [localitiesOptions ? localitiesOptions : []],
           },
           {
             key: "ComplaintDate",
@@ -118,15 +237,51 @@ const CreateComplaintForm = ({
     });
 
     return { ...baseConfig, form: updatedForm };
-  }, [createComplaintConfig, serviceDefs, t, disabledFields]);
+  }, [createComplaintConfig, serviceDefs, t, disabledFields, subType, selectedCity, localitiesOptions]);
+
+
+
+
+
+
+
+
+
+  const prevSubTypeRef = React.useRef([]);
+  const prevCityRef = React.useRef(null);
 
   const onFormValueChange = (setValue, formData, formState, reset, setError, clearErrors) => {
+
+    const selectedComplaintType = formData?.SelectComplaintType;
+    const newSubTypes = getSubTypesByDepartment(selectedComplaintType, serviceDefs);
+    // const newCity = formData.SelectCity?.code;
+
+    // Compare previous and new subtype list
+    const prevCodes = prevSubTypeRef.current.map(s => s.code).sort().join(",");
+    const newCodes = newSubTypes.map(s => s.code).sort().join(",");
+
+    if (prevCodes !== newCodes) {
+      prevSubTypeRef.current = newSubTypes;
+      setSubType(newSubTypes);
+    }
+
+
+
+    // --- New logic for localities ---
+    const newCityCode = formData.SelectCity?.code;
+    if (newCityCode && prevCityRef.current !== newCityCode) {
+      prevCityRef.current = newCityCode;
+
+      setSelectedCity(newCityCode);
+
+    }
+
     const ComplainantName = formData?.ComplainantName;
+    const ComplainantContactNumber = formData?.ComplainantContactNumber;
     const selectedUser = formData?.complaintUser?.code;
     const prevSelectedUser = sessionFormData?.complaintUser?.code;
-    const ComplainantContactNumber = formData?.ComplainantContactNumber;
-  
-    // Validate name 
+
+    // Validate name
     if (ComplainantName && !ComplainantName.match(Digit.Utils.getPattern("Name"))) {
       if (!formState.errors.ComplainantName) {
         setError("ComplainantName", {
@@ -152,25 +307,25 @@ const CreateComplaintForm = ({
     } else if (formState.errors.ComplainantContactNumber) {
       clearErrors("ComplainantContactNumber");
     }
-  
-    // Early return if complaintUser hasn't changed
-    if (selectedUser === prevSelectedUser) return;
-  
-    const updatedData = { ...formData };
-  
-    if (selectedUser === "MYSELF") {
-      updatedData.ComplainantName = user?.info?.name || "";
-      updatedData.ComplainantContactNumber = user?.info?.mobileNumber || "";
-    } else if (selectedUser === "ANOTHER_USER") {
-      updatedData.ComplainantName = "";
-      updatedData.ComplainantContactNumber = "";
+
+    // Only update if complaint user selection has changed
+    if (selectedUser !== prevSelectedUser) {
+      const updatedData = { ...formData };
+
+      if (selectedUser === "MYSELF") {
+        updatedData.ComplainantName = user?.info?.name || "";
+        updatedData.ComplainantContactNumber = user?.info?.mobileNumber || "";
+      } else if (selectedUser === "ANOTHER_USER") {
+        updatedData.ComplainantName = "";
+        updatedData.ComplainantContactNumber = "";
+      }
+
+      setValue("ComplainantName", updatedData.ComplainantName);
+      setValue("ComplainantContactNumber", updatedData.ComplainantContactNumber);
+      setSessionFormData(updatedData);
     }
-  
-    // Set form values and update session state
-    setValue("ComplainantName", updatedData.ComplainantName);
-    setValue("ComplainantContactNumber", updatedData.ComplainantContactNumber);
-    setSessionFormData(updatedData);
   };
+
 
   const handleToastClose = () => {
     setToast({ show: false, label: "", type: "" });
@@ -179,6 +334,10 @@ const CreateComplaintForm = ({
   /**
    * Handles form submission event
    */
+
+
+
+
   const onFormSubmit = (_data) => {
     const payload = formPayloadToCreateComplaint(_data, tenantId, user?.info);
     handleResponseForCreateComplaint(payload);
@@ -223,6 +382,8 @@ const CreateComplaintForm = ({
       }
     });
   };
+
+
 
   return (
     <React.Fragment>
