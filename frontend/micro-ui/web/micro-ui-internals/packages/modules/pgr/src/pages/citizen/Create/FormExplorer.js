@@ -90,7 +90,7 @@ const getEffectiveServiceCode = (mainType, subType) => {
     return {
       service: {
         active: true,
-        tenantId: tenantId || formData?.SelectAddress?.city?.code || "",
+        tenantId: formData?.SelectAddress?.city?.code || "",
         serviceCode: getEffectiveServiceCode (formData?.SelectComplaintType,formData?.SelectSubComplaintType ),
         description: formData?.description || "",
         applicationStatus: "CREATED",
