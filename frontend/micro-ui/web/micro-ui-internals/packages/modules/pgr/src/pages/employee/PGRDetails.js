@@ -59,7 +59,7 @@ const ACTION_CONFIGS = [
         {
           body: [
             {
-              isMandatory: true,
+              isMandatory: false,
               key: "SelectedReason",
               type: "dropdown",
               label: "CS_REJECT_COMPLAINT",
