@@ -284,13 +284,18 @@ const onFormValueChange = (setValue, formData, formState, reset, setError, clear
       <Header>{t("FORM_STEP", { current: currentStep + 1, total: configs.length })}</Header>
 
       <FormComposerV2
-        label={isLast ? t("SUBMIT") : t("NEXT")}
-        config={[configs[currentStep]]}
-        defaultValues={formData}
-        onSubmit={onSubmit}
-        fieldStyle={{ marginBottom: "1rem" }}
-        onFormValueChange={onFormValueChange}
+       config={[configs[currentStep]]}
+       defaultValues={formData}
+       onFormValueChange={onFormValueChange}
+       label={isLast ? t("SUBMIT") : t("NEXT")}
+       onSubmit={onSubmit}
+       showSecondaryLabel={currentStep > 0}
+       secondaryLabel={t("BACK")}
+       onSecondayActionClick={() => setCurrentStep((s) => s - 1)}
+       fieldStyle={{ marginBottom: "1rem" }}
+       buttonStyle={{ flexDirection: "row-reverse" }}    
       />
+      
 
       {/* {currentStep > 0 && (
         <button onClick={() => setCurrentStep((s) => s - 1)}>
