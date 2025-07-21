@@ -58,7 +58,7 @@ export const CreateComplaintConfig = {
               },
               populators: {
                 name: "SelectComplaintType",
-                optionsKey: "i18nKey",
+                optionsKey: "menuPath",
                 error: "CORE_COMMON_REQUIRED_ERRMSG",
               },
             },
