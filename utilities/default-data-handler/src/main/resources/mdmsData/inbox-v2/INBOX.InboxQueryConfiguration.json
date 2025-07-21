@@ -14,7 +14,8 @@
       "Data.service.citizen",
       "Data.service.auditDetails.createdTime",
       "Data.auditDetails",
-      "Data.tenantId"
+      "Data.tenantId",
+      "Data.service.serviceCode"
     ],
     "allowedSearchCriteria": [
       {
