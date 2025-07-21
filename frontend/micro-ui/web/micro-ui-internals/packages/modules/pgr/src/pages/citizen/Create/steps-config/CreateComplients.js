@@ -419,7 +419,7 @@ export const createComplaint = {
         "name": "ComplaintDate",
         "required": true,
         "validation": {
-          "max": "2025-07-09"
+          "max": new Date().toISOString().split("T")[0]
         },
         "error": "CORE_COMMON_REQUIRED_ERRMSG"
       }
