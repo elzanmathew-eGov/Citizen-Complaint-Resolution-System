@@ -174,7 +174,7 @@ const getEffectiveServiceCode = (mainType, subType) => {
   ["SelectAddress"],
   ["description"],
   // Step 5 — complaintsUploadimages config
-  ["ComplaintImagesPoint"],
+  [],
 ];
 
 
@@ -226,6 +226,9 @@ const onSubmit = async (data) => {
   const previousMenuPathRef = React.useRef(null);
 
 const onFormValueChange = (setValue, formData, formState, reset, setError, clearErrors, trigger, getValues) => {
+
+  console.log(`*** LOG formData***`,formData);
+
   const complaintType = formData?.SelectComplaintType;
   const currentMenuPath = complaintType?.menuPath;
 
@@ -277,7 +280,10 @@ const onFormValueChange = (setValue, formData, formState, reset, setError, clear
   }
 };
 
+if(formData.GeoLocationsPoint?.pincode){
+formData.postalCode =`${formData.GeoLocationsPoint.pincode}`;
 
+}
 
   return (
     <Card type="secondary">

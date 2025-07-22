@@ -9,20 +9,45 @@ const SelectAddress = ({ t, config, onSelect, userType, formData, value = {} }) 
     const { city_complaint } = value;
     return city_complaint ? city_complaint : null;
   });
-  const { data: fetchedLocalities } = Digit.Hooks.useBoundaryLocalities(
-    selectedCity?.code,
-    "ADMIN",
-    {
-      enabled: !!selectedCity,
-    },
-    t
-  );
+  
   const [localities, setLocalities] = useState(null);
+  const [fetchedLocalities, setFetchedLocalities] = useState(null);
 
   const [selectedLocality, setSelectedLocality] = useState(() => {
     const { locality_complaint } = value;
     return locality_complaint ? locality_complaint : null;
   });
+
+useEffect(() => {
+  const fetch = async () => {
+    const hierarchyType = window?.globalConfigs?.getConfig("HIERARCHY_TYPE") || "ADMIN";
+    const boundaryType = window?.globalConfigs?.getConfig("BOUNDARY_TYPE") || "Locality";
+
+    if (!selectedCity?.code) return;
+
+    try {
+      const res = await Digit.CustomService.getResponse({
+        url: `/boundary-service/boundary-relationships/_search`,
+        useCache: false,
+        method: "POST",
+        userService: false,
+        params: {
+          tenantId: selectedCity.code,
+          hierarchyType: hierarchyType,
+          boundaryType:boundaryType,
+          includeChildren: true,
+        },
+      });
+      setFetchedLocalities(res?.TenantBoundary[0].boundary || []);
+    } catch (err) {
+      console.error("Boundary fetch error:", err);
+      setFetchedLocalities([]);
+    } finally {
+    }
+  };
+
+  fetch();
+}, [selectedCity?.code]); 
 
   useEffect(() => {
     if (selectedCity && fetchedLocalities) {
@@ -69,9 +94,9 @@ const SelectAddress = ({ t, config, onSelect, userType, formData, value = {} }) 
         {selectedCity && localities && (
           <React.Fragment>
             {localities?.length < 5 ? (
-              <RadioButtons selectedOption={selectedLocality} options={localities} optionsKey="i18nkey" onSelect={selectLocality} />
+              <RadioButtons selectedOption={selectedLocality} options={localities} optionsKey="code" onSelect={selectLocality} />
             ) : (
-              <Dropdown isMandatory selected={selectedLocality} optionKey="i18nkey" option={localities} select={selectLocality} t={t} />
+              <Dropdown isMandatory selected={selectedLocality} optionKey="code" option={localities} select={selectLocality} t={t} />
             )}
           </React.Fragment>
         )}

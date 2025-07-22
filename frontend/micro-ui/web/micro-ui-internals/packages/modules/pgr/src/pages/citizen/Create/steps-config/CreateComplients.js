@@ -403,37 +403,37 @@ export const createComplaint = {
     "error": "CORE_COMMON_REQUIRED_ERRMSG"
   }
 },
-    {
-      "inline": true,
-      "label": "CS_COMPLAINT_DETAILS_COMPLAINT_DATE",
-      "isMandatory": true,
-      "key": "ComplaintDate",
-      "type": "date",
-      "disable": false,
-      "preProcess": {
-        "updateDependent": [
-          "populators.validation.max"
-        ]
-      },
-      "populators": {
-        "name": "ComplaintDate",
-        "required": true,
-        "validation": {
-          "max": new Date().toISOString().split("T")[0]
-        },
-        "error": "CORE_COMMON_REQUIRED_ERRMSG"
-      }
-    },
-    {
-      "type": "component",
-      "isMandatory": true,
-      "component": "PGRBoundaryComponent",
-      "key": "SelectedBoundary",
-      "label": "Boundary",
-      "populators": {
-        "name": "SelectedBoundary"
-      }
-    },
+    // {
+    //   "inline": true,
+    //   "label": "CS_COMPLAINT_DETAILS_COMPLAINT_DATE",
+    //   "isMandatory": true,
+    //   "key": "ComplaintDate",
+    //   "type": "date",
+    //   "disable": false,
+    //   "preProcess": {
+    //     "updateDependent": [
+    //       "populators.validation.max"
+    //     ]
+    //   },
+    //   "populators": {
+    //     "name": "ComplaintDate",
+    //     "required": true,
+    //     "validation": {
+    //       "max": new Date().toISOString().split("T")[0]
+    //     },
+    //     "error": "CORE_COMMON_REQUIRED_ERRMSG"
+    //   }
+    // },
+    // {
+    //   "type": "component",
+    //   "isMandatory": true,
+    //   "component": "PGRBoundaryComponent",
+    //   "key": "SelectedBoundary",
+    //   "label": "Boundary",
+    //   "populators": {
+    //     "name": "SelectedBoundary"
+    //   }
+    // },
 
   ]
 }
