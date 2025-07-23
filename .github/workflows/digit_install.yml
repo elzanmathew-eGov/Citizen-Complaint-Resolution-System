@@ -22,7 +22,7 @@ jobs:
       uses: tj-actions/changed-files@v42
       with:
         files: |
-          Devops/deploy-as-code/**
+          devops/deploy-as-code/**
       
   Input_validation:
     if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.destroyCommand != 'destroy'}}
@@ -40,11 +40,11 @@ jobs:
         run: echo "Githubactions Workflow has started"
       - name: Displaying the input parameters provided
         run: cat input.yaml
-        working-directory: Devops/infra-as-code/terraform/sample-aws
+        working-directory: devops/infra-as-code/terraform/sample-aws
       - name: Convert YAML to ENV
         uses: dcarbone/yaml-to-env-action@main
         with:
-          yaml-file: Devops/infra-as-code/terraform/sample-aws/input.yaml
+          yaml-file: devops/infra-as-code/terraform/sample-aws/input.yaml
           debug: true # Optional: set to true to output some debug information
       # Now, use the env vars in subsequent steps
       - name: Display environment variables
@@ -52,20 +52,20 @@ jobs:
           echo "Cluster Name: $CLUSTER_NAME"
       - name: Change working directory
         run: echo "This command is run in the current directory"
-        working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
+        working-directory: devops/infra-as-code/terraform/sample-aws/remote-state
       - name: Display environment variables
         run: |
           echo "terraform_state_bucket_name: $TERRAFORM_STATE_BUCKET_NAME"
       - name: Change working directory
         run: echo "This command is run in the current directory"
-        working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
+        working-directory: devops/infra-as-code/terraform/sample-aws/remote-state
       - name: Updating different files based on parameters provided in input.yaml
         run: go run init.go
-        working-directory: Devops/infra-as-code/terraform/scripts
+        working-directory: devops/infra-as-code/terraform/scripts
       - name: Archive infra-as-code folder
-        run: tar -czf infra-as-code.tar.gz Devops/infra-as-code/
+        run: tar -czf infra-as-code.tar.gz devops/infra-as-code/
       - name: Archive deploy-as-code folder
-        run: tar -czf deploy-as-code.tar.gz Devops/deploy-as-code/
+        run: tar -czf deploy-as-code.tar.gz devops/deploy-as-code/
       - name: Archive configs folder
         run: tar -czf configs.tar.gz configs/
       - name: Upload infra-as-code folder as artifact
@@ -121,14 +121,14 @@ jobs:
       - name: Convert YAML to ENV
         uses: dcarbone/yaml-to-env-action@main
         with:
-          yaml-file: Devops/infra-as-code/terraform/sample-aws/input.yaml
+          yaml-file: devops/infra-as-code/terraform/sample-aws/input.yaml
           debug: true # Optional: set to true to output some debug information
       # Now, use the env vars in subsequent steps
       - name: Install dependencies
         run: sudo apt-get install -y jq
       - name: Convert YAML to JSON
         run: |
-          cat Devops/deploy-as-code/charts/environments/env-secrets.yaml | yq e -j - > secrets.json
+          cat devops/deploy-as-code/charts/environments/env-secrets.yaml | yq e -j - > secrets.json
       - name: Extract dbPassword
         id: extract
         run: |
@@ -143,41 +143,41 @@ jobs:
       - name: Terraform Init - remotestate
         id: init
         run: terraform init
-        working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
+        working-directory: devops/infra-as-code/terraform/sample-aws/remote-state
       - name: Terraform Validate - remotestate
         id: validate
         run: terraform validate -no-color
-        working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
+        working-directory: devops/infra-as-code/terraform/sample-aws/remote-state
       - name: Terraform Plan - remotestate
         id: plan
         run: terraform plan -no-color -input=false
-        working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
+        working-directory: devops/infra-as-code/terraform/sample-aws/remote-state
       - name: Terraform Apply - remotestate
         id: apply
         run: terraform apply -no-color -input=false -auto-approve
         continue-on-error: true
-        working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
+        working-directory: devops/infra-as-code/terraform/sample-aws/remote-state
       - name: Terraform init - Infra creation
         id: init-Infra
         run: terraform init
-        working-directory: Devops/infra-as-code/terraform/sample-aws
+        working-directory: devops/infra-as-code/terraform/sample-aws
       - name: Terraform Validate - Infra creation
         id: validate-Infra
         run: terraform validate -no-color
-        working-directory: Devops/infra-as-code/terraform/sample-aws
+        working-directory: devops/infra-as-code/terraform/sample-aws
       # - name: unlocking statefile
       #   id: unlocking
       #   run: terraform force-unlock -force 302767c9-a713-f81d-cf1b-393dc958d02a
-      #   working-directory: Devops/infra-as-code/terraform/sample-aws
+      #   working-directory: devops/infra-as-code/terraform/sample-aws
       - name: Terraform Plan - Infra creation
         id: plan-Infra
         run: terraform plan -no-color -input=false -var db_password=$db_password
-        working-directory: Devops/infra-as-code/terraform/sample-aws
+        working-directory: devops/infra-as-code/terraform/sample-aws
       - name: Terraform Apply - Infra creation
         id: apply-Infra
         run: terraform apply -no-color -input=false -auto-approve -var db_password=$db_password
         continue-on-error: true
-        working-directory: Devops/infra-as-code/terraform/sample-aws
+        working-directory: devops/infra-as-code/terraform/sample-aws
       - name: Install AWS IAM Authenticator
         run: |
           curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator
@@ -200,13 +200,13 @@ jobs:
           AWS_REGION:  ${{ secrets.AWS_REGION }}
       - name: Updating the terraform output data in environment.yaml files for deployment
         run: terraform output -json | go run ../scripts/envYAMLUpdater.go
-        working-directory: Devops/infra-as-code/terraform/sample-aws
+        working-directory: devops/infra-as-code/terraform/sample-aws
       - name: Get S3 bucket name
         id: get-bucket
         run: |
           BUCKET=$(terraform output -json s3_assets_bucket | jq -r .)
           echo "bucket=$BUCKET" >> $GITHUB_OUTPUT
-        working-directory: Devops/infra-as-code/terraform/sample-aws
+        working-directory: devops/infra-as-code/terraform/sample-aws
       - name: Upload configs/assets to S3 root
         run: |
           echo "Uploading to s3://${{ steps.get-bucket.outputs.bucket }}/"
@@ -218,9 +218,9 @@ jobs:
           AWS_DEFAULT_REGION:  ${{ secrets.AWS_DEFAULT_REGION }}
           AWS_REGION:  ${{ secrets.AWS_REGION }}
       - name: Archive infra-as-code folder
-        run: tar -czf infra-as-code.tar.gz Devops/infra-as-code/
+        run: tar -czf infra-as-code.tar.gz devops/infra-as-code/
       - name: Archive deploy-as-code folder
-        run: tar -czf deploy-as-code.tar.gz Devops/deploy-as-code/
+        run: tar -czf deploy-as-code.tar.gz devops/deploy-as-code/
       - name: Upload infra-as-code folder as artifact
         uses: actions/upload-artifact@v4
         with:
@@ -262,14 +262,14 @@ jobs:
       - name: Convert YAML to ENV
         uses: dcarbone/yaml-to-env-action@main
         with:
-          yaml-file: Devops/infra-as-code/terraform/sample-aws/input.yaml
+          yaml-file: devops/infra-as-code/terraform/sample-aws/input.yaml
           debug: true # Optional: set to true to output some debug information
       # Now, use the env vars in subsequent steps
       - name: Install dependencies
         run: sudo apt-get install -y jq
       - name: Convert YAML to JSON
         run: |
-          cat Devops/deploy-as-code/charts/environments/env-secrets.yaml | yq e -j - > secrets.json
+          cat devops/deploy-as-code/charts/environments/env-secrets.yaml | yq e -j - > secrets.json
       - name: Extract flywayPassword
         id: extract
         run: |
@@ -327,7 +327,7 @@ jobs:
           helmfile --version
       - name: digit deployment
         run: helmfile -f digit-helmfile.yaml -e env apply --include-needs=true
-        working-directory: Devops/deploy-as-code
+        working-directory: devops/deploy-as-code
       - name: Displaying the Loadbalancer ID
         run: |
           LB_ID=$(kubectl get svc ingress-nginx-controller -n backbone -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
@@ -356,28 +356,28 @@ jobs:
   #       run: echo "Deploying because changes were made in deploy-as-code"
   #     - name: Displaying the input parameters provided
   #       run: cat input.yaml
-  #       working-directory: Devops/infra-as-code/terraform/sample-aws
+  #       working-directory: devops/infra-as-code/terraform/sample-aws
   #     - name: Display environment variables
   #       run: |
   #         echo "Cluster Name: $CLUSTER_NAME"
   #     - name: Change working directory
   #       run: echo "This command is run in the current directory"
-  #       working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
+  #       working-directory: devops/infra-as-code/terraform/sample-aws/remote-state
   #     - name: Updating different files based on parameters provided in input.yaml
   #       run: go run init.go
-  #       working-directory: Devops/infra-as-code/terraform/scripts
+  #       working-directory: devops/infra-as-code/terraform/scripts
 
   #     - name: Convert YAML to ENV
   #       uses: dcarbone/yaml-to-env-action@main
   #       with:
-  #         yaml-file: Devops/infra-as-code/terraform/sample-aws/input.yaml
+  #         yaml-file: devops/infra-as-code/terraform/sample-aws/input.yaml
   #         debug: true # Optional: set to true to output some debug information
   #     # Now, use the env vars in subsequent steps
   #     - name: Install dependencies
   #       run: sudo apt-get install -y jq
   #     - name: Convert YAML to JSON
   #       run: |
-  #         cat Devops/deploy-as-code/charts/environments/env-secrets.yaml | yq e -j - > secrets.json
+  #         cat devops/deploy-as-code/charts/environments/env-secrets.yaml | yq e -j - > secrets.json
   #     - name: Extract flywayPassword
   #       id: extract
   #       run: |
@@ -464,17 +464,17 @@ jobs:
       - name: Convert YAML to ENV
         uses: dcarbone/yaml-to-env-action@main
         with:
-          yaml-file: Devops/infra-as-code/terraform/sample-aws/input.yaml
+          yaml-file: devops/infra-as-code/terraform/sample-aws/input.yaml
           debug: true # Optional: set to true to output some debug information
       - name: Display environment variables
         run: |
           echo "Cluster Name: $CLUSTER_NAME"
       - name: Change working directory
         run: echo "This command is run in the current directory"
-        working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
+        working-directory: devops/infra-as-code/terraform/sample-aws/remote-state
       - name: Updating different files based on parameters provided in input.yaml
         run: go run init.go
-        working-directory: Devops/infra-as-code/terraform/scripts
+        working-directory: devops/infra-as-code/terraform/scripts
       - name: Install AWS IAM Authenticator
         run: |
           curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator
@@ -499,16 +499,16 @@ jobs:
           terraform -version
       - name: Terraform Init - remotestate
         run: terraform init
-        working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
+        working-directory: devops/infra-as-code/terraform/sample-aws/remote-state
       - name: Terraform Validate - remotestate
         run: terraform validate -no-color
-        working-directory: Devops/infra-as-code/terraform/sample-aws/remote-state
+        working-directory: devops/infra-as-code/terraform/sample-aws/remote-state
       - name: Terraform Init - Infra destruction
         run: terraform init
-        working-directory: Devops/infra-as-code/terraform/sample-aws
+        working-directory: devops/infra-as-code/terraform/sample-aws
       - name: Terraform Validate - Infra destruction
         run: terraform validate -no-color
-        working-directory: Devops/infra-as-code/terraform/sample-aws
+        working-directory: devops/infra-as-code/terraform/sample-aws
       - name: Get S3 bucket names
         id: get-bucket
         run: |
@@ -516,7 +516,7 @@ jobs:
           FILESTORE_BUCKET=$(terraform output -json s3_filestore_bucket | jq -r .)
           echo "assets_bucket=$ASSETS_BUCKET" >> $GITHUB_OUTPUT
           echo "filestore_bucket=$FILESTORE_BUCKET" >> $GITHUB_OUTPUT
-        working-directory: Devops/infra-as-code/terraform/sample-aws
+        working-directory: devops/infra-as-code/terraform/sample-aws
       - name: Empty S3 buckets (if they exist)
         run: |
           for BUCKET in "${{ steps.get-bucket.outputs.assets_bucket }}" "${{ steps.get-bucket.outputs.filestore_bucket }}"; do
@@ -541,10 +541,10 @@ jobs:
             kubernetes_namespace.namespace \
             kubernetes_secret.egov-filestore \
             kubernetes_storage_class.ebs_csi_encrypted_gp3_storage_class || true
-        working-directory: Devops/infra-as-code/terraform/sample-aws
+        working-directory: devops/infra-as-code/terraform/sample-aws
       - name: Terraform Plan - Infra destruction
         run: terraform plan -destroy -no-color -input=false -var db_password=demo123456
-        working-directory: Devops/infra-as-code/terraform/sample-aws
+        working-directory: devops/infra-as-code/terraform/sample-aws
       - name: Terraform Destroy - Infra destruction
         run: terraform destroy -no-color -auto-approve -var db_password=demo123456
-        working-directory: Devops/infra-as-code/terraform/sample-aws
+        working-directory: devops/infra-as-code/terraform/sample-aws
