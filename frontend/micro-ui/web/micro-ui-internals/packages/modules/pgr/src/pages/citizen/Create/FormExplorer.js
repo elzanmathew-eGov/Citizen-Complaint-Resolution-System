@@ -284,6 +284,10 @@ if(formData.GeoLocationsPoint?.pincode){
 formData.postalCode =`${formData.GeoLocationsPoint.pincode}`;
 
 }
+else if(formData.postalCode){
+formData.postalCode =`${formData.postalCode}`;
+}
+
 
   return (
     <Card type="secondary">

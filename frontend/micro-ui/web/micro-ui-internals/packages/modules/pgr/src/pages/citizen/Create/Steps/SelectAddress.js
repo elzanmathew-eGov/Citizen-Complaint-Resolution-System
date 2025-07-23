@@ -2,21 +2,18 @@ import React, { useEffect, useState, useRef } from "react";
 import { CardLabel, Dropdown, FormStep, RadioButtons } from "@egovernments/digit-ui-react-components";
 
 const SelectAddress = ({ t, config, onSelect, userType, formData, value = {} }) => {
+
+  const [selectedCity, setSelectedCity] = useState(null);
+const [selectedLocality, setSelectedLocality] = useState(null);
+
   const allCities = Digit.Hooks.pgr.useTenants();
   const cities = value?.pincode ? allCities.filter((city) => city?.pincode?.some((pin) => pin == value["pincode"])) : allCities;
 
-  const [selectedCity, setSelectedCity] = useState(() => {
-    const { city_complaint } = value;
-    return city_complaint ? city_complaint : null;
-  });
   
   const [localities, setLocalities] = useState(null);
   const [fetchedLocalities, setFetchedLocalities] = useState(null);
 
-  const [selectedLocality, setSelectedLocality] = useState(() => {
-    const { locality_complaint } = value;
-    return locality_complaint ? locality_complaint : null;
-  });
+
 
 useEffect(() => {
   const fetch = async () => {
@@ -57,6 +54,22 @@ useEffect(() => {
     }
   }, [selectedCity, fetchedLocalities]);
 
+
+  useEffect(() => {
+    const city = formData?.SelectAddress?.city;
+    const locality = formData?.SelectAddress?.locality;
+    if (city) {
+      setSelectedCity(city);
+      setSelectedLocality(locality);
+      onSelect(config.key, {
+        city: city,
+        locality: locality
+      });
+    }
+  }, [formData?.SelectAddress?.city]);
+  
+  
+
   function selectCity(city) {
     setSelectedLocality(null);
     setLocalities(null);
@@ -79,7 +92,7 @@ useEffect(() => {
   }
 
   function onSubmit() {
-    onSelect({ city_complaint: selectedCity, locality_complaint: selectedLocality });
+    // onSelect({ city_complaint: selectedCity, locality_complaint: selectedLocality });
   }
   return (
     <FormStep config={config} onSelect={onSubmit} t={t} isDisabled={selectedLocality ? false : true}>
