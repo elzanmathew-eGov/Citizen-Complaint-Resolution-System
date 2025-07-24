@@ -234,22 +234,27 @@ public class DataHandlerService {
             for (Resource resource : resources) {
                 String rawJson = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
 
-                // Replace {tenantid} placeholder with actual tenant ID
                 rawJson = rawJson.replace("{tenantid}", tenantId);
 
                 // Parse schema array from file
                 JsonNode schemaArray = new ObjectMapper().readTree(rawJson);
                 for (JsonNode schemaNode : schemaArray) {
-                    ObjectNode payload = objectMapper.createObjectNode();
-                    payload.set("RequestInfo", objectMapper.valueToTree(requestInfo));
-                    payload.set("SchemaDefinition", schemaNode);
+                    try {
+                        ObjectNode payload = objectMapper.createObjectNode();
+                        payload.set("RequestInfo", objectMapper.valueToTree(requestInfo));
+                        payload.set("SchemaDefinition", schemaNode);
 
-                    HttpHeaders headers = new HttpHeaders();
-                    headers.setContentType(MediaType.APPLICATION_JSON);
-                    HttpEntity<JsonNode> request = new HttpEntity<>(payload, headers);
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.setContentType(MediaType.APPLICATION_JSON);
+                        HttpEntity<JsonNode> request = new HttpEntity<>(payload, headers);
 
-                    restTemplate.postForObject(mdmsSchemaCreateUri, request, Object.class);
-                    log.info("MDMS schema created successfully: {}", schemaNode.get("code").asText());
+                        restTemplate.postForObject(mdmsSchemaCreateUri, request, Object.class);
+                        log.info("MDMS schema created successfully: {}", schemaNode.get("code").asText());
+                    } catch (Exception innerEx) {
+                        log.error("Failed to create schema: {} for tenant: {}. Skipping...",
+                                schemaNode.get("code"), tenantId, innerEx);
+                        // Continue with next schemaNode
+                    }
                 }
             }
 
@@ -337,19 +342,24 @@ public class DataHandlerService {
             JsonNode requestInfoNode = objectMapper.valueToTree(requestInfo);
 
             for (JsonNode relationship : relationshipArray) {
-                ObjectNode payload = objectMapper.createObjectNode();
-                payload.set("RequestInfo", requestInfoNode);
-                payload.set("BoundaryRelationship", relationship);
+                try {
+                    ObjectNode payload = objectMapper.createObjectNode();
+                    payload.set("RequestInfo", requestInfoNode);
+                    payload.set("BoundaryRelationship", relationship);
 
-//                String finalPayload = objectMapper.writeValueAsString(payload);
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
 
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
+                    HttpEntity<JsonNode> entity = new HttpEntity<>(payload, headers);
 
-                HttpEntity<JsonNode> entity = new HttpEntity<>(payload, headers);
-                System.out.println(entity);
+                    restTemplate.postForObject(hierarchyRelationshipCreateUri, entity, Object.class);
 
-                restTemplate.postForObject(hierarchyRelationshipCreateUri, entity, Object.class);
+                    log.info("Created boundary relationship entry for tenant: {}", targetTenantId);
+                } catch (Exception ex) {
+                    log.error("Failed to create individual boundary relationship entry for tenant: {}. Skipping...",
+                            targetTenantId, ex);
+                    // continue with next entry
+                }
             }
             log.info("Created boundary hierarchy relationship for tenant: {}", targetTenantId);
         }

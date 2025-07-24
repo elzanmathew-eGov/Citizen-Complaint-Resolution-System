@@ -128,4 +128,7 @@ public class ServiceConfiguration {
 
     @Value("${egov.boundary.host}${egov.boundary.relationship.create}")
     private String boundaryRelationshipCreateUri;
+
+    @Value("${scheduler.max.executions}")
+    private String maxExecution;
 }

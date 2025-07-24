@@ -72,8 +72,14 @@ public class LocalizationUtil {
 						.tenantId(tenantId)
 						.messages(batch)
 						.build();
-
-				restTemplate.postForObject(uri, createMessagesRequest, ResponseInfo.class);
+				try {
+					restTemplate.postForObject(uri, createMessagesRequest, ResponseInfo.class);
+					log.info("Localization batch [{}-{}] upserted successfully for tenant: {}", i + 1, end, tenantId);
+				} catch (Exception e) {
+					log.error("Failed to upsert localization batch [{}-{}] for tenant: {}. Skipping... Reason: {}",
+							i + 1, end, tenantId, e.getMessage());
+					// Continue with next batch
+				}
 			}
 			log.info("Localization data upserted successfully for tenant: {}", tenantId);
 		} catch (Exception e) {

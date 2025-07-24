@@ -26,6 +26,7 @@ public class MdmsBulkLoader {
     private final RestTemplate restTemplate;
     private final ServiceConfiguration serviceConfig;
 
+
     public void loadAllMdmsData(String tenantId, RequestInfo requestInfo) {
         try {
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -45,41 +46,47 @@ public class MdmsBulkLoader {
 
                 if (!arrayNode.isArray()) {
                     log.error("File must contain a JSON array: {}", fileName);
-//                    throw new IllegalArgumentException("File must contain a JSON array: " + fileName);
+                    continue; // skip this file
                 }
 
                 for (JsonNode singleObjectNode : arrayNode) {
-                    // Convert node to raw string
-                    String singleObjectJson = objectMapper.writeValueAsString(singleObjectNode);
+                    try {
+                        // Convert node to raw string
+                        String singleObjectJson = objectMapper.writeValueAsString(singleObjectNode);
 
-                    // Replace all {tenantid} placeholders with actual tenant ID
-                    singleObjectJson = singleObjectJson.replace("{tenantid}", tenantId);
+                        // Replace all {tenantid} placeholders with actual tenant ID
+                        singleObjectJson = singleObjectJson.replace("{tenantid}", tenantId);
 
-                    // Convert back to object
-                    Object singleDataObject = objectMapper.readValue(singleObjectJson, Object.class);
+                        // Convert back to object
+                        Object singleDataObject = objectMapper.readValue(singleObjectJson, Object.class);
 
-                    // Construct MDMS wrapper
-                    Map<String, Object> mdms = new HashMap<>();
-                    mdms.put("tenantId", tenantId);
-                    mdms.put("schemaCode", schemaCode);
-                    mdms.put("data", singleDataObject);
-                    mdms.put("isActive", true);
+                        // Construct MDMS wrapper
+                        Map<String, Object> mdms = new HashMap<>();
+                        mdms.put("tenantId", tenantId);
+                        mdms.put("schemaCode", schemaCode);
+                        mdms.put("data", singleDataObject);
+                        mdms.put("isActive", true);
 
-                    Map<String, Object> requestPayload = new HashMap<>();
-                    requestPayload.put("Mdms", mdms);
-                    requestPayload.put("RequestInfo", requestInfo);
-                    System.out.println(requestPayload);
+                        Map<String, Object> requestPayload = new HashMap<>();
+                        requestPayload.put("Mdms", mdms);
+                        requestPayload.put("RequestInfo", requestInfo);
 
-                    String endpoint = serviceConfig.getMdmsDataCreateURI().replace("{schemaCode}", schemaCode);
-                    restTemplate.postForObject(endpoint, requestPayload, Object.class);
+                        String endpoint = serviceConfig.getMdmsDataCreateURI().replace("{schemaCode}", schemaCode);
+                        restTemplate.postForObject(endpoint, requestPayload, Object.class);
 
-                    log.info("Created MDMS entry for schemaCode: {} from file: {}", schemaCode, fileName);
+                        log.info("Created MDMS entry for schemaCode: {} from file: {}", schemaCode, fileName);
+                    } catch (Exception innerEx) {
+                        log.error("Failed to create MDMS entry for schemaCode: {} in file: {}. Skipping...",
+                                schemaCode, fileName, innerEx);
+                        // Continue with next record
+                    }
                 }
+                break;
             }
-
         } catch (Exception e) {
             log.error("Failed to load MDMS files: {}", e.getMessage(), e);
-//            throw new CustomException("MDMS_BULK_LOAD_FAILED", "Failed to load all MDMS data: " + e.getMessage());
+//        throw new CustomException("MDMS_BULK_LOAD_FAILED", "Failed to load all MDMS data: " + e.getMessage());
         }
     }
+
 }

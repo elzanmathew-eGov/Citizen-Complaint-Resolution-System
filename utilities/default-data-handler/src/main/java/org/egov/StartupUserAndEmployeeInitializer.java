@@ -30,92 +30,76 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Component
-//@Profile("init")
 @RequiredArgsConstructor
-public class StartupUserAndEmployeeInitializer{
+public class StartupUserAndEmployeeInitializer {
 
     private final DataHandlerService dataHandlerService;
-
     private final ServiceConfiguration serviceConfig;
-
     private final ResourceLoader resourceLoader;
-
     private final ObjectMapper objectMapper;
-
     private final MdmsBulkLoader mdmsBulkLoader;
-
     private final LocalizationUtil localizationUtil;
 
-    private final AtomicBoolean hasRun = new AtomicBoolean(false);
+    private final AtomicBoolean hasStarted = new AtomicBoolean(false);
+    private int executionCount = 0;
+    private static final int MAX_EXECUTIONS = 4;
 
-    // Delay 1 minutes after app startup
-    @Scheduled(initialDelay =  10 * 60 * 1000, fixedDelay = Long.MAX_VALUE)
-    public void runOnceAfterStartup() {
-        if (hasRun.get()) return;
+    @Scheduled(initialDelay = 4 * 60 * 1000, fixedDelay = 4 * 60 * 1000) // 4 minutes
+    public void runPeriodically() {
+        if (executionCount >= MAX_EXECUTIONS) return;
 
-        System.out.println("[DEBUG] Delayed startup logic executing at: " + Instant.now());
+        System.out.println("[DEBUG] Scheduled startup logic executing at: " + Instant.now());
+
         try {
             executeStartupLogic();
-            hasRun.set(true);
+            executionCount++;
         } catch (Exception e) {
-            System.err.println("StartupSchemaAndMasterDataInitializer failed: " + e.getMessage());
+            System.err.println("StartupSchemaAndMasterDataInitializer failed on attempt " + (executionCount + 1) + ": " + e.getMessage());
             e.printStackTrace();
+            executionCount++; // Even on failure, count the attempt
         }
     }
 
     public void executeStartupLogic() throws Exception {
-        System.out.println("[DEBUG] Startup logic executing at: " + Instant.now());
-        try {
-            String tenantCode = serviceConfig.getDefaultTenantId();
+        String tenantCode = serviceConfig.getDefaultTenantId();
 
-            Resource resource = resourceLoader.getResource("classpath:requestInfo.json");
-            Resource tenantJson = resourceLoader.getResource("classpath:tenant.json");
+        Resource resource = resourceLoader.getResource("classpath:requestInfo.json");
+        Resource tenantJson = resourceLoader.getResource("classpath:tenant.json");
 
-            String json = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+        String json = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+        String jsonTenant = StreamUtils.copyToString(tenantJson.getInputStream(), StandardCharsets.UTF_8);
 
-            String jsonTenant = StreamUtils.copyToString(tenantJson.getInputStream(), StandardCharsets.UTF_8);
+        json = json.replace("{tenantid}", tenantCode);
+        jsonTenant = jsonTenant.replace("{tenantid}", tenantCode);
 
-            json = json.replace("{tenantid}", tenantCode);
-            jsonTenant = jsonTenant.replace("{tenantid}", tenantCode);
+        Tenant tenant = objectMapper.readValue(jsonTenant, Tenant.class);
+        JsonNode rootNode = objectMapper.readTree(json);
+        JsonNode requestInfoNode = rootNode.get("RequestInfo");
 
-            Tenant tenant = objectMapper.readValue(jsonTenant, Tenant.class);
-
-            JsonNode rootNode = objectMapper.readTree(json);
-            JsonNode requestInfoNode = rootNode.get("RequestInfo");
-
-            if (requestInfoNode == null) {
-                throw new RuntimeException("Missing 'RequestInfo' node in JSON");
-            }
-            RequestInfo requestInfo = objectMapper.readValue(requestInfoNode.toString(), RequestInfo.class);
-
-            TenantRequest tenantRequest = TenantRequest.builder()
-                    .requestInfo(requestInfo)
-                    .tenant(tenant)
-                    .build();
-
-            DefaultDataRequest defaultDataRequest = DefaultDataRequest.builder().requestInfo(tenantRequest.getRequestInfo()).targetTenantId(tenantCode).schemaCodes(serviceConfig.getDefaultMdmsSchemaList()).onlySchemas(Boolean.FALSE).locales(serviceConfig.getDefaultLocalizationLocaleList()).modules(serviceConfig.getDefaultLocalizationModuleList()).build();
-            defaultDataRequest.setTargetTenantId(tenantCode);
-//            Create Schema
-            dataHandlerService.createMdmsSchemaFromFile(defaultDataRequest);
-            // Load mdms data
-            mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
-            // create Boundary Data
-            dataHandlerService.createBoundaryDataFromFile(defaultDataRequest);
-            // upsert localization
-            localizationUtil.upsertLocalizationFromFile(defaultDataRequest);
-            // create User
-            dataHandlerService.createUserFromFile(tenantRequest);
-
-            dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
-            // create Employee
-            dataHandlerService.createEmployeeFromFile(defaultDataRequest.getRequestInfo());
-
-//            dataHandlerService.createTenantConfig(tenantRequest);
-        }
-        catch (Exception e) {
-            System.err.println("StartupDataInitializer failed: " + e.getMessage());
-            e.printStackTrace();
+        if (requestInfoNode == null) {
+            throw new RuntimeException("Missing 'RequestInfo' node in JSON");
         }
 
+        RequestInfo requestInfo = objectMapper.readValue(requestInfoNode.toString(), RequestInfo.class);
+        TenantRequest tenantRequest = TenantRequest.builder().requestInfo(requestInfo).tenant(tenant).build();
+
+        DefaultDataRequest defaultDataRequest = DefaultDataRequest.builder()
+                .requestInfo(tenantRequest.getRequestInfo())
+                .targetTenantId(tenantCode)
+                .schemaCodes(serviceConfig.getDefaultMdmsSchemaList())
+                .onlySchemas(Boolean.FALSE)
+                .locales(serviceConfig.getDefaultLocalizationLocaleList())
+                .modules(serviceConfig.getDefaultLocalizationModuleList())
+                .build();
+
+        // Execute your logic
+        dataHandlerService.createMdmsSchemaFromFile(defaultDataRequest);
+        mdmsBulkLoader.loadAllMdmsData(defaultDataRequest.getTargetTenantId(), defaultDataRequest.getRequestInfo());
+        dataHandlerService.createBoundaryDataFromFile(defaultDataRequest);
+        localizationUtil.upsertLocalizationFromFile(defaultDataRequest);
+        dataHandlerService.createUserFromFile(tenantRequest);
+        dataHandlerService.createPgrWorkflowConfig(tenantRequest.getTenant().getCode());
+        dataHandlerService.createEmployeeFromFile(defaultDataRequest.getRequestInfo());
     }
 }
+
