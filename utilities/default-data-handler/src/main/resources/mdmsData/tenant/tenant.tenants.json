@@ -1,6 +1,41 @@
 [
   {
     "city": {
+      "code": "100",
+      "name": "State A",
+      "captcha": null,
+      "ddrName": "",
+      "latitude": 31.6339793,
+      "ulbGrade": "Municipal Corporation",
+      "localName": null,
+      "longitude": 74.8722642,
+      "regionName": null,
+      "districtCode": "STATEA",
+      "districtName": null,
+      "shapeFileLocation": null,
+      "districtTenantCode": "statea"
+    },
+    "code": "statea",
+    "name": "State A",
+    "type": "State",
+    "logoId": "https://s3.ap-south-1.amazonaws.com/works-dev-asset/pg/logo.png",
+    "address": "State A Municipal Corporation Address",
+    "emailId": "statea@gmail.com",
+    "imageId": null,
+    "pincode": [],
+    "domainUrl": "https://www.egovernments.org",
+    "twitterUrl": null,
+    "description": null,
+    "facebookUrl": null,
+    "OfficeTimings": {
+      "Sat": "9.00 AM - 12.00 PM",
+      "Mon - Fri": "9.00 AM - 6.00 PM"
+    },
+    "contactNumber": "0978-7645345",
+    "helpLineNumber": "0654-8734567"
+  },
+  {
+    "city": {
       "code": "1013",
       "name": "City A",
       "captcha": null,

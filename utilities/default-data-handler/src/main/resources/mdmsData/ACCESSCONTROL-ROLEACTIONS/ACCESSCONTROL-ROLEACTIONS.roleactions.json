@@ -1,6 +1,41 @@
 [
   {
     "id": 1101,
+    "actionid": 2554,
+    "rolecode": "CSR",
+    "tenantId": "{tenantid}",
+    "actioncode": ""
+  },
+  {
+    "id": 1101,
+    "actionid": 2553,
+    "rolecode": "CSR",
+    "tenantId": "{tenantid}",
+    "actioncode": ""
+  },
+  {
+    "id": 1101,
+    "actionid": 2553,
+    "rolecode": "GRO",
+    "tenantId": "{tenantid}",
+    "actioncode": ""
+  },
+  {
+    "id": 1101,
+    "actionid": 2553,
+    "rolecode": "PGR_LME",
+    "tenantId": "{tenantid}",
+    "actioncode": ""
+  },
+  {
+    "id": 1101,
+    "actionid": 2564,
+    "rolecode": "HRMS_ADMIN",
+    "tenantId": "{tenantid}",
+    "actioncode": ""
+  },
+  {
+    "id": 1101,
     "actionid": 2568,
     "rolecode": "CITIZEN",
     "tenantId": "{tenantid}",
