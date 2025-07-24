@@ -19,6 +19,18 @@ templates:
       - {{ .Values | toYaml | nindent 8 }}
 
 releases:
+  - name: mdms-v2
+    installed: true
+    <<: *default
+  
+  - name: egov-localization
+    installed: true
+    <<: *default
+
+  - name: boundary-service
+    installed: true
+    <<: *default
+  
   - name: egov-accesscontrol
     installed: true
     <<: *default
@@ -30,7 +42,7 @@ releases:
   - name: egov-enc-service
     installed: true
     needs:
-    - egov-mdms-service
+    - mdms-v2
     <<: *default
 
   - name: egov-filestore
@@ -41,15 +53,7 @@ releases:
     installed: true
     <<: *default
 
-  - name: egov-localization
-    installed: true
-    <<: *default
-
   - name: egov-location
-    installed: true
-    <<: *default
-
-  - name: egov-mdms-service
     installed: true
     <<: *default
 
@@ -86,7 +90,7 @@ releases:
   - name: egov-workflow-v2
     installed: true
     needs:
-    - egov-mdms-service
+    - mdms-v2
     <<: *default
 
   - name: user-otp
@@ -110,14 +114,6 @@ releases:
     <<: *default
 
   - name: egov-pg-service
-    installed: true
-    <<: *default
-
-  - name: mdms-v2
-    installed: true
-    <<: *default
-
-  - name: boundary-service
     installed: true
     <<: *default
   
