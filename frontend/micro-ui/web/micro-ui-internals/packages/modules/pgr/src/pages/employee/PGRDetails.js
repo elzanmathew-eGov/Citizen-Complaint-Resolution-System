@@ -149,6 +149,13 @@ const PGRDetails = () => {
     { schemaCode: "SERVICE_DEFS_MASTER_DATA" }
   );
 
+  function getServiceNameByCode(serviceCode, services) {
+  if (!serviceCode || !Array.isArray(services)) return null;
+
+  const match = services.find(item => item.serviceCode === serviceCode);
+  return match?.name || null;
+}
+
   // Fetch complaint details
   const { isLoading, isError, error, data: pgrData, revalidate: pgrSearchRevalidate } = Digit.Hooks.pgr.usePGRSearch({ serviceRequestId: id }, tenantId);
 
@@ -326,7 +333,7 @@ const PGRDetails = () => {
                     inline: true,
                     label: t("CS_COMPLAINT_DETAILS_COMPLAINT_TYPE"),
                     type: "text",
-                    value: t(pgrData?.ServiceWrappers[0].service?.serviceCode || "NA"),
+                    value: t( getServiceNameByCode(pgrData?.ServiceWrappers[0].service?.serviceCode,serviceDefs) || "NA"),
                   },
                   {
                     inline: true,
@@ -353,16 +360,16 @@ const PGRDetails = () => {
                     label: t("CS_COMPLAINT_DETAILS_ADDITIONAL_DETAILS_DESCRIPTION"),
                     value: pgrData?.ServiceWrappers[0].service?.description || "NA",
                   },
-                  {
-                    inline: true,
-                    label: t("COMPLAINTS_COMPLAINANT_NAME"),
-                    value: pgrData?.ServiceWrappers[0].service?.user?.name || "NA",
-                  },
-                  {
-                    inline: true,
-                    label: t("COMPLAINTS_COMPLAINANT_CONTACT_NUMBER"),
-                    value: pgrData?.ServiceWrappers[0].service?.user?.mobileNumber || "NA",
-                  },
+                  // {
+                  //   inline: true,
+                  //   label: t("COMPLAINTS_COMPLAINANT_NAME"),
+                  //   value: pgrData?.ServiceWrappers[0].service?.user?.name || "NA",
+                  // },
+                  // {
+                  //   inline: true,
+                  //   label: t("COMPLAINTS_COMPLAINANT_CONTACT_NUMBER"),
+                  //   value: pgrData?.ServiceWrappers[0].service?.user?.mobileNumber || "NA",
+                  // },
                 ],
               },
               {

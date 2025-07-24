@@ -15,7 +15,7 @@ export const createComplaint = {
       },
       "populators": {
         "name": "SelectComplaintType",
-        "optionsKey": "menuPath",
+        "optionsKey": "menuPathName",
         "error": "CORE_COMMON_REQUIRED_ERRMSG",
         "options": []
       }
