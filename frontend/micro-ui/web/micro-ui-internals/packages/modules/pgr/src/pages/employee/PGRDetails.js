@@ -120,6 +120,42 @@ const ACTION_CONFIGS = [
       ],
     },
   },
+  {
+  actionType: "REASSIGN",
+  formConfig: {
+    label: {
+      heading: "CS_ACTION_REASSIGN",
+      cancel: "CS_COMMON_CANCEL",
+      submit: "CS_COMMON_SUBMIT",
+    },
+    form: [
+      {
+        body: [
+          {
+            type: "component",
+            isMandatory: false,
+            component: "PGRAssigneeComponent",
+            key: "SelectedAssignee",
+            label: "CS_COMMON_EMPLOYEE_NAME",
+            populators: { name: "SelectedAssignee" },
+          },
+          {
+            type: "textarea",
+            isMandatory: true,
+            key: "SelectedComments",
+            label: "CS_COMMON_EMPLOYEE_COMMENTS",
+            populators: {
+              name: "SelectedComments",
+              maxLength: 1000,
+              validation: { required: true },
+              error: "CORE_COMMON_REQUIRED_ERRMSG",
+            },
+          },
+        ],
+      },
+    ],
+  },
+},
 ];
 
 const PGRDetails = () => {
@@ -407,6 +443,7 @@ const PGRDetails = () => {
           key="action-button"
           label={t("ES_COMMON_TAKE_ACTION")}
           onOptionSelect={(selected) => {
+            console.log("*** Log ===> selected", selected);
             setSelectedAction(selected);
             setOpenModal(true);
           }}
