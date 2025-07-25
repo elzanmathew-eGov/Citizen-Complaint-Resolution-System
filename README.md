@@ -15,6 +15,6 @@ For more details on the solution architecture, please refer to the [Architecture
 ### Backend Service Setup
 TBD
 ### Frontend Service Setup
-TBD
+[Refer this](https://github.com/egovernments/Citizen-Complaint-Resolution-System/blob/develop/frontend/micro-ui/README.md)
 
 
