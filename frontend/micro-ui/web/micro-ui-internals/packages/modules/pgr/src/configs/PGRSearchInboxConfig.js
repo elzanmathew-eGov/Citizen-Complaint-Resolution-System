@@ -10,7 +10,7 @@
 import Urls from "../utils/urls";
 
 const PGRSearchInboxConfig = () => {
-  const tenantId = Digit.ULBService.getCurrentTenantId();
+    const tenantId = Digit.ULBService.getCurrentTenantId();
     return {
         label: "CS_COMMON_INBOX",
         type: 'inbox',
@@ -159,7 +159,13 @@ const PGRSearchInboxConfig = () => {
                     minReqFields: 0,
                     defaultValues: {
                         locality: null,
-                        assignee: { code: "ASSIGNED_TO_ME", name: "ASSIGNED_TO_ME" }
+                        assignedToMe: {
+                            "code": "ASSIGNED_TO_ALL",
+                            "name": "ASSIGNED_TO_ALL"
+                        },
+                        status: null,
+                        complaintType: null,
+
                     },
                     fields: [
                         {
@@ -182,6 +188,7 @@ const PGRSearchInboxConfig = () => {
                                     "display": "flex"
                                 }
                             },
+
                         },
                         {
 
