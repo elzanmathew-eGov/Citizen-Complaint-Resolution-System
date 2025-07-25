@@ -82,7 +82,7 @@ Clone the project
 
 Go to the Sub directory to run UI
 ```bash
-    cd into /micro-ui/web/micro-ui-internals
+    cd into frontend/micro-ui/web/micro-ui-internals
 ```
 
 Install dependencies
