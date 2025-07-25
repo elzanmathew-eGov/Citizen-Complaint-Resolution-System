@@ -937,13 +937,13 @@
     },
     {
         "code": "HR_ACTIVATE_EMPLOYEE_HEAD",
-        "message": "ACTIVATE EMPLOYEE",
+        "message": "Activate Employee",
         "module": "rainmaker-hr",
         "locale": "en_IN"
     },
     {
         "code": "HR_ACTIVATE_EMPLOYEE_LABEL",
-        "message": "ACTIVATE EMPLOYEE",
+        "message": "Activate Employee",
         "module": "rainmaker-hr",
         "locale": "en_IN"
     },
