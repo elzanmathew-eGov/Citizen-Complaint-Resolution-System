@@ -221,7 +221,7 @@ const FormExplorer = () => {
       case "ComplaintImagesPoint":
         return Array.isArray(data?.ComplaintImagesPoint) && data.ComplaintImagesPoint.length > 0;
       case "SelectAddress":
-        return !!data?.SelectAddress?.city?.code;
+        return !!data?.SelectAddress?.city?.code && !!data?.SelectAddress?.locality?.code
       case "description":
         return typeof data?.description === "string" && data.description.trim().length > 0;
       case "SelectComplaintType":
