@@ -1617,7 +1617,7 @@ export const UICustomizations = {
       if (serviceCodes != null) {
         data.body.inbox.moduleSearchCriteria.complaintType = serviceCodes;
       } else {
-        delete data.body.inbox.moduleSearchCriteria.complaintType;
+        delete data.body.inbox.moduleSearchCriteria.serviceCode;
       }
 
       delete data.body.inbox.moduleSearchCriteria.locality;

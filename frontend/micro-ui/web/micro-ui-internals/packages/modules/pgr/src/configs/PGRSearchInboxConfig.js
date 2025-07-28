@@ -7,6 +7,7 @@
  * @link section: Provides navigation to the Create Complaint screen.
  */
 
+import { range } from "lodash";
 import Urls from "../utils/urls";
 
 const PGRSearchInboxConfig = () => {
@@ -50,7 +51,9 @@ const PGRSearchInboxConfig = () => {
                     minReqFields: 1,
                     defaultValues: {
                         complaintNumber: "",
-                        mobileNumber: ""
+                        mobileNumber: "",
+                        range:null
+
                     },
                     fields: [
                         {
@@ -165,6 +168,7 @@ const PGRSearchInboxConfig = () => {
                         },
                         status: null,
                         complaintType: null,
+                        serviceCode:null,
 
                     },
                     fields: [
