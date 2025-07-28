@@ -71,6 +71,12 @@
         "path": "Data.currentProcessInstance.assignes.uuid.keyword",
         "operator": "EQUAL",
         "isMandatory": false
+      },
+      {
+        "name": "complaintType",
+        "path": "Data.service.serviceCode.keyword",
+        "operator": "EQUAL",
+        "isMandatory": false
       }
     ]
   }
