@@ -70,9 +70,6 @@ const FormExplorer = () => {
     }
   }
 
-  console.log("*** Log ===> ", serviceDefs);
-
-
 
 
   function validateString(value) {
