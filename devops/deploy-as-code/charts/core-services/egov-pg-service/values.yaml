@@ -16,12 +16,12 @@ initContainers:
     schemaTable: "egov_pg_service_schema"
     image:
       repository: "egov-pg-service-db"
-      tag: DIGIT-2.9-LTS-237578ce80-11
+      tag: v2.9.2-4a60f20
 
 # Container Configs
 image:
   repository: "egov-pg-service"
-  tag: DIGIT-2.9-LTS-237578ce80-11
+  tag: v2.9.2-4a60f20
 replicas: "1"
 healthChecks:
   enabled: true
