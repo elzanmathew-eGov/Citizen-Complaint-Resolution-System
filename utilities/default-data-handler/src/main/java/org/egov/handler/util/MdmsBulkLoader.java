@@ -81,7 +81,6 @@ public class MdmsBulkLoader {
                         // Continue with next record
                     }
                 }
-                break;
             }
         } catch (Exception e) {
             log.error("Failed to load MDMS files: {}", e.getMessage(), e);
