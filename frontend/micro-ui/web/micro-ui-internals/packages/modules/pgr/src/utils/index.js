@@ -167,13 +167,13 @@ export const convertEpochFormateToDate = (dateEpoch) => {
 
 
 export const formPayloadToCreateComplaint = (formData, tenantId, user) => {
-  const userInfo = formData?.complaintUser?.code === "ANOTHER_USER" ? {
+  const userInfo =  {
     "name": formData?.ComplainantName?.trim()?.length > 0 ? formData?.ComplainantName?.trim() : null,
     "mobileNumber": formData?.ComplainantContactNumber?.trim()?.length > 0 ? formData?.ComplainantContactNumber?.trim() : null,
     "userName": formData?.ComplainantContactNumber?.trim()?.length > 0 ? formData?.ComplainantContactNumber?.trim() : null,
     "type": "EMPLOYEE",
     "tenantId": tenantId,
-  } : user;
+  };
   const additionalDetail = { supervisorName : formData?.SupervisorName?.trim()?.length > 0 ? formData?.SupervisorName?.trim() : null, supervisorContactNumber : formData?.SupervisorContactNumber?.trim()?.length > 0 ? formData?.SupervisorContactNumber?.trim() : null };
   const timestamp = Date.now();
   let complaint = {

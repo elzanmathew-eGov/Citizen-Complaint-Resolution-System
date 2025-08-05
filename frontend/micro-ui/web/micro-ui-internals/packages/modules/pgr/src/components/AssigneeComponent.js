@@ -65,7 +65,7 @@ const AssigneeComponent = ({ config, onSelect, formState, defaultValues }) => {
   useEffect(() => {
     if (employeeData?.Employees?.length > 0) {
       const filtered = employeeData.Employees.filter(
-        e => e?.assignments?.[0]?.department === department && e?.user?.uuid && e?.user?.userServiceUuid
+        e => e?.assignments?.[0]?.department === department && e?.user?.uuid
       );
       setAssignees(transformData(filtered));
     }
