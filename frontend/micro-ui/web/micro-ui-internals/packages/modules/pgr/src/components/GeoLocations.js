@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 const GeoLocations = ({ t, config, onSelect, userType, formData }) => {
   const mapRef = useRef(null);
@@ -6,7 +6,7 @@ const GeoLocations = ({ t, config, onSelect, userType, formData }) => {
   const markerRef = useRef(null);
   const autocompleteRef = useRef(null);
   const inputRef = useRef(null);
-
+  const key = globalConfigs?.getConfig("GMAPS_API_KEY");
   const defaultLocation = { lat: 31.634, lng: 74.8723 }; // Amritsar
 
   const loadGoogleMapsScript = (callback) => {
@@ -14,7 +14,7 @@ const GeoLocations = ({ t, config, onSelect, userType, formData }) => {
       callback();
     } else {
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyASqkAr3d494ihZaJeCOg4CJ3xnQ_83e2s&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places`;
       script.async = true;
       script.defer = true;
       script.onload = callback;
@@ -22,8 +22,29 @@ const GeoLocations = ({ t, config, onSelect, userType, formData }) => {
     }
   };
 
+  const getPincodeFromLatLng = (lat, lng, callback) => {
+    const geocoder = new window.google.maps.Geocoder();
+    geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+      if (status === "OK" && results[0]) {
+        const postalComponent = results[0].address_components.find((c) =>
+          c.types.includes("postal_code")
+        );
+        const pincode = postalComponent?.long_name || null;
+        callback(pincode);
+      } else {
+        console.error("Geocoder failed:", status);
+        callback(null);
+      }
+    });
+  };
 
-
+  const handleLocationSelect = (location) => {
+    getPincodeFromLatLng(location.lat, location.lng, (pincode) => {
+      const locationWithPincode = { ...location, pincode };
+      console.log("Selected Location with Pincode:", locationWithPincode);
+      onSelect && onSelect(config.key, locationWithPincode);      
+    });
+  };
 
   const initMap = () => {
     const map = new window.google.maps.Map(mapRef.current, {
@@ -40,28 +61,22 @@ const GeoLocations = ({ t, config, onSelect, userType, formData }) => {
 
     markerRef.current = marker;
 
-    onSelect && onSelect(defaultLocation);
+    handleLocationSelect(defaultLocation);
 
-
-    // Handle map click
+    // Map click handler
     map.addListener("click", (e) => {
       const clickedLocation = {
         lat: e.latLng.lat(),
         lng: e.latLng.lng(),
       };
       marker.setPosition(clickedLocation);
-      onSelect && onSelect(clickedLocation);
-      console.log(clickedLocation, "clickedLocation");
-      // Store in sessionStorage
-      onSelect(config.key, clickedLocation);
-
-
+      handleLocationSelect(clickedLocation);
     });
 
-    // Set up autocomplete after the map is initialized
+    // Autocomplete setup
     if (inputRef.current) {
       const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
-        types: ["geocode"], // restrict to addresses
+        types: ["geocode"],
       });
 
       autocomplete.bindTo("bounds", map);
@@ -83,9 +98,7 @@ const GeoLocations = ({ t, config, onSelect, userType, formData }) => {
         map.panTo(location);
         map.setZoom(16);
         marker.setPosition(location);
-        onSelect && onSelect(location);
-        onSelect(config.key, clickedLocation);
-
+        handleLocationSelect(location);
       });
     }
   };
@@ -98,7 +111,6 @@ const GeoLocations = ({ t, config, onSelect, userType, formData }) => {
     <div>
       <h2>{t("CS_ADDCOMPLAINT_SELECT_GEOLOCATION_TEXT")}</h2>
 
-      {/* Search Input */}
       <input
         ref={inputRef}
         type="text"
@@ -113,7 +125,6 @@ const GeoLocations = ({ t, config, onSelect, userType, formData }) => {
         }}
       />
 
-      {/* Google Map */}
       <div
         ref={mapRef}
         style={{

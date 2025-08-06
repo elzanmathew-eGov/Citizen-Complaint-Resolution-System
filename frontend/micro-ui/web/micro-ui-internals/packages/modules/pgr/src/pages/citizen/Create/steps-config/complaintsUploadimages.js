@@ -4,7 +4,7 @@ export const complaintsUploadimages = {
   "body": [
     {
       "type": "component",
-      "isMandatory": true,
+      "isMandatory": false,
       "component": "SelectImages",
       "key": "ComplaintImagesPoint",
       "label": "CS_ADDCOMPLAINT_UPLOAD_PHOTO_TEXT",

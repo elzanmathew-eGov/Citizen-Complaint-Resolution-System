@@ -24,7 +24,7 @@ const ACTION_CONFIGS = [
           body: [
             {
               type: "component",
-              isMandatory: true,
+              isMandatory: false,
               component: "PGRAssigneeComponent",
               key: "SelectedAssignee",
               label: "CS_COMMON_EMPLOYEE_NAME",
@@ -59,7 +59,7 @@ const ACTION_CONFIGS = [
         {
           body: [
             {
-              isMandatory: true,
+              isMandatory: false,
               key: "SelectedReason",
               type: "dropdown",
               label: "CS_REJECT_COMPLAINT",
@@ -120,6 +120,42 @@ const ACTION_CONFIGS = [
       ],
     },
   },
+  {
+  actionType: "REASSIGN",
+  formConfig: {
+    label: {
+      heading: "CS_ACTION_REASSIGN",
+      cancel: "CS_COMMON_CANCEL",
+      submit: "CS_COMMON_SUBMIT",
+    },
+    form: [
+      {
+        body: [
+          {
+            type: "component",
+            isMandatory: false,
+            component: "PGRAssigneeComponent",
+            key: "SelectedAssignee",
+            label: "CS_COMMON_EMPLOYEE_NAME",
+            populators: { name: "SelectedAssignee" },
+          },
+          {
+            type: "textarea",
+            isMandatory: true,
+            key: "SelectedComments",
+            label: "CS_COMMON_EMPLOYEE_COMMENTS",
+            populators: {
+              name: "SelectedComments",
+              maxLength: 1000,
+              validation: { required: true },
+              error: "CORE_COMMON_REQUIRED_ERRMSG",
+            },
+          },
+        ],
+      },
+    ],
+  },
+},
 ];
 
 const PGRDetails = () => {
@@ -148,6 +184,13 @@ const PGRDetails = () => {
     },
     { schemaCode: "SERVICE_DEFS_MASTER_DATA" }
   );
+
+  function getServiceNameByCode(serviceCode, services) {
+  if (!serviceCode || !Array.isArray(services)) return null;
+
+  const match = services.find(item => item.serviceCode === serviceCode);
+  return match?.name || null;
+}
 
   // Fetch complaint details
   const { isLoading, isError, error, data: pgrData, revalidate: pgrSearchRevalidate } = Digit.Hooks.pgr.usePGRSearch({ serviceRequestId: id }, tenantId);
@@ -223,7 +266,7 @@ const PGRDetails = () => {
       service: { ...pgrData?.ServiceWrappers[0].service },
       workflow: {
         action: selectedAction.action,
-        assignes: _data?.SelectedAssignee?.userServiceUUID ? [_data?.SelectedAssignee?.userServiceUUID] : null,
+        assignes: [_data?.SelectedAssignee?.uuid],
         hrmsAssignes: _data?.SelectedAssignee?.uuid ? [_data?.SelectedAssignee?.uuid] : null,
         comments: _data?.SelectedComments || "",
       },
@@ -326,7 +369,7 @@ const PGRDetails = () => {
                     inline: true,
                     label: t("CS_COMPLAINT_DETAILS_COMPLAINT_TYPE"),
                     type: "text",
-                    value: t(pgrData?.ServiceWrappers[0].service?.serviceCode || "NA"),
+                    value: t( getServiceNameByCode(pgrData?.ServiceWrappers[0].service?.serviceCode,serviceDefs) || "NA"),
                   },
                   {
                     inline: true,
@@ -353,16 +396,16 @@ const PGRDetails = () => {
                     label: t("CS_COMPLAINT_DETAILS_ADDITIONAL_DETAILS_DESCRIPTION"),
                     value: pgrData?.ServiceWrappers[0].service?.description || "NA",
                   },
-                  {
-                    inline: true,
-                    label: t("COMPLAINTS_COMPLAINANT_NAME"),
-                    value: pgrData?.ServiceWrappers[0].service?.user?.name || "NA",
-                  },
-                  {
-                    inline: true,
-                    label: t("COMPLAINTS_COMPLAINANT_CONTACT_NUMBER"),
-                    value: pgrData?.ServiceWrappers[0].service?.user?.mobileNumber || "NA",
-                  },
+                  // {
+                  //   inline: true,
+                  //   label: t("COMPLAINTS_COMPLAINANT_NAME"),
+                  //   value: pgrData?.ServiceWrappers[0].service?.user?.name || "NA",
+                  // },
+                  // {
+                  //   inline: true,
+                  //   label: t("COMPLAINTS_COMPLAINANT_CONTACT_NUMBER"),
+                  //   value: pgrData?.ServiceWrappers[0].service?.user?.mobileNumber || "NA",
+                  // },
                 ],
               },
               {
@@ -400,6 +443,7 @@ const PGRDetails = () => {
           key="action-button"
           label={t("ES_COMMON_TAKE_ACTION")}
           onOptionSelect={(selected) => {
+            console.log("*** Log ===> selected", selected);
             setSelectedAction(selected);
             setOpenModal(true);
           }}
