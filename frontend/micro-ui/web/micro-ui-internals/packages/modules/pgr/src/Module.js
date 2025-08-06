@@ -15,8 +15,6 @@ import Response from "./components/Response";
 import BreadCrumbs from "./components/BreadCrumbs";
 import CitizenApp from "./pages/citizen";
 import getRootReducer from "./redux/reducers";
-
-import { CreateComplaint as CreateComplaintCitizen } from "./pages/citizen/Create";
 import { ComplaintsList } from "./pages/citizen/ComplaintsList";
 import ComplaintDetailsPage from "./pages/citizen/ComplaintDetails";
 import SelectRating from "./pages/citizen/Rating/SelectRating";
@@ -97,7 +95,6 @@ const componentsToRegister = {
   PGRCreateComplaint: CreateComplaint,
   PGRResponse: Response,
   PGRBreadCrumbs: BreadCrumbs,
-  PGRCreateComplaintCitizen : CreateComplaintCitizen,
   PGRComplaintsList : ComplaintsList,
   PGRComplaintDetailsPage : ComplaintDetailsPage,
   PGRSelectRating : SelectRating,
