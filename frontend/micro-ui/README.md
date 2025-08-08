@@ -77,12 +77,12 @@ Installation Steps
 Clone the project
 
 ```bash
-  git clone https://github.com/egovernments/Digit-Frontend.git
+  git clone https://github.com/egovernments/Citizen-Complaint-Resolution-System.git
 ```
 
 Go to the Sub directory to run UI
 ```bash
-    cd into health/micro-ui/web/micro-ui-internals
+    cd into frontend/micro-ui/web/micro-ui-internals
 ```
 
 Install dependencies
@@ -117,7 +117,7 @@ To run this project, you will need to add the following environment variables to
 
 `SKIP_PREFLIGHT_CHECK` :: `true`
 
-[sample .env file](https://github.com/egovernments/Digit-Frontend/health/micro-ui/web/micro-ui-internals/example/.env-unifieddev)
+[sample .env file](https://github.com/egovernments/Citizen-Complaint-Resolution-System/blob/develop/frontend/micro-ui/web/micro-ui-internals/example/.env-unifieddev)
 
 
 
@@ -155,7 +155,7 @@ This README should provide clarity on setting up and running your project locall
 
 ## Documentation
 
-[Documentation](https://https://core.digit.org/guides/developer-guide/ui-developer-guide/digit-ui)
+[Documentation](https://docs.digit.org/platform/guides/developer-guide)
 
 
 ## Support
