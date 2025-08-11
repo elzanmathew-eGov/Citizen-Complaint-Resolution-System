@@ -31,7 +31,7 @@ export const PGRModule = ({ stateCode, userType, tenants }) => {
 
   const hierarchyType = window?.globalConfigs?.getConfig("HIERARCHY_TYPE") || "HIERARCHYTEST";
   const moduleCode = ["pgr", `boundary-${hierarchyType?.toString().toLowerCase()}`];
-  const modulePrefix = "hcm";
+  const modulePrefix = "rainmaker";
   const language = Digit.StoreData.getCurrentLanguage();
   const { isLoading, data: store } = Digit.Services.useStore({
     stateCode,
