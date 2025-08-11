@@ -19,8 +19,10 @@ import { ComplaintsList } from "./pages/citizen/ComplaintsList";
 import ComplaintDetailsPage from "./pages/citizen/ComplaintDetails";
 import SelectRating from "./pages/citizen/Rating/SelectRating";
 import ResponseCitizen from "./pages/citizen/Response";
-
-
+import GeoLocations from "./components/GeoLocations"; 
+import SelectAddress from "../../pgr/src/pages/citizen/Create/Steps/SelectAddress"; 
+import SelectImages from "../../pgr/src/pages/citizen/Create/Steps/SelectImages"; 
+import CreatePGRFlow from "./pages/citizen/Create/FormExplorer";
 
 export const PGRReducers = getRootReducer;
 
@@ -29,7 +31,7 @@ export const PGRModule = ({ stateCode, userType, tenants }) => {
   const { path, url } = useRouteMatch();
   const tenantId = Digit.ULBService.getCurrentTenantId();
 
-  const hierarchyType = window?.globalConfigs?.getConfig("HIERARCHY_TYPE") || "HIERARCHYTEST";
+  const hierarchyType = window?.globalConfigs?.getConfig("HIERARCHY_TYPE") || "ADMIN";
   const moduleCode = ["pgr", `boundary-${hierarchyType?.toString().toLowerCase()}`];
   const modulePrefix = "rainmaker";
   const language = Digit.StoreData.getCurrentLanguage();
@@ -98,7 +100,11 @@ const componentsToRegister = {
   PGRComplaintsList : ComplaintsList,
   PGRComplaintDetailsPage : ComplaintDetailsPage,
   PGRSelectRating : SelectRating,
-  PGRResponseCitzen : ResponseCitizen
+  PGRResponseCitzen : ResponseCitizen,
+  GeoLocations,
+  SelectAddress,
+  SelectImages,
+  CreatePGRFlow:CreatePGRFlow,
 };
 
 export const initPGRComponents = () => {
