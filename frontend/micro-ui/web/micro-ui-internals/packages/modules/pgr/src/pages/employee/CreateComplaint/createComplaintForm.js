@@ -276,33 +276,11 @@ const CreateComplaintForm = ({
 
     }
 
-    const ComplainantName = formData?.ComplainantName;
-    const ComplainantContactNumber = formData?.ComplainantContactNumber;
+
     const selectedUser = formData?.complaintUser?.code;
     const prevSelectedUser = sessionFormData?.complaintUser?.code;
 
-    // Validate name
-    if (ComplainantName && !ComplainantName.match(Digit.Utils.getPattern("Name"))) {
-      if (!formState.errors.ComplainantName) {
-        setError("ComplainantName", {
-          type: "custom",
-          message: t("CORE_COMMON_APPLICANT_NAME_INVALID")
-        }, { shouldFocus: false });
-      }
-    }
 
-    // Validate mobile number
-    const contactFieldConfig = updatedConfig?.form?.flatMap(section => section?.body || [])
-      .find(field => field?.populators?.name === "ComplainantContactNumber");
-
-    if (ComplainantContactNumber && !validatePhoneNumber(ComplainantContactNumber, contactFieldConfig)) {
-      if (!formState.errors.ComplainantContactNumber) {
-        setError("ComplainantContactNumber", {
-          type: "custom",
-          message: t("CORE_COMMON_APPLICANT_MOBILE_NUMBER_INVALID")
-        }, { shouldFocus: false });
-      }
-    }
 
     // Only update if complaint user selection has changed
     if (selectedUser !== prevSelectedUser) {
@@ -360,6 +338,7 @@ const CreateComplaintForm = ({
           );
           clearSessionFormData();
         }
+        clearSessionFormData();
       },
     });
   };
