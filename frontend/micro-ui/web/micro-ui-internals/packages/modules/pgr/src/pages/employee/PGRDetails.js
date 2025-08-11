@@ -266,7 +266,7 @@ const PGRDetails = () => {
       service: { ...pgrData?.ServiceWrappers[0].service },
       workflow: {
         action: selectedAction.action,
-        assignes: [_data?.SelectedAssignee?.uuid],
+        assignes: _data?.SelectedAssignee?.uuid ? [_data?.SelectedAssignee?.uuid] : null,
         hrmsAssignes: _data?.SelectedAssignee?.uuid ? [_data?.SelectedAssignee?.uuid] : null,
         comments: _data?.SelectedComments || "",
       },
