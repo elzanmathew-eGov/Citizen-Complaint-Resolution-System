@@ -289,8 +289,6 @@ const CreateComplaintForm = ({
           message: t("CORE_COMMON_APPLICANT_NAME_INVALID")
         }, { shouldFocus: false });
       }
-    } else if (formState.errors.ComplainantName) {
-      clearErrors("ComplainantName");
     }
 
     // Validate mobile number
@@ -304,8 +302,6 @@ const CreateComplaintForm = ({
           message: t("CORE_COMMON_APPLICANT_MOBILE_NUMBER_INVALID")
         }, { shouldFocus: false });
       }
-    } else if (formState.errors.ComplainantContactNumber) {
-      clearErrors("ComplainantContactNumber");
     }
 
     // Only update if complaint user selection has changed
