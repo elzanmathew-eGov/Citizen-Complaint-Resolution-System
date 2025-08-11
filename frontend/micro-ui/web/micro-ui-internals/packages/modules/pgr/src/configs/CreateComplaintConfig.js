@@ -36,7 +36,7 @@ export const CreateComplaintConfig = {
                 name: "ComplainantName",
                 error: "CORE_COMMON_REQUIRED_ERRMSG",
                 validation: {
-                  pattern: /^[A-Za-z]+$/i,
+                  pattern:/^(?!.*[ _-]{2})(?!^[\s_-])(?!.*[\s_-]$)(?=^[A-Za-z][A-Za-z0-9 _\-\(\)]{4,29}$)^.*$/,
                   error: "CORE_COMMON_REQUIRED_ERRMSG"
                 }
               },
@@ -208,6 +208,7 @@ export const CreateComplaintConfig = {
                 maxLength: 1000,
                 validation: {
                   required: true,
+                  pattern:/^(?!\s*$).+/,                  
                 },
                 error: "CORE_COMMON_REQUIRED_ERRMSG",
               },
