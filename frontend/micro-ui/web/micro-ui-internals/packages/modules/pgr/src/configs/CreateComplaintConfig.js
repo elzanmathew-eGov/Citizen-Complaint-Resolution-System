@@ -1,13 +1,13 @@
 export const CreateComplaintConfig = {
   tenantId: Digit.ULBService.getCurrentTenantId(),
   moduleName: "RAINMAKER-PGR",
-  CreateComplaintConfig : [
+  CreateComplaintConfig: [
     {
       form: [
-           {
+        {
           head: "ES_CREATECOMPLAINT_PROVIDE_COMPLAINANT_DETAILS",
           body: [
-              {
+            {
               inline: true,
               label: "COMPLAINTS_COMPLAINANT_CONTACT_NUMBER",
               isMandatory: true,
@@ -36,15 +36,15 @@ export const CreateComplaintConfig = {
                 name: "ComplainantName",
                 error: "CORE_COMMON_REQUIRED_ERRMSG",
                 validation: {
-                  pattern:/^(?!.*[ _-]{2})(?!^[\s_-])(?!.*[\s_-]$)(?=^[A-Za-z][A-Za-z0-9 _\-\(\)]{4,29}$)^.*$/,
-                  error: "CORE_COMMON_REQUIRED_ERRMSG"
+                  required: true,
+                  pattern: /^(?!.*[ _-]{2})(?!^[\s_-])(?!.*[\s_-]$)(?=^[A-Za-z][A-Za-z0-9 _\-\(\)]{4,29}$)^.*$/,
                 }
               },
             },
-        
+
           ],
         },
-               {
+        {
           head: "CS_COMPLAINT_DETAILS_COMPLAINT_DETAILS",
           body: [
             {
@@ -53,8 +53,8 @@ export const CreateComplaintConfig = {
               type: "dropdown",
               label: "CS_COMPLAINT_DETAILS_COMPLAINT_TYPE",
               disable: false,
-              preProcess : {
-                updateDependent : ["populators.options"]
+              preProcess: {
+                updateDependent: ["populators.options"]
               },
               populators: {
                 name: "SelectComplaintType",
@@ -68,8 +68,8 @@ export const CreateComplaintConfig = {
               type: "dropdown",
               label: "CS_COMPLAINT_DETAILS_SUB_COMPLAINT_TYPE",
               disable: false,
-              preProcess : {
-                updateDependent : ["populators.options"]
+              preProcess: {
+                updateDependent: ["populators.options"]
               },
               populators: {
                 name: "SelectSubComplaintType",
@@ -77,7 +77,7 @@ export const CreateComplaintConfig = {
                 error: "CORE_COMMON_REQUIRED_ERRMSG",
               },
             },
-        
+
           ],
         },
         // {
@@ -130,32 +130,35 @@ export const CreateComplaintConfig = {
         //   ],
         // },
 
-           {
+        {
           head: "CS_COMPLAINT_LOCATION_DETAILS",
           body: [
-             {
+            {
               inline: true,
               label: "CS_COMPLAINT_POSTALCODE__DETAILS",
-              isMandatory: false,
               type: "number",
               disable: false,
               populators: {
                 name: "postalCode",
-                maxlength: 6,
+                required: true,
                 validation: {
+                  minLength: 6,
+                  maxLength: 6,
                   pattern: /^[1-9][0-9]{5}$/i,
+
                 },
+                error: "CORE_COMMON_REQUIRED_ERRMSG",
               },
             },
 
-                        {
+            {
               isMandatory: true,
               key: "SelectCity",
               type: "dropdown",
               label: "CS_COMPLAINT_SELECT_CITY",
               disable: false,
-              preProcess : {
-                updateDependent : ["populators.options"]
+              preProcess: {
+                updateDependent: ["populators.options"]
               },
               populators: {
                 name: "SelectCity",
@@ -164,15 +167,15 @@ export const CreateComplaintConfig = {
               },
             },
 
-            
-                        {
+
+            {
               isMandatory: true,
               key: "SelectLocality",
               type: "dropdown",
               label: "CS_COMPLAINT_LOCALITY",
               disable: false,
-              preProcess : {
-                updateDependent : ["populators.options"]
+              preProcess: {
+                updateDependent: ["populators.options"]
               },
               populators: {
                 name: "SelectLocality",
@@ -191,10 +194,10 @@ export const CreateComplaintConfig = {
                 maxLength: 1000,
               },
             },
-          
+
           ],
         },
-     
+
         {
           head: "CS_COMPLAINT_DETAILS_ADDITIONAL_DETAILS",
           body: [
@@ -208,14 +211,14 @@ export const CreateComplaintConfig = {
                 maxLength: 1000,
                 validation: {
                   required: true,
-                  pattern:/^(?!\s*$).+/,                  
+                  pattern: /^(?!\s*$).+/,
                 },
                 error: "CORE_COMMON_REQUIRED_ERRMSG",
               },
             },
           ],
         },
-     
+
       ],
     }
   ],
