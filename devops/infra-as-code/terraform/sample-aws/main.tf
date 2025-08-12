@@ -198,8 +198,8 @@ module "db" {
   subnet_ids                    = "${module.network.private_subnets}"
   vpc_security_group_ids        = ["${module.network.rds_db_sg_id}"]
   availability_zone             = "${element(var.availability_zones, 0)}"
-  instance_class                = "db.t4g.medium"  ## postgres db instance type
-  engine_version                = "15.8"   ## postgres version
+  instance_class                = "${var.db_instance_type}"
+  engine_version                = "${var.db_version}"
   storage_type                  = "gp3"
   storage_gb                    = "20"     ## postgres disk size
   backup_retention_days         = "7"
@@ -280,7 +280,7 @@ module "eks_managed_node_group" {
   max_size     = var.max_worker_nodes
   desired_size = var.desired_worker_nodes
   instance_types = var.instance_types
-  capacity_type  = "SPOT"
+  capacity_type  = "${var.instance_reservation}"
   ebs_optimized  = "true"
   enable_monitoring = "true"
   iam_role_additional_policies = {
