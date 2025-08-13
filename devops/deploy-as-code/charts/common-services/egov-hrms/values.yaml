@@ -75,6 +75,11 @@ env: |
       configMapKeyRef:
         name: egov-service-host
         key: egov-idgen
+  - name: SPRING_DATASOURCE_URL
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: db-url
   - name: EGOV_SERVICES_EGOV_IDGEN_CREATEPATH
     value: /egov-idgen/id/_generate
   - name: EGOV_SERVICES_EGOV_IDGEN_EMP_CODE_NAME
