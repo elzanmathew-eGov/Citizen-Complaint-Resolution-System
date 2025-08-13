@@ -112,10 +112,6 @@ releases:
   - name: gateway
     installed: true
     <<: *default
-
-  - name: egov-pg-service
-    installed: true
-    <<: *default
   
   - name: boundary-bulk-bff
     installed: true
