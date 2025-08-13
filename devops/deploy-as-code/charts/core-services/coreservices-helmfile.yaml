@@ -53,10 +53,6 @@ releases:
     installed: true
     <<: *default
 
-  - name: egov-location
-    installed: true
-    <<: *default
-
   - name: egov-indexer
     installed: true
     <<: *default
