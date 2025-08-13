@@ -184,6 +184,11 @@ env: |
       configMapKeyRef:
         name: egov-config
         key: egov-state-level-tenant-id
+  - name: SPRING_DATASOURCE_URL
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: db-url
   {{- if index .Values "tracing-enabled" }}
   - name: TRACER_OPENTRACING_ENABLED
     value: "true" 
